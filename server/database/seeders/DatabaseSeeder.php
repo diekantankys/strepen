@@ -33,7 +33,7 @@ class DatabaseSeeder extends Seeder
         $user->firstname = 'Bastiaan';
         $user->insertion = 'van der';
         $user->lastname = 'Plaat';
-        $user->email = 'bastiaan.v.d.plaat@gmail.com';
+        $user->email = 'code@diekantankys.nl';
         $user->password = Hash::make('admin123');
         $user->role = User::ROLE_ADMIN;
         $user->checkGravatarAvatar();
