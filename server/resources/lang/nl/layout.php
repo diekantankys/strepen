@@ -21,5 +21,5 @@ return [
 
     // Layout footer
     'footer.authors' => 'Gemaakt door <a href="https://bplaat.nl/" target="_blank" rel="noreferrer">Bastiaan van der Plaat</a>',
-    'footer.source' => 'Ga voor de broncode naar <a href="https://github.com/bplaat/strepen" target="_blank" rel="noreferrer">GitHub</a>',
+    'footer.source' => 'Ga voor de broncode naar <a href="https://github.com/diekantankys/strepen" target="_blank" rel="noreferrer">GitHub</a>',
 ];

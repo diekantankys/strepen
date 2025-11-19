@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('', function () {
     return [
-        'message' => 'Strepen REST API documentation: https://github.com/bplaat/strepen/blob/master/docs/api.md'
+        'message' => 'Strepen REST API documentation: https://github.com/diekantankys/strepen/blob/master/docs/api.md'
     ];
 })->name('api.home');
 
