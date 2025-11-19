@@ -26,7 +26,6 @@ You need to install the [Microsoft Edge Webview2 Redistribution](https://github.
 
 -   [Installation documentation](docs/installation.md)
 -   [REST API documentation](https://stam.diekantankys.nl/api.html)
--   [Todo list](https://github.com/users/bplaat/projects/2)
 
 ## License
 
