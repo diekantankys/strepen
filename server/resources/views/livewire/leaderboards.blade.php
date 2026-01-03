@@ -116,9 +116,9 @@
                         ->sum('price');
                 @endphp
                 <div style="font-size: 1.25rem;">
-                    <p>@lang("leaderboards.total_spend") <x-money-format :money="$totalSpend" /></p>
-                    <p>@lang("leaderboards.average_per_hour_spend") <x-money-format :money="round($totalSpend / $maxHoursSinceFirstPurchase, 2)" isPerHour /></p>
-                    <p>@lang("leaderboards.by_different_users")
+                    <p>@lang("leaderboards.total_spend"): <x-money-format :money="$totalSpend" /></p>
+                    <p>@lang("leaderboards.average_per_hour_spend"): <x-money-format :money="round($totalSpend / $maxHoursSinceFirstPurchase, 2)" isPerHour /></p>
+                    <p>@lang("leaderboards.by_different_users"):
                         <x-amount-format :amount="DB::table('transactions')
                             ->whereNull('deleted_at')
                             ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
@@ -698,5 +698,71 @@
                 </table>
             </div>
         </div>
+    </div>
+
+    <div class="box">
+        <h2 class="title is-4 has-text-centered">@lang('leaderboards.totals')</h2>
+
+        @php
+            $totalBeer = DB::table('transaction_product')
+                ->join('transactions', 'transactions.id', 'transaction_id')
+                ->whereNull('deleted_at')
+                ->whereIn('product_id', $beerProductIds)
+                ->where('transactions.created_at', '>=', $startDate)
+                ->sum('amount');
+
+            $totalSoda = DB::table('transaction_product')
+                ->join('transactions', 'transactions.id', 'transaction_id')
+                ->whereNull('deleted_at')
+                ->whereIn('product_id', $sodaProductIds)
+                ->where('transactions.created_at', '>=', $startDate)
+                ->sum('amount');
+
+            $totalSnacks = DB::table('transaction_product')
+                ->join('transactions', 'transactions.id', 'transaction_id')
+                ->whereNull('deleted_at')
+                ->whereIn('product_id', $snackProductIds)
+                ->where('transactions.created_at', '>=', $startDate)
+                ->sum('amount');
+
+            $totalSpend = DB::table('transactions')
+                ->whereNull('deleted_at')
+                ->where('type', App\Models\Transaction::TYPE_TRANSACTION)
+                ->where('transactions.created_at', '>=', $startDate)
+                ->sum('price')
+                + DB::table('transactions')
+                ->whereNull('deleted_at')
+                ->where('type', App\Models\Transaction::TYPE_PAYMENT)
+                ->where('price', '>', 0)
+                ->where('transactions.created_at', '>=', $startDate)
+                ->sum('price');
+        @endphp
+
+        <table class="table is-fullwidth">
+            <thead>
+                <tr>
+                    <th>@lang('leaderboards.product')</th>
+                    <th>@lang('leaderboards.total_amount')</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>@lang('leaderboards.beer')</strong></td>
+                    <td><x-amount-format :amount="$totalBeer" /></td>
+                </tr>
+                <tr>
+                    <td><strong>@lang('leaderboards.soda')</strong></td>
+                    <td><x-amount-format :amount="$totalSoda" /></td>
+                </tr>
+                <tr>
+                    <td><strong>@lang('leaderboards.snacks')</strong></td>
+                    <td><x-amount-format :amount="$totalSnacks" /></td>
+                </tr>
+                <tr>
+                    <td><strong>@lang('leaderboards.total_spend')</strong></td>
+                    <td><x-money-format :money="$totalSpend" /></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>

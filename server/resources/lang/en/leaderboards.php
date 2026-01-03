@@ -29,9 +29,9 @@ return [
     'beer' => 'Beer',
     'soda' => 'Soda',
     'snacks' => 'Snacks',
-    'total_spend' => 'Total spend:',
-    'average_per_hour_spend' => 'Average per hour spend:',
-    'by_different_users' => 'By different users:',
+    'total_spend' => 'Total spend',
+    'average_per_hour_spend' => 'Average per hour spend',
+    'by_different_users' => 'By different users',
     'best_beer_header' => 'Most beers',
     'best_soda_header' => 'Most soda\'s',
     'best_snack_header' => 'Most snacks',
@@ -39,5 +39,7 @@ return [
     'best_balance_header' => 'Best stammers (off the moment)',
     'worst_balance_header' => 'Wall of shame (off the moment)',
     'cost' => 'Cost',
-    'balance' => 'Balance'
+    'balance' => 'Balance',
+    'totals' => 'Totals',
+    'total_amount' => 'Total amount',
 ];

@@ -29,9 +29,9 @@ return [
     'beer' => 'Bier',
     'soda' => 'Fris',
     'snacks' => 'Snacks',
-    'total_spend' => 'Totaal besteed:',
-    'average_per_hour_spend' => 'Gemiddeld per uur besteed:',
-    'by_different_users' => 'Door verschillende gebruikers:',
+    'total_spend' => 'Totaal besteed',
+    'average_per_hour_spend' => 'Gemiddeld per uur besteed',
+    'by_different_users' => 'Door verschillende gebruikers',
     'best_beer_header' => 'Meeste biertjes',
     'best_soda_header' => 'Meeste frisjes',
     'best_snack_header' => 'Meeste snacks',
@@ -39,5 +39,7 @@ return [
     'best_balance_header' => 'Beste stammers (van dit moment)',
     'worst_balance_header' => 'Muur der schaamte (van dit moment)',
     'cost' => 'Kosten',
-    'balance' => 'Balans'
+    'balance' => 'Balans',
+    'totals' => 'Totalen',
+    'total_amount' => 'Totaal aantal',
 ];
