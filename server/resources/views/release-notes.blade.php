@@ -14,6 +14,7 @@
                 <li>Add support for admin to set custom product prices in transaction and inventory</li>
                 <li>Remove the word 'new' from welcome page</li>
                 <li>Add totals section to leaderboards page</li>
+                <li>Fixed some issue with PHP 8.5</li>
                 <li>Fixed other small bugs</li>
             </ul>
         </div>
