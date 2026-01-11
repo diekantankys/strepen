@@ -73,6 +73,16 @@
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label class="label" for="send_notification">@lang('admin/posts.crud.send_notification')</label>
+                            <label class="checkbox" for="send_notification">
+                                <input type="checkbox" id="send_notification" wire:model.defer="sendNotification">
+                                @lang('admin/posts.crud.send_notification_details')
+                            </label>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="modal-card-foot">

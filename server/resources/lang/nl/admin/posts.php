@@ -15,6 +15,8 @@ return [
     'crud.image' => 'Hoofd afbeelding',
     'crud.image_help' => 'U kunt een 16&times;9 .jpg- of .png-afbeelding uploaden',
     'crud.body' => 'Tekst (ondersteund :markdown_link)',
+    'crud.send_notification' => 'Verstuur notificatie',
+    'crud.send_notification_details' => 'Verstuur (e-mail) notificatie naar alle gebruikers',
     'crud.cancel' => 'Annuleren',
 
     // Admin posts item livewire component

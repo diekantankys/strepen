@@ -15,6 +15,8 @@ return [
     'crud.image' => 'Feature image',
     'crud.image_help' => 'You can upload an 16&times;9 .jpg or .png image',
     'crud.body' => 'Body (supports :markdown_link)',
+    'crud.send_notification' => 'Send notification',
+    'crud.send_notification_details' => 'Send (email) notification to all users',
     'crud.cancel' => 'Cancel',
 
     // Admin posts item livewire component

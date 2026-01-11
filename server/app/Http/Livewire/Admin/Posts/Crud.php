@@ -17,13 +17,15 @@ class Crud extends PaginationComponent
     public $user_id;
     public $userIdTemp;
     public $post;
+    public $sendNotification ;
     public $image;
     public $isCreating;
 
     public $rules = [
         'post.title' => 'required|min:2|max:128',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-        'post.body' => 'required|min:2'
+        'post.body' => 'required|min:2',
+        'sendNotification' => 'required|boolean',
     ];
 
     public function __construct()
@@ -47,6 +49,7 @@ class Crud extends PaginationComponent
         }
 
         $this->post = new Post();
+        $this->sendNotification = true;
         $this->image = null;
         $this->isCreating = false;
     }
@@ -77,10 +80,12 @@ class Crud extends PaginationComponent
         $this->post->user_id = Auth::id();
         $this->post->save();
 
-        // Send all users the receive news new post notification
-        $users = User::where('active', true)->where('receive_news', true)->get();
-        foreach ($users as $user) {
-            $user->notify(new NewPost($user, $this->post));
+        if ($this->sendNotification) {
+            // Send all users the receive news new post notification
+            $users = User::where('active', true)->where('receive_news', true)->get();
+            foreach ($users as $user) {
+                $user->notify(new NewPost($user, $this->post));
+            }
         }
 
         $this->mount();
