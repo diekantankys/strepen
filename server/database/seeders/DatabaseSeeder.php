@@ -30,13 +30,11 @@ class DatabaseSeeder extends Seeder
 
         // Create admin account
         $user = new User();
-        $user->firstname = 'Bastiaan';
-        $user->insertion = 'van der';
-        $user->lastname = 'Plaat';
+        $user->firstname = 'Admin';
+        $user->lastname = 'Admin';
         $user->email = 'code@diekantankys.nl';
         $user->password = Hash::make('admin123');
         $user->role = User::ROLE_ADMIN;
-        $user->checkGravatarAvatar();
         $user->save();
 
         // Create website api key
