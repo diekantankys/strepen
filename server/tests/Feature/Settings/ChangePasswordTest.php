@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Settings;
 
-use App\Http\LiveWire\Settings\ChangePassword;
+use App\Http\Livewire\Settings\ChangePassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire;

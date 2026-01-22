@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Transactions;
 
-use App\Http\LiveWire\Transactions\History;
+use App\Http\Livewire\Transactions\History;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Str;

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\LiveWire\Leaderboards;
+use App\Http\Livewire\Leaderboards;
 use App\Models\Setting;
 use App\Models\User;
 use Livewire;

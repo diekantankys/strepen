@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\LiveWire\Notifications;
+use App\Http\Livewire\Notifications;
 use App\Models\Transaction;
 use App\Models\User;
 use Livewire;

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\LiveWire\Home;
+use App\Http\Livewire\Home;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Str;

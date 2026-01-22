@@ -34,10 +34,8 @@ class Recalculate extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         echo "Recalculate user balances...\n";
         User::withTrashed()->chunk(50, function ($users) {
@@ -58,5 +56,7 @@ class Recalculate extends Command
             }
         });
         echo "Recalculate product amounts done\n";
+
+        return 0;
     }
 }

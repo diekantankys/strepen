@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Inventory extends Model
@@ -24,7 +25,7 @@ class Inventory extends Model
     }
 
     // A inventory belongs to many products
-    public function products()
+    public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class)->withPivot('price', 'amount')->withTimestamps()->withTrashed();
     }

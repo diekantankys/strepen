@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Settings;
 
-use App\Http\LiveWire\Settings\ChangeAvatar;
+use App\Http\Livewire\Settings\ChangeAvatar;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Livewire;

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Settings;
 
-use App\Http\LiveWire\Settings\ChangeDetails;
+use App\Http\Livewire\Settings\ChangeDetails;
 use App\Models\User;
 use Livewire;
 use Tests\TestCase;

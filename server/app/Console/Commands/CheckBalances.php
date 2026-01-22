@@ -33,13 +33,13 @@ class CheckBalances extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         echo "Checking users balances...\n";
         User::checkBalances();
         echo "Checking users balances done\n";
+
+        return 0;
     }
 }

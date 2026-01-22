@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Transactions;
 
-use App\Http\LiveWire\Transactions\Create;
+use App\Http\Livewire\Transactions\Create;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;

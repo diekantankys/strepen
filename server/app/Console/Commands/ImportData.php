@@ -43,10 +43,8 @@ class ImportData extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $url = $this->argument('url');
         $import = $this->option('import');
@@ -340,41 +338,39 @@ class ImportData extends Command
             $transactionsJson = json_decode(file_get_contents($url.'/transactions.json'));
         }
 
-        function createTransactionProduct($transactionProduct)
-        {
+        $createTransactionProduct = function ($transactionProduct = null) {
             static $transactionProductsCache = [];
-            if ($transactionProduct != null) {
+            if ($transactionProduct !== null) {
                 $transactionProductsCache[] = $transactionProduct;
             }
-            if ($transactionProduct == null || count($transactionProductsCache) == 500) {
+            if ($transactionProduct === null || count($transactionProductsCache) === 500) {
                 TransactionProduct::insert($transactionProductsCache);
                 $transactionProductsCache = [];
             }
-        }
+        };
 
-        function createTransaction($transaction, $products = [])
-        {
+        $createTransaction = function ($transaction = null, $products = []) use (&$createTransactionProduct) {
             static $transactionsCache = [];
             static $productsCache = [];
-            if ($transaction != null) {
+            if ($transaction !== null) {
                 $transactionsCache[] = $transaction;
                 $productsCache[] = $products;
             }
-            if ($transaction == null || count($transactionsCache) == 500) {
+            if ($transaction === null || count($transactionsCache) === 500) {
                 $transaction_id = Transaction::orderBy('id', 'DESC')->first()->id + 1;
                 Transaction::insert($transactionsCache);
                 foreach ($transactionsCache as $index => $transaction) {
                     $products = $productsCache[$index];
                     foreach ($products as $transactionProduct) {
                         $transactionProduct['transaction_id'] = $transaction_id;
-                        createTransactionProduct($transactionProduct);
+                        $createTransactionProduct($transactionProduct);
                     }
                     $transaction_id++;
                 }
                 $transactionsCache = [];
                 $productsCache = [];
             }
-        }
+        };
 
         if ($export) {
             file_put_contents($exportDirectory.'/transactions.json', json_encode($transactionsJson, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -390,7 +386,7 @@ class ImportData extends Command
                     if ($transactionJson->old_product_id == 7) {
                         if ($transactionJson->price != 0) {
                             $transactionJson->price = -$transactionJson->price;
-                            createTransaction([
+                            $createTransaction([
                                 'user_id' => $oldUserIds[$transactionJson->old_user_id],
                                 'type' => Transaction::TYPE_DEPOSIT,
                                 'name' => 'Imported deposit on '.$transactionJson->created_at,
@@ -401,7 +397,7 @@ class ImportData extends Command
                         }
                     } elseif ($transactionJson->old_product_id == 10) {
                         if ($transactionJson->price != 0) {
-                            createTransaction([
+                            $createTransaction([
                                 'user_id' => $oldUserIds[$transactionJson->old_user_id],
                                 'type' => Transaction::TYPE_PAYMENT,
                                 'name' => 'Imported food payment transaction on '.$transactionJson->created_at,
@@ -446,7 +442,7 @@ class ImportData extends Command
                             continue;
                         }
 
-                        createTransaction([
+                        $createTransaction([
                             'user_id' => $oldUserIds[$transactionJson->old_user_id],
                             'type' => Transaction::TYPE_TRANSACTION,
                             'name' => 'Imported transaction on '.$transactionJson->created_at,
@@ -458,8 +454,8 @@ class ImportData extends Command
                 echo "\033[F".($index + 1).' / '.$total.' = '.round(($index + 1) / $total * 100, 2).'% | '.$transactionJson->created_at."\n";
             }
 
-            createTransaction(null);
-            createTransactionProduct(null);
+            $createTransaction(null);
+            $createTransactionProduct(null);
         }
         echo "Importing transactions done!\n";
 
@@ -467,5 +463,7 @@ class ImportData extends Command
         if (! $export) {
             Artisan::call('recalculate');
         }
+
+        return 0;
     }
 }

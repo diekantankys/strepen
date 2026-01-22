@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Settings;
 
-use App\Http\LiveWire\Settings\ChangeThanks;
+use App\Http\Livewire\Settings\ChangeThanks;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Livewire;

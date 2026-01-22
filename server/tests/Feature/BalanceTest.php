@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Http\LiveWire\Balance;
+use App\Http\Livewire\Balance;
 use App\Models\Transaction;
 use App\Models\User;
 use Livewire;
