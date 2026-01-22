@@ -23,5 +23,5 @@ return [
     'history.transaction_on' => 'Transactie op :transaction.created_at',
     'history.deposit_on' => 'Storting op :transaction.created_at',
     'history.payment_on' => 'Betaling op :transaction.created_at',
-    'history.amount' => 'Hoeveelheid'
+    'history.amount' => 'Hoeveelheid',
 ];

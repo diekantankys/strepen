@@ -22,28 +22,35 @@ class User extends Authenticatable
 
     // A user can be male, female or other
     public const GENDER_MALE = 0;
+
     public const GENDER_FEMALE = 1;
+
     public const GENDER_OTHER = 2;
 
     // A user can be normal, a manager or an admin
     public const ROLE_NORMAL = 0;
+
     public const ROLE_MANAGER = 1;
+
     public const ROLE_ADMIN = 2;
 
     // A user can select the english and the dutch language
     public const LANGUAGE_ENGLISH = 0;
+
     public const LANGUAGE_DUTCH = 1;
 
     // A user can select a light and a dark theme
     public const THEME_LIGHT = 0;
+
     public const THEME_DARK = 1;
+
     public const THEME_SYSTEM = 2;
 
     protected $hidden = [
         'email_verified_at',
         'password',
         'remember_token',
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
@@ -51,7 +58,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'receive_news' => 'boolean',
         'balance' => 'double',
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     protected $attributes = [
@@ -60,12 +67,12 @@ class User extends Authenticatable
         'theme' => User::THEME_SYSTEM,
         'receive_news' => true,
         'balance' => 0,
-        'active' => true
+        'active' => true,
     ];
 
     protected $fillable = [
         'avatar',
-        'thanks'
+        'thanks',
     ];
 
     // Generate a random avatar name
@@ -74,20 +81,22 @@ class User extends Authenticatable
         if ($extension == 'jpeg') {
             $extension = 'jpg';
         }
-        $avatar = Str::random(32) . '.' . $extension;
+        $avatar = Str::random(32).'.'.$extension;
         if (static::where('avatar', $avatar)->count() > 0) {
             return static::generateAvatarName($extension);
         }
+
         return $avatar;
     }
 
     // Generate a random thanks name
     public static function generateThanksName($extension)
     {
-        $thanks = Str::random(32) . '.' . $extension;
+        $thanks = Str::random(32).'.'.$extension;
         if (static::where('thanks', $thanks)->count() > 0) {
             return static::generateThanksName($extension);
         }
+
         return $thanks;
     }
 
@@ -121,9 +130,9 @@ class User extends Authenticatable
     public function getNameAttribute()
     {
         if ($this->insertion != null) {
-            return $this->firstname . ' ' . $this->insertion . ' ' . $this->lastname;
+            return $this->firstname.' '.$this->insertion.' '.$this->lastname;
         } else {
-            return $this->firstname . ' ' . $this->lastname;
+            return $this->firstname.' '.$this->lastname;
         }
     }
 
@@ -173,18 +182,18 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->morphMany(DatabaseNotification::class, 'notifiable')
-            ->orderByRaw("case when read_at IS NULL then 0 else 1 end")
+            ->orderByRaw('case when read_at IS NULL then 0 else 1 end')
             ->orderBy('created_at', 'desc');
     }
 
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where(fn ($query) => $query->where('firstname', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('insertion', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('lastname', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('email', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('firstname', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('insertion', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('lastname', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('email', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('created_at', 'LIKE', '%'.$searchQuery.'%'));
     }
 
     // Get balance chart data
@@ -245,7 +254,7 @@ class User extends Authenticatable
                 }
                 $index++;
             }
-            $balanceData[] = [ date('Y-m-d', $dayTime), $balance ];
+            $balanceData[] = [date('Y-m-d', $dayTime), $balance];
         }
 
         return $balanceData;
@@ -254,7 +263,7 @@ class User extends Authenticatable
     // Check gravatar for avatar
     public function checkGravatarAvatar()
     {
-        $headers = implode('\n', get_headers('https://www.gravatar.com/avatar/' . md5($this->email) . '?d=404'));
+        $headers = implode('\n', get_headers('https://www.gravatar.com/avatar/'.md5($this->email).'?d=404'));
         if (str_contains($headers, '200 OK') && (str_contains($headers, 'Content-Type: image/jpeg') || str_contains($headers, 'Content-Type: image/png'))) {
             if (str_contains($headers, 'Content-Type: image/jpeg')) {
                 $this->avatar = static::generateAvatarName('jpg');
@@ -262,7 +271,7 @@ class User extends Authenticatable
             if (str_contains($headers, 'Content-Type: image/png')) {
                 $this->avatar = static::generateAvatarName('png');
             }
-            file_put_contents(storage_path('app/public/avatars/') . $this->avatar, file_get_contents('https://www.gravatar.com/avatar/' . md5($this->email) . '?s=512'));
+            file_put_contents(storage_path('app/public/avatars/').$this->avatar, file_get_contents('https://www.gravatar.com/avatar/'.md5($this->email).'?s=512'));
         }
     }
 

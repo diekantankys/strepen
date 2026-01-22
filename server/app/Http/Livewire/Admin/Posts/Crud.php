@@ -15,10 +15,15 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $user_id;
+
     public $userIdTemp;
+
     public $post;
-    public $sendNotification ;
+
+    public $sendNotification;
+
     public $image;
+
     public $isCreating;
 
     public $rules = [
@@ -48,7 +53,7 @@ class Crud extends PaginationComponent
             }
         }
 
-        $this->post = new Post();
+        $this->post = new Post;
         $this->sendNotification = true;
         $this->image = null;
         $this->isCreating = false;
@@ -113,7 +118,7 @@ class Crud extends PaginationComponent
 
         return view('livewire.admin.posts.crud', [
             'posts' => $posts->with('user')
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/posts.crud.title')]);
     }
 }

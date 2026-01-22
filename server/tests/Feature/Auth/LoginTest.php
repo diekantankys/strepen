@@ -4,8 +4,8 @@ namespace Tests\Feature\Auth;
 
 use App\Http\LiveWire\Auth\Login;
 use App\Models\User;
-use Tests\TestCase;
 use Livewire;
+use Tests\TestCase;
 
 class LoginTest extends TestCase
 {

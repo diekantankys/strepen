@@ -16,5 +16,5 @@ return [
 
     'low_balance_header' => 'Balans te laag',
     'low_balance_start' => 'Jouw balans van',
-    'low_balance_end' => 'is te laag stort wat geld om uw schuld te vereffen'
+    'low_balance_end' => 'is te laag stort wat geld om uw schuld te vereffen',
 ];

@@ -51,5 +51,5 @@ return [
     'item.active_product' => 'Product zichtbaar maken in het systeem',
     'item.cancel' => 'Annuleren',
     'item.delete_product' => 'Verwijder product',
-    'item.delete_description' => 'Weet u zeker dat u dit product en al zijn geschiedenis wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u dit product en al zijn geschiedenis wilt verwijderen?',
 ];

@@ -13,14 +13,14 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->firstname,
-            'price' => $this->faker->numberBetween(25, 500) / 100
+            'price' => $this->faker->numberBetween(25, 500) / 100,
         ];
     }
 
     public function alcoholic()
     {
         return $this->state(fn (array $attributes) => [
-            'alcoholic' => true
+            'alcoholic' => true,
         ]);
     }
 }

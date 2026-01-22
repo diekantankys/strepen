@@ -8,10 +8,15 @@ use Livewire\Component;
 class Item extends Component
 {
     public $inventory;
+
     public $createdAtDate;
+
     public $createdAtTime;
+
     public $selectedProducts = [];
+
     public $isEditing = false;
+
     public $isDeleting = false;
 
     public $rules = [
@@ -21,7 +26,7 @@ class Item extends Component
         'createdAtTime' => 'required|date_format:H:i:s',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
         'selectedProducts.*.price' => 'required|numeric',
-        'selectedProducts.*.amount' => 'required|integer|min:1'
+        'selectedProducts.*.amount' => 'required|integer|min:1',
     ];
 
     public $listeners = ['inputValue'];
@@ -62,6 +67,7 @@ class Item extends Component
             $product = Product::find($selectedProduct['product_id']);
             $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
+
             return $product;
         });
 
@@ -74,7 +80,7 @@ class Item extends Component
         foreach ($selectedProducts as $product) {
             $this->inventory->price += $product->selectedPrice * $product->selectedAmount;
         }
-        $this->inventory->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
+        $this->inventory->created_at = $this->createdAtDate.' '.$this->createdAtTime;
         $this->inventory->save();
 
         // Detach and attach products to inventory
@@ -82,7 +88,7 @@ class Item extends Component
         foreach ($selectedProducts as $product) {
             $this->inventory->products()->attach($product, [
                 'price' => $product->selectedPrice,
-                'amount' => $product->selectedAmount
+                'amount' => $product->selectedAmount,
             ]);
         }
 
@@ -116,6 +122,7 @@ class Item extends Component
     {
         unset($this->inventory->user);
         unset($this->inventory->products);
+
         return view('livewire.admin.inventories.item');
     }
 }

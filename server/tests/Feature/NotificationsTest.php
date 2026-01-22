@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Http\LiveWire\Notifications;
-use App\Models\User;
 use App\Models\Transaction;
-use Tests\TestCase;
+use App\Models\User;
 use Livewire;
+use Tests\TestCase;
 
 class NotificationsTest extends TestCase
 {
@@ -47,7 +47,7 @@ class NotificationsTest extends TestCase
         $notificationId = $user->unreadNotifications->first()->id;
         Livewire::test(Notifications::class)
             ->call('readNotification', $notificationId)
-            ->assertDontSee('readNotification(\'' . $notificationId . '\')');
+            ->assertDontSee('readNotification(\''.$notificationId.'\')');
     }
 
     // Test notifications component read notification from other

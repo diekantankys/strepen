@@ -12,10 +12,15 @@ class Item extends Component
     use WithFileUploads;
 
     public $product;
+
     public $image;
+
     public $isShowing = false;
+
     public $startDate;
+
     public $isEditing = false;
+
     public $isDeleting = false;
 
     public $rules = [
@@ -24,7 +29,7 @@ class Item extends Component
         'product.description' => 'nullable',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         'product.alcoholic' => 'nullable|boolean',
-        'product.active' => 'nullable|boolean'
+        'product.active' => 'nullable|boolean',
     ];
 
     public function mount()
@@ -59,7 +64,7 @@ class Item extends Component
             $this->image->storeAs('public/products', $imageName);
 
             if ($this->product->image != null) {
-                Storage::delete('public/products/' . $this->product->image);
+                Storage::delete('public/products/'.$this->product->image);
             }
             $this->product->image = $imageName;
             $this->image = null;
@@ -73,7 +78,7 @@ class Item extends Component
     public function deleteImage()
     {
         if ($this->product->image != null) {
-            Storage::delete('public/products/' . $this->product->image);
+            Storage::delete('public/products/'.$this->product->image);
         }
         $this->product->image = null;
         $this->product->save();

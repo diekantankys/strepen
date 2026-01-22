@@ -14,5 +14,5 @@ return [
     // Errors 503 service unavailable page
     '503.title' => '503 Service Unavailable',
     '503.information' => 'The requested URL <code>:url</code> is not reachable at this moment on this server.',
-    '503.help' => 'The servers are probably being down for maintenance at the moment please try again later.'
+    '503.help' => 'The servers are probably being down for maintenance at the moment please try again later.',
 ];

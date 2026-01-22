@@ -9,6 +9,7 @@ class ParseProductIds
         return collect(explode(',', $ids))
             ->map(function ($id) {
                 $intId = filter_var($id, FILTER_VALIDATE_INT);
+
                 return $intId !== false ? $intId : null;
             })
             ->filter()

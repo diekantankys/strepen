@@ -27,5 +27,5 @@ return [
     'item.created_at_time' => 'Aanmaak tijd',
     'item.cancel' => 'Annuleren',
     'item.delete_inventory' => 'Verwijder voorraad',
-    'item.delete_description' => 'Weet u zeker dat u deze inventaris en al zijn geschiedenis wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u deze inventaris en al zijn geschiedenis wilt verwijderen?',
 ];

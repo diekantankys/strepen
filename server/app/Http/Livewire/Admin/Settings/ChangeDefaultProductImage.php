@@ -13,11 +13,13 @@ class ChangeDefaultProductImage extends Component
     use WithFileUploads;
 
     public $image;
+
     public $isChanged = false;
+
     public $isDeleted = false;
 
     public $rules = [
-        'image' => 'required|image|mimes:jpg,jpeg,png|max:1024'
+        'image' => 'required|image|mimes:jpg,jpeg,png|max:1024',
     ];
 
     public function changeImage()
@@ -30,7 +32,7 @@ class ChangeDefaultProductImage extends Component
 
         // Delete old global image when not default
         if (Setting::get('default_product_image') != 'default.png') {
-            Storage::delete('public/products/' . Setting::get('default_product_image'));
+            Storage::delete('public/products/'.Setting::get('default_product_image'));
         }
 
         // Update global image
@@ -43,7 +45,7 @@ class ChangeDefaultProductImage extends Component
     {
         // Delete global image
         if (Setting::get('default_product_image') != 'default.png') {
-            Storage::delete('public/products/' . Setting::get('default_product_image'));
+            Storage::delete('public/products/'.Setting::get('default_product_image'));
         }
 
         // Update global image to default one

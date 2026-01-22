@@ -4,8 +4,8 @@ namespace Tests\Feature\Settings;
 
 use App\Http\LiveWire\Settings\ChangeDetails;
 use App\Models\User;
-use Tests\TestCase;
 use Livewire;
+use Tests\TestCase;
 
 class ChangeDetailsTest extends TestCase
 {

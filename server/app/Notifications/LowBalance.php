@@ -43,12 +43,12 @@ class LowBalance extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->from(config('mail.from.address'), config('mail.from.name'))
             ->subject('Te lage krediet op het Strepen Systeem')
-            ->greeting('Beste ' . $this->user->name . ',')
-            ->line('Na het invoeren van uw laatst gekochte producten op de stam is gebleken dat uw krediet lager dan ' . Setting::get('currency_symbol') . ' ' . number_format(Setting::get('min_user_balance'), 2, ',', '.') . ' is. Uw balans is op dit moment nu ' . Setting::get('currency_symbol') . ' ' . number_format($this->user->balance, 2, ',', '.') . '.')
-            ->line('Dit is volgens het stambestuur te weinig! We willen u dan ook vragen om zo snel mogelijk te verhogen! Dit kan door geld over te maken naar rekening ' . Setting::get('bank_account_iban') . ' o.v.v. ' . Setting::get('bank_account_holder') . '.')
+            ->greeting('Beste '.$this->user->name.',')
+            ->line('Na het invoeren van uw laatst gekochte producten op de stam is gebleken dat uw krediet lager dan '.Setting::get('currency_symbol').' '.number_format(Setting::get('min_user_balance'), 2, ',', '.').' is. Uw balans is op dit moment nu '.Setting::get('currency_symbol').' '.number_format($this->user->balance, 2, ',', '.').'.')
+            ->line('Dit is volgens het stambestuur te weinig! We willen u dan ook vragen om zo snel mogelijk te verhogen! Dit kan door geld over te maken naar rekening '.Setting::get('bank_account_iban').' o.v.v. '.Setting::get('bank_account_holder').'.')
             ->line('Mocht u nog vragen hebben of denk u dat er iets niet klopt beantwoord dan dit mailtje.')
             ->salutation('Groetjes, het stambestuur');
     }
@@ -62,7 +62,7 @@ class LowBalance extends Notification
     public function toArray($notifiable)
     {
         return [
-            'balance' => $this->user->balance
+            'balance' => $this->user->balance,
         ];
     }
 }

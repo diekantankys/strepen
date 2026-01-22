@@ -39,5 +39,5 @@ return [
     'item.created_at_time' => 'Created at time',
     'item.cancel' => 'Cancel',
     'item.delete_transaction' => 'Delete transaction',
-    'item.delete_description' => 'Are you sure you want to delete this transaction and all it\'s history?'
+    'item.delete_description' => 'Are you sure you want to delete this transaction and all it\'s history?',
 ];

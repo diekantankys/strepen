@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Settings;
 
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,11 +13,13 @@ class ChangeDefaultThanks extends Component
     use WithFileUploads;
 
     public $thanks;
+
     public $isChanged = false;
+
     public $isDeleted = false;
 
     public $rules = [
-        'thanks' => 'required|image|mimes:gif|max:2048'
+        'thanks' => 'required|image|mimes:gif|max:2048',
     ];
 
     public function changeThanks()
@@ -30,7 +32,7 @@ class ChangeDefaultThanks extends Component
 
         // Delete old global thanks when not default
         if (Setting::get('default_user_thanks') != 'default.gif') {
-            Storage::delete('public/thanks/' . Setting::get('default_user_thanks'));
+            Storage::delete('public/thanks/'.Setting::get('default_user_thanks'));
         }
 
         // Update global thanks
@@ -43,7 +45,7 @@ class ChangeDefaultThanks extends Component
     {
         // Delete global thanks
         if (Setting::get('default_user_thanks') != 'default.gif') {
-            Storage::delete('public/thanks/' . Setting::get('default_user_thanks'));
+            Storage::delete('public/thanks/'.Setting::get('default_user_thanks'));
         }
 
         // Update global thanks to default one

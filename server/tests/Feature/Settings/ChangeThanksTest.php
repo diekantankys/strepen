@@ -5,8 +5,8 @@ namespace Tests\Feature\Settings;
 use App\Http\LiveWire\Settings\ChangeThanks;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
-use Tests\TestCase;
 use Livewire;
+use Tests\TestCase;
 
 class ChangeThanksTest extends TestCase
 {

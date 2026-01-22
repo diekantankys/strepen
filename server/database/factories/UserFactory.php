@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'password' => Hash::make($this->faker->password),
             'language' => $this->faker->randomElement([User::LANGUAGE_ENGLISH, User::LANGUAGE_DUTCH]),
             'theme' => $this->faker->randomElement([User::THEME_LIGHT, User::THEME_SYSTEM]),
-            'receive_news' => $this->faker->boolean
+            'receive_news' => $this->faker->boolean,
         ];
     }
 
@@ -40,21 +40,21 @@ class UserFactory extends Factory
     public function password($password)
     {
         return $this->state(fn (array $attributes) => [
-            'password' => Hash::make($password)
+            'password' => Hash::make($password),
         ]);
     }
 
     public function manager()
     {
         return $this->state(fn (array $attributes) => [
-            'role' => User::ROLE_MANAGER
+            'role' => User::ROLE_MANAGER,
         ]);
     }
 
     public function admin()
     {
         return $this->state(fn (array $attributes) => [
-            'role' => User::ROLE_ADMIN
+            'role' => User::ROLE_ADMIN,
         ]);
     }
 }

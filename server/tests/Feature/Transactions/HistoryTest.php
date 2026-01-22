@@ -3,11 +3,11 @@
 namespace Tests\Feature\Transactions;
 
 use App\Http\LiveWire\Transactions\History;
-use App\Models\User;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 use Livewire;
+use Tests\TestCase;
 
 class HistoryTest extends TestCase
 {
@@ -28,7 +28,6 @@ class HistoryTest extends TestCase
         Livewire::test(History::class)
             ->assertSee($user->transactions()->orderBy('created_at')->first()->name);
     }
-
 
     // Test transactions history page to search transactions
     public function test_search_transactions()

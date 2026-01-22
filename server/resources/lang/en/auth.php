@@ -27,5 +27,5 @@ return [
     'reset_password.password_confirmation' => 'Confirm new password',
     'reset_password.reset_password' => 'Reset password',
     'reset_password.success_message' => 'Your password has been reset, you can now log in again with your new password',
-    'reset_password.error_message' => 'Something went wrong while resetting your password, please try again later'
+    'reset_password.error_message' => 'Something went wrong while resetting your password, please try again later',
 ];

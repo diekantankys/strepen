@@ -9,18 +9,28 @@ class ProductsChooser extends InputComponent
 {
     // Props
     public $initialProducts = [];
+
     public $noMax = false;
+
     public $minor = false;
+
     public $bigMode = false;
+
     public $includeInactive = false;
+
     public $sortBy = 'transactions_count';
 
     // State
     public $htmlInputId;
+
     public $products;
+
     public $filteredProducts;
+
     public $productName;
+
     public $selectedProducts;
+
     public $isOpen = false;
 
     // Lifecycle
@@ -30,7 +40,7 @@ class ProductsChooser extends InputComponent
 
         // Select all products
         $products = Product::select();
-        if (!$this->includeInactive) {
+        if (! $this->includeInactive) {
             $products = $products->where('active', true);
         }
         if ($this->sortBy == 'transactions_count') {
@@ -59,6 +69,7 @@ class ProductsChooser extends InputComponent
         $this->selectedProducts = $this->selectedProducts->sort(function ($a, $b) {
             $productA = $this->products->find($a['product_id']);
             $productB = $this->products->find($b['product_id']);
+
             return strcasecmp($productA->name, $productB->name);
         })->values();
     }
@@ -66,17 +77,16 @@ class ProductsChooser extends InputComponent
     public function filterProducts()
     {
         $filteredProducts = $this->products;
-        if (!$this->bigMode) {
+        if (! $this->bigMode) {
             $filteredProducts = $filteredProducts->filter(
-                fn ($product) =>
-                !$this->selectedProducts->pluck('product_id')->contains($product->id) &&
+                fn ($product) => ! $this->selectedProducts->pluck('product_id')->contains($product->id) &&
                 (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false)
             );
         }
         if ($this->minor) {
-            $filteredProducts = $filteredProducts->filter(fn ($product) => !$product->alcoholic);
+            $filteredProducts = $filteredProducts->filter(fn ($product) => ! $product->alcoholic);
         }
-        if (!$this->bigMode) {
+        if (! $this->bigMode) {
             $filteredProducts = $filteredProducts->slice(0, 10);
         }
         $this->filteredProducts = $filteredProducts;
@@ -120,7 +130,7 @@ class ProductsChooser extends InputComponent
 
             if ($this->minor) {
                 $this->selectedProducts = $this->selectedProducts
-                    ->filter(fn ($selectedProduct) => !$this->products->find($selectedProduct['product_id'])->alcoholic);
+                    ->filter(fn ($selectedProduct) => ! $this->products->find($selectedProduct['product_id'])->alcoholic);
                 $this->emitValue();
             }
 
@@ -176,6 +186,7 @@ class ProductsChooser extends InputComponent
                     $selectedProduct['amount']--;
                 }
             }
+
             return $selectedProduct;
         });
         $this->emitValue();
@@ -191,6 +202,7 @@ class ProductsChooser extends InputComponent
                         $selectedProduct['amount']++;
                     }
                 }
+
                 return $selectedProduct;
             });
         } else {

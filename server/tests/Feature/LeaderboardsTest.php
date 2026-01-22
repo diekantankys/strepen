@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Http\LiveWire\Leaderboards;
-use App\Models\User;
 use App\Models\Setting;
-use Tests\TestCase;
+use App\Models\User;
 use Livewire;
+use Tests\TestCase;
 
 class LeaderboardsTest extends TestCase
 {

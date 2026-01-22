@@ -13,11 +13,13 @@ class ChangeThanks extends Component
     use WithFileUploads;
 
     public $thanks;
+
     public $isChanged = false;
+
     public $isDeleted = false;
 
     public $rules = [
-        'thanks' => 'required|image|mimes:gif|max:2048'
+        'thanks' => 'required|image|mimes:gif|max:2048',
     ];
 
     public function changeThanks()
@@ -30,7 +32,7 @@ class ChangeThanks extends Component
 
         // Delete old user thanks
         if (Auth::user()->thanks != null) {
-            Storage::delete('public/thanks/' . Auth::user()->thanks);
+            Storage::delete('public/thanks/'.Auth::user()->thanks);
         }
 
         // Update user that he has an thanks
@@ -45,7 +47,7 @@ class ChangeThanks extends Component
     public function deleteThanks()
     {
         // Delete user thanks file from storage
-        Storage::delete('public/thanks/' . Auth::user()->thanks);
+        Storage::delete('public/thanks/'.Auth::user()->thanks);
 
         // Update user that he has no thanks
         $user = Auth::user();

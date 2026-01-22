@@ -1,18 +1,18 @@
 <?php
 
 use App\Http\Controllers\Api\ApiAuthController;
-use App\Http\Controllers\Api\ApiUsersController;
+use App\Http\Controllers\Api\ApiInventoriesController;
 use App\Http\Controllers\Api\ApiNotificationsController;
 use App\Http\Controllers\Api\ApiPostsController;
 use App\Http\Controllers\Api\ApiProductsController;
-use App\Http\Controllers\Api\ApiInventoriesController;
 use App\Http\Controllers\Api\ApiSettingsController;
 use App\Http\Controllers\Api\ApiTransactionsController;
+use App\Http\Controllers\Api\ApiUsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('', function () {
     return [
-        'message' => 'Strepen REST API documentation: https://github.com/diekantankys/strepen/blob/master/docs/api.md'
+        'message' => 'Strepen REST API documentation: https://github.com/diekantankys/strepen/blob/master/docs/api.md',
     ];
 })->name('api.home');
 

@@ -10,5 +10,5 @@ return [
     'posts' => 'Berichten',
     'products' => 'Producten',
     'inventories' => 'Voorraden',
-    'transactions' => 'Transacties'
+    'transactions' => 'Transacties',
 ];

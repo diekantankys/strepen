@@ -9,6 +9,7 @@ use App\Models\User;
 class Home extends PaginationComponent
 {
     public $user_id;
+
     public $userIdTemp;
 
     public function __construct()
@@ -66,7 +67,7 @@ class Home extends PaginationComponent
         }
 
         return view('livewire.home', [
-            'posts' => $posts->with('user')->paginate(Setting::get('pagination_rows'))->withQueryString()
+            'posts' => $posts->with('user')->paginate(Setting::get('pagination_rows'))->withQueryString(),
         ])->layout('layouts.app', ['title' => __('home.title')]);
     }
 }

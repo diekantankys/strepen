@@ -15,6 +15,7 @@ class ApiPostsController extends ApiController
             ->with('user')
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
+
         return PostResource::collection($posts);
     }
 
@@ -22,6 +23,7 @@ class ApiPostsController extends ApiController
     public function show(Post $post)
     {
         $post->user;
+
         return new PostResource($post);
     }
 
@@ -30,6 +32,7 @@ class ApiPostsController extends ApiController
     {
         $post->like($request->user());
         unset($post->likes);
+
         return new PostResource($post);
     }
 
@@ -38,6 +41,7 @@ class ApiPostsController extends ApiController
     {
         $post->dislike($request->user());
         unset($post->dislikes);
+
         return new PostResource($post);
     }
 }

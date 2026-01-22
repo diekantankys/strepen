@@ -56,5 +56,5 @@ return [
     'change_default_product_image.change_button' => 'Standaard product afbeelding wijzigen',
     'change_default_product_image.delete_button' => 'Verwijder standaard product afbeelding',
     'change_default_product_image.success_message' => 'Uw standaard product afbeelding is gewijzigd',
-    'change_default_product_image.delete_message' => 'Uw standaard product afbeelding is verwijderd'
+    'change_default_product_image.delete_message' => 'Uw standaard product afbeelding is verwijderd',
 ];

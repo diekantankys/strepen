@@ -27,5 +27,5 @@ return [
     'reset_password.password_confirmation' => 'Herhaal nieuw wachtwoord',
     'reset_password.reset_password' => 'Reset wachtwoord',
     'reset_password.success_message' => 'Uw wachtwoord is gereset u kan nu opnieuw inloggen met uw nieuwe wachtwoord',
-    'reset_password.error_message' => 'Er is iets misgegaan bij het resetten van uwS wachtwoord, probeer het later opnieuw'
+    'reset_password.error_message' => 'Er is iets misgegaan bij het resetten van uwS wachtwoord, probeer het later opnieuw',
 ];

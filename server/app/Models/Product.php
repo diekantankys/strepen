@@ -14,19 +14,19 @@ class Product extends Model
     use SoftDeletes;
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
         'price' => 'double',
         'alcoholic' => 'boolean',
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     protected $attributes = [
         'amount' => 0,
         'alcoholic' => false,
-        'active' => true
+        'active' => true,
     ];
 
     // Generate a random image name
@@ -35,10 +35,11 @@ class Product extends Model
         if ($extension == 'jpeg') {
             $extension = 'jpg';
         }
-        $image = Str::random(32) . '.' . $extension;
+        $image = Str::random(32).'.'.$extension;
         if (static::where('image', $image)->count() > 0) {
             return static::generateImageName($extension);
         }
+
         return $image;
     }
 
@@ -52,10 +53,10 @@ class Product extends Model
             ->sum('amount')
             -
             DB::table('transaction_product')
-            ->join('transactions', 'transactions.id', 'transaction_id')
-            ->whereNull('deleted_at')
-            ->where('product_id', $this->id)
-            ->sum('amount');
+                ->join('transactions', 'transactions.id', 'transaction_id')
+                ->whereNull('deleted_at')
+                ->where('product_id', $this->id)
+                ->sum('amount');
     }
 
     // A product belongs to many inventories
@@ -73,9 +74,9 @@ class Product extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('description', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('description', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('created_at', 'LIKE', '%'.$searchQuery.'%'));
     }
 
     // Get amount chart data
@@ -145,7 +146,7 @@ class Product extends Model
                 }
                 $index++;
             }
-            $amountData[] = [ date('Y-m-d', $dayTime), $amount ];
+            $amountData[] = [date('Y-m-d', $dayTime), $amount];
         }
 
         return $amountData;

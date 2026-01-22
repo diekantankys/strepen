@@ -11,13 +11,14 @@ class Setting extends Model
 
     public static function get($key)
     {
-        if (!isset(static::$cache[$key])) {
+        if (! isset(static::$cache[$key])) {
             $setting = static::where('key', $key)->first();
             if ($setting == null) {
-                throw new ModelNotFoundException('Setting ' . $key . ' not found');
+                throw new ModelNotFoundException('Setting '.$key.' not found');
             }
             static::$cache[$key] = $setting->value;
         }
+
         return static::$cache[$key];
     }
 

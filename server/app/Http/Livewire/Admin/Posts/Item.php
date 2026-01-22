@@ -12,11 +12,17 @@ class Item extends Component
     use WithFileUploads;
 
     public $post;
+
     public $image;
+
     public $createdAtDate;
+
     public $createdAtTime;
+
     public $isShowing = false;
+
     public $isEditing = false;
+
     public $isDeleting = false;
 
     public $rules = [
@@ -25,7 +31,7 @@ class Item extends Component
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
         'createdAtDate' => 'required|date_format:Y-m-d',
         'createdAtTime' => 'required|date_format:H:i:s',
-        'post.body' => 'required|min:2'
+        'post.body' => 'required|min:2',
     ];
 
     public $listeners = ['inputValue'];
@@ -53,13 +59,13 @@ class Item extends Component
             $this->image->storeAs('public/posts', $imageName);
 
             if ($this->post->image != null) {
-                Storage::delete('public/posts/' . $this->post->image);
+                Storage::delete('public/posts/'.$this->post->image);
             }
             $this->post->image = $imageName;
             $this->image = null;
         }
 
-        $this->post->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
+        $this->post->created_at = $this->createdAtDate.' '.$this->createdAtTime;
         $this->post->save();
 
         $this->isEditing = false;
@@ -69,7 +75,7 @@ class Item extends Component
     public function deleteImage()
     {
         if ($this->post->image != null) {
-            Storage::delete('public/posts/' . $this->post->image);
+            Storage::delete('public/posts/'.$this->post->image);
         }
         $this->post->image = null;
         $this->post->save();
@@ -86,6 +92,7 @@ class Item extends Component
     public function render()
     {
         unset($this->post->user);
+
         return view('livewire.admin.posts.item');
     }
 }

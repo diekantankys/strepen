@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\Posts;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Item extends Component
 {
     public $post;
+
     public $standalone = false;
 
     public function likePost()
@@ -24,6 +25,7 @@ class Item extends Component
     {
         unset($this->post->likes);
         unset($this->post->dislikes);
+
         return view('livewire.posts.item');
     }
 }

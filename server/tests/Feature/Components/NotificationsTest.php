@@ -3,10 +3,10 @@
 namespace Tests\Feature\Components;
 
 use App\Http\LiveWire\Components\Notifications;
-use App\Models\User;
 use App\Models\Transaction;
-use Tests\TestCase;
+use App\Models\User;
 use Livewire;
+use Tests\TestCase;
 
 class NotificationsTest extends TestCase
 {

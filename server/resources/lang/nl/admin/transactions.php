@@ -39,5 +39,5 @@ return [
     'item.created_at_time' => 'Aanmaak tijd',
     'item.cancel' => 'Annuleren',
     'item.delete_transaction' => 'Verwijder transactie',
-    'item.delete_description' => 'Weet u zeker dat u deze transactie en al zijn geschiedenis wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u deze transactie en al zijn geschiedenis wilt verwijderen?',
 ];

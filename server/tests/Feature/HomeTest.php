@@ -6,8 +6,8 @@ use App\Http\LiveWire\Home;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Str;
-use Tests\TestCase;
 use Livewire;
+use Tests\TestCase;
 
 class HomeTest extends TestCase
 {

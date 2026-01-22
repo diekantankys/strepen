@@ -10,14 +10,15 @@ abstract class PaginationComponent extends Component
     use WithPagination;
 
     public $sort_by;
+
     public $query;
 
     public $queryString = [
         'sort_by' => ['except' => ''],
-        'query' => ['except' => '']
+        'query' => ['except' => ''],
     ];
 
-    public $listeners = [ 'refresh' => '$refresh' ];
+    public $listeners = ['refresh' => '$refresh'];
 
     public function updatedSortBy()
     {
@@ -36,14 +37,14 @@ abstract class PaginationComponent extends Component
 
     public function _previousPage($disabled)
     {
-        if (!$disabled) {
+        if (! $disabled) {
             $this->previousPage();
         }
     }
 
     public function _nextPage($disabled)
     {
-        if (!$disabled) {
+        if (! $disabled) {
             $this->nextPage();
         }
     }

@@ -12,18 +12,31 @@ use App\Notifications\NewDeposit;
 class Crud extends PaginationComponent
 {
     public $user_id;
+
     public $userIdTemp;
+
     public $type;
+
     public $product_id;
+
     public $productIdTemp;
+
     public $transaction;
+
     public $selectedProducts = [];
+
     public $users;
+
     public $userAmounts;
+
     public $isCreatingTransaction = false;
+
     public $isCreatingDeposit = false;
+
     public $creatingDepositTab = 'single';
+
     public $isCreatingPayment = false;
+
     public $creatingPaymentTab = 'single';
 
     public $rules = [
@@ -33,7 +46,7 @@ class Crud extends PaginationComponent
         'selectedProducts.*.price' => 'required|numeric',
         'selectedProducts.*.amount' => 'required|integer|min:1',
         'transaction.price' => 'required|numeric',
-        'userAmounts.*' => 'nullable|numeric'
+        'userAmounts.*' => 'nullable|numeric',
     ];
 
     public function __construct()
@@ -66,7 +79,7 @@ class Crud extends PaginationComponent
             $this->product_id = null;
         }
 
-        $this->transaction = new Transaction();
+        $this->transaction = new Transaction;
 
         $this->users = User::where('active', true)
             ->orderByRaw('active DESC, LOWER(firstname)')
@@ -107,7 +120,7 @@ class Crud extends PaginationComponent
     // Create transaction model
     public function openCreateTransaction()
     {
-        $this->transaction->name = __('admin/transactions.crud.name_default_transaction') . ' ' . date('Y-m-d H:i:s');
+        $this->transaction->name = __('admin/transactions.crud.name_default_transaction').' '.date('Y-m-d H:i:s');
         $this->isCreatingTransaction = true;
     }
 
@@ -125,6 +138,7 @@ class Crud extends PaginationComponent
             $product = Product::find($selectedProduct['product_id']);
             $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
+
             return $product;
         });
 
@@ -144,7 +158,7 @@ class Crud extends PaginationComponent
         foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
                 'price' => $product->selectedPrice,
-                'amount' => $product->selectedAmount
+                'amount' => $product->selectedAmount,
             ]);
             $product->amount -= $product->selectedAmount;
             unset($product->selectedPrice);
@@ -169,7 +183,7 @@ class Crud extends PaginationComponent
     // Create deposit model
     public function openCreateDeposit()
     {
-        $this->transaction->name = __('admin/transactions.crud.name_default_deposit') . ' ' . date('Y-m-d H:i:s');
+        $this->transaction->name = __('admin/transactions.crud.name_default_deposit').' '.date('Y-m-d H:i:s');
         $this->isCreatingDeposit = true;
     }
 
@@ -205,7 +219,7 @@ class Crud extends PaginationComponent
                 $userAmount = $this->userAmounts[$index];
                 if ($userAmount != '') {
                     // Create payment transaction for user
-                    $transaction = new Transaction();
+                    $transaction = new Transaction;
                     $transaction->user_id = $user->id;
                     $transaction->type = Transaction::TYPE_DEPOSIT;
                     $transaction->name = $this->transaction->name;
@@ -230,7 +244,7 @@ class Crud extends PaginationComponent
     // Create payment model
     public function openCreatePayment()
     {
-        $this->transaction->name = __('admin/transactions.crud.name_default_payment') . ' ' . date('Y-m-d H:i:s');
+        $this->transaction->name = __('admin/transactions.crud.name_default_payment').' '.date('Y-m-d H:i:s');
         $this->isCreatingPayment = true;
     }
 
@@ -263,7 +277,7 @@ class Crud extends PaginationComponent
                 $userAmount = $this->userAmounts[$index];
                 if ($userAmount != '') {
                     // Create payment transaction for user
-                    $transaction = new Transaction();
+                    $transaction = new Transaction;
                     $transaction->user_id = $user->id;
                     $transaction->type = Transaction::TYPE_PAYMENT;
                     $transaction->name = $this->transaction->name;
@@ -327,7 +341,7 @@ class Crud extends PaginationComponent
 
         return view('livewire.admin.transactions.crud', [
             'transactions' => $transactions->with('products')
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/transactions.crud.title')]);
     }
 }

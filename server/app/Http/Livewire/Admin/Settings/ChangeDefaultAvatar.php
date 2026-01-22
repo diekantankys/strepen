@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Settings;
 
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -13,11 +13,13 @@ class ChangeDefaultAvatar extends Component
     use WithFileUploads;
 
     public $avatar;
+
     public $isChanged = false;
+
     public $isDeleted = false;
 
     public $rules = [
-        'avatar' => 'required|image|mimes:jpg,jpeg,png|max:1024'
+        'avatar' => 'required|image|mimes:jpg,jpeg,png|max:1024',
     ];
 
     public function changeAvatar()
@@ -30,7 +32,7 @@ class ChangeDefaultAvatar extends Component
 
         // Delete old global avatar when not default
         if (Setting::get('default_user_avatar') != 'default.png') {
-            Storage::delete('public/avatars/' . Setting::get('default_user_avatar'));
+            Storage::delete('public/avatars/'.Setting::get('default_user_avatar'));
         }
 
         // Update global avatar
@@ -43,7 +45,7 @@ class ChangeDefaultAvatar extends Component
     {
         // Delete global avatar
         if (Setting::get('default_user_avatar') != 'default.png') {
-            Storage::delete('public/avatars/' . Setting::get('default_user_avatar'));
+            Storage::delete('public/avatars/'.Setting::get('default_user_avatar'));
         }
 
         // Update global avatar to default one

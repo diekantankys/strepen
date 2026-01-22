@@ -39,5 +39,5 @@ return [
     'item.body' => 'Tekst (ondersteund :markdown_link)',
     'item.cancel' => 'Annuleren',
     'item.delete_post' => 'Verwijder bericht',
-    'item.delete_description' => 'Weet u zeker dat u dit bericht en al zijn geschiedenis wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u dit bericht en al zijn geschiedenis wilt verwijderen?',
 ];

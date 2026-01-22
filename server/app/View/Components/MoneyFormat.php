@@ -7,7 +7,9 @@ use Illuminate\View\Component;
 class MoneyFormat extends Component
 {
     public $money;
+
     public $isBold;
+
     public $isPerHour = false;
 
     public function __construct($money, $isBold = true, $isPerHour = false)

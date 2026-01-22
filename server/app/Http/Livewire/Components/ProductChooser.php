@@ -8,18 +8,28 @@ class ProductChooser extends InputComponent
 {
     // Props
     public $productId;
+
     public $inline = false;
+
     public $relationship = false;
+
     public $includeInactive = false;
+
     public $includeDeleted = false;
+
     public $sortBy = 'name';
 
     // State
     public $htmlInputId;
+
     public $products;
+
     public $filteredProducts;
+
     public $productName;
+
     public $product;
+
     public $isOpen = false;
 
     // Lifecycle
@@ -28,7 +38,7 @@ class ProductChooser extends InputComponent
         $this->htmlInputId = uniqid();
 
         $products = Product::select();
-        if (!$this->includeInactive) {
+        if (! $this->includeInactive) {
             $products = $products->where('active', true);
         }
         if ($this->includeDeleted) {

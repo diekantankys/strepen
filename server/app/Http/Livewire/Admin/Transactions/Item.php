@@ -10,11 +10,17 @@ use Livewire\Component;
 class Item extends Component
 {
     public $transaction;
+
     public $oldUserId;
+
     public $createdAtDate;
+
     public $createdAtTime;
+
     public $selectedProducts = [];
+
     public $isEditing = false;
+
     public $isDeleting = false;
 
     public $rules = [
@@ -25,7 +31,7 @@ class Item extends Component
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
         'selectedProducts.*.price' => 'required|numeric',
         'selectedProducts.*.amount' => 'required|integer|min:1',
-        'transaction.price' => 'required|numeric'
+        'transaction.price' => 'required|numeric',
     ];
 
     public $listeners = ['inputValue'];
@@ -78,6 +84,7 @@ class Item extends Component
                 $product = Product::find($selectedProduct['product_id']);
                 $product->selectedPrice = $selectedProduct['price'];
                 $product->selectedAmount = $selectedProduct['amount'];
+
                 return $product;
             });
 
@@ -96,7 +103,7 @@ class Item extends Component
             foreach ($selectedProducts as $product) {
                 $this->transaction->products()->attach($product, [
                     'price' => $product->selectedPrice,
-                    'amount' => $product->selectedAmount
+                    'amount' => $product->selectedAmount,
                 ]);
             }
 
@@ -114,7 +121,7 @@ class Item extends Component
             $this->validateOnly('transaction.price');
         }
 
-        $this->transaction->created_at = $this->createdAtDate . ' ' . $this->createdAtTime;
+        $this->transaction->created_at = $this->createdAtDate.' '.$this->createdAtTime;
         $this->transaction->save();
 
         // Recalculate old user balance
@@ -158,6 +165,7 @@ class Item extends Component
     {
         unset($this->transaction->user);
         unset($this->transaction->products);
+
         return view('livewire.admin.transactions.item');
     }
 }

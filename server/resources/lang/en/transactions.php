@@ -23,5 +23,5 @@ return [
     'history.transaction_on' => 'Transaction on :transaction.created_at',
     'history.deposit_on' => 'Deposit on :transaction.created_at',
     'history.payment_on' => 'Payment on :transaction.created_at',
-    'history.amount' => 'Amount'
+    'history.amount' => 'Amount',
 ];

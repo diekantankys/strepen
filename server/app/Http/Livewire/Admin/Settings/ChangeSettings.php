@@ -9,15 +9,25 @@ use Livewire\Component;
 class ChangeSettings extends Component
 {
     public $currencySymbol;
+
     public $currencyName;
+
     public $minUserBalance;
+
     public $maxStripeAmount;
+
     public $minorAge;
+
     public $paginationRows;
+
     public $kioskIpWhitelist;
+
     public $leaderboardsEnabled;
+
     public $bankAccountIban;
+
     public $bankAccountHolder;
+
     public $isChanged = false;
 
     public $rules = [
@@ -94,9 +104,9 @@ class ChangeSettings extends Component
         Setting::set('leaderboards_enabled', $this->leaderboardsEnabled == true ? 'true' : 'false');
         Setting::set('bank_account_iban', $this->bankAccountIban);
         Setting::set('bank_account_holder', $this->bankAccountHolder);
-        Setting::set('product_beer_ids', join(',', $this->productBeerIds));
-        Setting::set('product_soda_ids', join(',', $this->productSodaIds));
-        Setting::set('product_snack_ids', join(',', $this->productSnackIds));
+        Setting::set('product_beer_ids', implode(',', $this->productBeerIds));
+        Setting::set('product_soda_ids', implode(',', $this->productSodaIds));
+        Setting::set('product_snack_ids', implode(',', $this->productSnackIds));
         $this->isChanged = true;
     }
 

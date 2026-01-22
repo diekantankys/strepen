@@ -2,18 +2,21 @@
 
 namespace App\Http\Livewire\Transactions;
 
-use Livewire\Component;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Create extends Component
 {
     public $transaction;
+
     public $selectedProducts = [];
+
     public $isMinor = false;
+
     public $isCreated;
 
     public function rules()
@@ -21,11 +24,12 @@ class Create extends Component
         $rules = [
             'transaction.name' => 'required|min:2|max:48',
             'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
-            'selectedProducts.*.amount' => 'required|integer|min:1|max:' . Setting::get('max_stripe_amount')
+            'selectedProducts.*.amount' => 'required|integer|min:1|max:'.Setting::get('max_stripe_amount'),
         ];
         if (Auth::id() == 1) {
             $rules['transaction.user_id'] = 'required|integer|exists:users,id';
         }
+
         return $rules;
     }
 
@@ -33,8 +37,8 @@ class Create extends Component
 
     public function mount()
     {
-        $this->transaction = new Transaction();
-        $this->transaction->name = __('transactions.create.name_default') . ' ' . date('Y-m-d H:i:s');
+        $this->transaction = new Transaction;
+        $this->transaction->name = __('transactions.create.name_default').' '.date('Y-m-d H:i:s');
         $this->isCreated = false;
     }
 
@@ -47,13 +51,13 @@ class Create extends Component
             if ($user != null && $user->minor) {
                 $this->isMinor = true;
                 $this->emit('inputProps', 'products', [
-                    'minor' => $this->isMinor
+                    'minor' => $this->isMinor,
                 ]);
             }
-            if ($this->isMinor && ($user == null || !$user->minor)) {
+            if ($this->isMinor && ($user == null || ! $user->minor)) {
                 $this->isMinor = false;
                 $this->emit('inputProps', 'products', [
-                    'minor' => $this->isMinor
+                    'minor' => $this->isMinor,
                 ]);
             }
         }
@@ -73,6 +77,7 @@ class Create extends Component
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
             $product = Product::find($selectedProduct['product_id']);
             $product->selectedAmount = $selectedProduct['amount'];
+
             return $product;
         });
 
@@ -104,7 +109,7 @@ class Create extends Component
         foreach ($selectedProducts as $product) {
             $this->transaction->products()->attach($product, [
                 'price' => $product->price,
-                'amount' => $product->selectedAmount
+                'amount' => $product->selectedAmount,
             ]);
             $product->amount -= $product->selectedAmount;
             unset($product->selectedAmount);

@@ -12,7 +12,9 @@ use Livewire\Component;
 class ChangeDetails extends Component
 {
     public $user;
+
     public $oldUserBirthday;
+
     public $isChanged = false;
 
     public function rules()
@@ -21,21 +23,21 @@ class ChangeDetails extends Component
             'user.firstname' => 'required|min:2|max:48',
             'user.insertion' => 'nullable|max:16',
             'user.lastname' => 'required|min:2|max:48',
-            'user.gender' => 'nullable|integer|digits_between:' . User::GENDER_MALE . ',' . User::GENDER_OTHER,
+            'user.gender' => 'nullable|integer|digits_between:'.User::GENDER_MALE.','.User::GENDER_OTHER,
             'user.birthday' => 'nullable|date',
             'user.email' => [
                 'required',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore(Auth::user()->email, 'email')
+                Rule::unique('users', 'email')->ignore(Auth::user()->email, 'email'),
             ],
             'user.phone' => 'nullable|max:255',
             'user.address' => 'nullable|min:2|max:255',
             'user.postcode' => 'nullable|min:2|max:32',
             'user.city' => 'nullable|min:2|max:255',
-            'user.language' => 'required|integer|digits_between:' . User::LANGUAGE_ENGLISH . ',' . User::LANGUAGE_DUTCH,
-            'user.theme' => 'required|integer|digits_between:' . User::THEME_LIGHT . ',' . User::THEME_SYSTEM,
-            'user.receive_news' => 'nullable|boolean'
+            'user.language' => 'required|integer|digits_between:'.User::LANGUAGE_ENGLISH.','.User::LANGUAGE_DUTCH,
+            'user.theme' => 'required|integer|digits_between:'.User::THEME_LIGHT.','.User::THEME_SYSTEM,
+            'user.receive_news' => 'nullable|boolean',
         ];
     }
 
@@ -52,7 +54,7 @@ class ChangeDetails extends Component
         if ($this->user->gender == '') {
             $this->user->gender = null;
         }
-        if ($this->user->birthday . '' == date('Y-m-d H:i:s')) {
+        if ($this->user->birthday.'' == date('Y-m-d H:i:s')) {
             $this->user->birthday = null;
         }
 

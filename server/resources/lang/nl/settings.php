@@ -60,5 +60,5 @@ return [
     'change_password.password' => 'Nieuw wachtwoord',
     'change_password.password_confirmation' => 'Herhaal nieuw wachtwoord',
     'change_password.button' => 'Verander wachtwoord',
-    'change_password.success_message' => 'Uw wachtwoord is veranderd'
+    'change_password.success_message' => 'Uw wachtwoord is veranderd',
 ];

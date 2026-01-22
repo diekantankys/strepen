@@ -12,8 +12,11 @@ class Crud extends PaginationComponent
     use WithFileUploads;
 
     public $alcoholic;
+
     public $product;
+
     public $image;
+
     public $isCreating;
 
     public $rules = [
@@ -21,7 +24,7 @@ class Crud extends PaginationComponent
         'product.price' => 'required|numeric',
         'product.description' => 'nullable',
         'image' => 'nullable|image|mimes:jpg,jpeg,png|max:1024',
-        'product.alcoholic' => 'nullable|boolean'
+        'product.alcoholic' => 'nullable|boolean',
     ];
 
     public function __construct()
@@ -39,7 +42,7 @@ class Crud extends PaginationComponent
             $this->sort_by = null;
         }
 
-        $this->product = new Product();
+        $this->product = new Product;
         $this->image = null;
         $this->isCreating = false;
     }
@@ -101,7 +104,7 @@ class Crud extends PaginationComponent
         }
 
         return view('livewire.admin.products.crud', [
-            'products' => $products->paginate(Setting::get('pagination_rows') * 4)->withQueryString()
+            'products' => $products->paginate(Setting::get('pagination_rows') * 4)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/products.crud.title'), 'chartjs' => true]);
     }
 }

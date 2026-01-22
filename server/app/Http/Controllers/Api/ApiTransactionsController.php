@@ -18,6 +18,7 @@ class ApiTransactionsController extends ApiController
             ->with(['user', 'products'])
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
+
         return TransactionResource::collection($transactions);
     }
 
@@ -26,6 +27,7 @@ class ApiTransactionsController extends ApiController
     {
         $transaction->user;
         $transaction->products;
+
         return new TransactionResource($transaction);
     }
 
@@ -36,7 +38,7 @@ class ApiTransactionsController extends ApiController
         $rules = [
             'name' => 'required|min:2|max:48',
             'products.*.product_id' => 'required|integer|exists:products,id',
-            'products.*.amount' => 'required|integer|min:1'
+            'products.*.amount' => 'required|integer|min:1',
         ];
         if ($request->user()->manager && $request->has('user_id')) {
             $rules['user_id'] = 'required|integer|exists:users,id';
@@ -49,12 +51,12 @@ class ApiTransactionsController extends ApiController
         $productsData = $request->input('products', []);
         if (count($productsData) == 0) {
             return response(['errors' => [
-                'products' => 'You need to add minimal one product to the transaction'
+                'products' => 'You need to add minimal one product to the transaction',
             ]], 400);
         }
 
         // Create transaction
-        $transaction = new Transaction();
+        $transaction = new Transaction;
         if ($request->user()->manager && $request->has('user_id')) {
             $transaction->user_id = $request->input('user_id');
         } else {
@@ -71,7 +73,7 @@ class ApiTransactionsController extends ApiController
             $transaction->price += $product->price * $productData['amount'];
             $transaction->products()->attach($product->id, [
                 'price' => $product->price,
-                'amount' => $productData['amount']
+                'amount' => $productData['amount'],
             ]);
 
             $product->amount -= $productData['amount'];
@@ -87,9 +89,10 @@ class ApiTransactionsController extends ApiController
         // Return success message
         $transaction->user; // For backwards compatability
         $transaction->products;
+
         return [
             'message' => 'Your transaction is successfully created',
-            'transaction' => new TransactionResource($transaction)
+            'transaction' => new TransactionResource($transaction),
         ];
     }
 }

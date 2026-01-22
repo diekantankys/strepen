@@ -15,6 +15,7 @@ class BetterParsedown extends Parsedown
             $url['element']['attributes']['target'] = '_blank';
             $url['element']['attributes']['rel'] = 'noreferrer';
         }
+
         return $url;
     }
 
@@ -25,6 +26,7 @@ class BetterParsedown extends Parsedown
             $link['element']['attributes']['target'] = '_blank';
             $link['element']['attributes']['rel'] = 'noreferrer';
         }
+
         return $link;
     }
 }

@@ -123,5 +123,5 @@ return [
     'item.active_user' => 'Gebruiker zichtbaar maken in het systeem',
     'item.cancel' => 'Annuleren',
     'item.delete_user' => 'Verwijder gebruiker',
-    'item.delete_description' => 'Weet u zeker dat u deze gebruiker en al zijn geschiedenis wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u deze gebruiker en al zijn geschiedenis wilt verwijderen?',
 ];

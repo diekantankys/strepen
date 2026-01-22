@@ -16,5 +16,5 @@ return [
 
     'low_balance_header' => 'Balance to low',
     'low_balance_start' => 'Your balance of',
-    'low_balance_end' => 'is to low deposit some money to clear your debt'
+    'low_balance_end' => 'is to low deposit some money to clear your debt',
 ];

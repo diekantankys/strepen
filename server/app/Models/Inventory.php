@@ -10,11 +10,11 @@ class Inventory extends Model
     use SoftDeletes;
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
-        'price' => 'double'
+        'price' => 'double',
     ];
 
     // A inventory belongs to a user
@@ -32,7 +32,7 @@ class Inventory extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('created_at', 'LIKE', '%'.$searchQuery.'%'));
     }
 }

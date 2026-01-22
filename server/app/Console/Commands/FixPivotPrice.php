@@ -41,6 +41,7 @@ class FixPivotPrice extends Command
     {
         $oldProductPrices = $this->fixTransactions();
         $this->fixInventories($oldProductPrices);
+
         return 0;
     }
 
@@ -51,7 +52,7 @@ class FixPivotPrice extends Command
         $oldProductPrices = [];
         Transaction::with('products')->where('type', Transaction::TYPE_TRANSACTION)->chunk(100, function ($transactions) use (&$oldProductPrices) {
             foreach ($transactions as $transaction) {
-                echo ".";
+                echo '.';
                 if ($transaction->products->count() === 1) {
                     $product = $transaction->products->first();
                     if ($product->pivot->price == null) {
@@ -59,14 +60,14 @@ class FixPivotPrice extends Command
                         $product->pivot->save();
                     }
 
-                    if (!isset($oldProductPrices[$product->id])) {
+                    if (! isset($oldProductPrices[$product->id])) {
                         $oldProductPrices[$product->id] = [];
                     }
                     $lastProductPrice = end($oldProductPrices[$product->id]);
                     if ($lastProductPrice === false || $lastProductPrice['price'] != $product->pivot->price) {
                         $oldProductPrices[$product->id][] = [
                             'price' => $product->pivot->price,
-                            'time' => $transaction->created_at->getTimestamp()
+                            'time' => $transaction->created_at->getTimestamp(),
                         ];
                     }
                 }
@@ -77,7 +78,7 @@ class FixPivotPrice extends Command
         echo "\nFixing transaction product prices with multiple products...\n";
         Transaction::with('products')->where('type', Transaction::TYPE_TRANSACTION)->chunk(100, function ($transactions) use ($oldProductPrices) {
             foreach ($transactions as $transaction) {
-                echo ".";
+                echo '.';
                 if ($transaction->products->count() > 1) {
                     if ($transaction->products->first()->pivot->price == null) {
                         foreach ($transaction->products as $product) {
@@ -130,7 +131,7 @@ class FixPivotPrice extends Command
         echo "\nFixing inventory product prices with multiple products...\n";
         Inventory::with('products')->chunk(100, function ($inventories) use ($oldProductPrices) {
             foreach ($inventories as $inventory) {
-                echo ".";
+                echo '.';
                 if ($inventory->products->first()->pivot->price == null) {
                     foreach ($inventory->products as $product) {
                         // Find the closest old price for this product

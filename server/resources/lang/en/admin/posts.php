@@ -39,5 +39,5 @@ return [
     'item.body' => 'Body (supports :markdown_link)',
     'item.cancel' => 'Cancel',
     'item.delete_post' => 'Delete post',
-    'item.delete_description' => 'Are you sure you want to delete this post and all it\'s history?'
+    'item.delete_description' => 'Are you sure you want to delete this post and all it\'s history?',
 ];

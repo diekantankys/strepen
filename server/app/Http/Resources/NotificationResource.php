@@ -35,6 +35,7 @@ class NotificationResource extends JsonResource
         if ($this->type == 'App\Notifications\NewPost') {
             $data['post'] = new PostResource(Post::withTrashed()->find($this->data['post_id']));
         }
+
         return $data;
     }
 }

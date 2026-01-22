@@ -15,6 +15,7 @@ class ApiInventoriesController extends ApiController
             ->with(['user', 'products'])
             ->orderBy('created_at', 'DESC')
             ->paginate($this->getLimit($request))->withQueryString();
+
         return InventoryResource::collection($inventories);
     }
 
@@ -23,6 +24,7 @@ class ApiInventoriesController extends ApiController
     {
         $inventory->user;
         $inventory->products;
+
         return new InventoryResource($inventory);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Tests\Feature;
 
-use App\Models\User;
 use App\Models\Setting;
+use App\Models\User;
 use Tests\TestCase;
 
 class KioskTest extends TestCase

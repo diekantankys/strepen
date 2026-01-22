@@ -26,5 +26,5 @@ return [
     'item.active_api_key' => 'Maak api sleutel te gebruiken voor de REST API',
     'item.cancel' => 'Annuleren',
     'item.delete_api_key' => 'Verwijder api sleutel',
-    'item.delete_description' => 'Weet u zeker dat u deze api sleutel en al zijn geschiedenis wilt verwijderen?'
+    'item.delete_description' => 'Weet u zeker dat u deze api sleutel en al zijn geschiedenis wilt verwijderen?',
 ];

@@ -13,10 +13,11 @@ class ApiProductsController extends ApiController
     {
         $products = $this->getItems(Product::class, Product::select(), $request)
             ->orderByRaw('active DESC, LOWER(name)');
-        if (!$request->user()->manager) {
+        if (! $request->user()->manager) {
             $products = $products->where('active', true);
         }
         $products = $products->paginate($this->getLimit($request))->withQueryString();
+
         return ProductResource::collection($products);
     }
 

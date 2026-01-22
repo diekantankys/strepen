@@ -9,14 +9,17 @@ use Livewire\Component;
 class ChangePassword extends Component
 {
     public $currentPassword;
+
     public $password;
+
     public $passwordConfirmation;
+
     public $isChanged;
 
     public $rules = [
         'currentPassword' => 'required|current_password',
         'password' => 'required|min:6',
-        'passwordConfirmation' => 'required|same:password'
+        'passwordConfirmation' => 'required|same:password',
     ];
 
     public function mount()

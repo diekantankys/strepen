@@ -3,10 +3,10 @@
 namespace Tests\Feature;
 
 use App\Http\LiveWire\Balance;
-use App\Models\User;
 use App\Models\Transaction;
-use Tests\TestCase;
+use App\Models\User;
 use Livewire;
+use Tests\TestCase;
 
 class BalanceTest extends TestCase
 {

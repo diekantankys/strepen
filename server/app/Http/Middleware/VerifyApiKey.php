@@ -12,7 +12,7 @@ class VerifyApiKey
         // Verify API key from HTTP header or GET / POST value
         $apiKey = $request->header('X-Api-Key', $request->input('api_key'));
         $validation = Validator::make(['api_key' => $apiKey], [
-            'api_key' => 'required|exists:api_keys,key'
+            'api_key' => 'required|exists:api_keys,key',
         ]);
         if ($validation->fails()) {
             return response(['errors' => $validation->errors()], 400);
@@ -23,7 +23,7 @@ class VerifyApiKey
         if ($apiKey->deleted_at != null) {
             return response(['errors' => ['api_key' => 'This api key is deleted']], 400);
         }
-        if (!$apiKey->active) {
+        if (! $apiKey->active) {
             return response(['errors' => ['api_key' => 'This api key is not active']], 400);
         }
         $apiKey->requests++;
@@ -39,25 +39,25 @@ class VerifyApiKey
                     $user_id = $parmType == 'user' ? $parms[$parmType]->id : ($parmType == 'notification' ? $parms[$parmType]->notifiable_id : $parms[$parmType]->user_id);
                     if ($request->user()->normal && $user_id != $request->user()->id) {
                         return response(['errors' => [
-                            'token' => 'You can only view your own data'
+                            'token' => 'You can only view your own data',
                         ]], 403);
                     }
                 }
 
                 // Check manager
                 if ($type == 'manager') {
-                    if (!$request->user()->manager) {
+                    if (! $request->user()->manager) {
                         return response(['errors' => [
-                            'token' => 'The authed user is not a manager or an admin'
+                            'token' => 'The authed user is not a manager or an admin',
                         ]], 403);
                     }
                 }
 
                 // Check admin
                 if ($type == 'admin') {
-                    if (!$request->user()->admin) {
+                    if (! $request->user()->admin) {
                         return response(['errors' => [
-                            'token' => 'The authed user is not an admin'
+                            'token' => 'The authed user is not an admin',
                         ]], 403);
                     }
                 }

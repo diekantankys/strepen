@@ -12,18 +12,24 @@ use Illuminate\Support\Facades\Auth;
 class Crud extends PaginationComponent
 {
     public $user_id;
+
     public $userIdTemp;
+
     public $product_id;
+
     public $productIdTemp;
+
     public $inventory;
+
     public $selectedProducts = [];
+
     public $isCreating = false;
 
     public $rules = [
         'inventory.name' => 'required|min:2|max:48',
         'selectedProducts.*.product_id' => 'required|integer|exists:products,id',
         'selectedProducts.*.price' => 'required|numeric',
-        'selectedProducts.*.amount' => 'required|integer|min:1'
+        'selectedProducts.*.amount' => 'required|integer|min:1',
     ];
 
     public function __construct()
@@ -54,8 +60,8 @@ class Crud extends PaginationComponent
             $this->product_id = null;
         }
 
-        $this->inventory = new Inventory();
-        $this->inventory->name = __('admin/inventories.crud.name_default') . ' ' . date('Y-m-d H:i:s');
+        $this->inventory = new Inventory;
+        $this->inventory->name = __('admin/inventories.crud.name_default').' '.date('Y-m-d H:i:s');
     }
 
     public function inputValue($name, $value)
@@ -90,6 +96,7 @@ class Crud extends PaginationComponent
             $product = Product::find($selectedProduct['product_id']);
             $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
+
             return $product;
         });
 
@@ -109,7 +116,7 @@ class Crud extends PaginationComponent
         foreach ($selectedProducts as $product) {
             $this->inventory->products()->attach($product, [
                 'price' => $product->selectedPrice,
-                'amount' => $product->selectedAmount
+                'amount' => $product->selectedAmount,
             ]);
             $product->amount += $product->selectedAmount;
             unset($product->selectedPrice);
@@ -156,7 +163,7 @@ class Crud extends PaginationComponent
 
         return view('livewire.admin.inventories.crud', [
             'inventories' => $inventories->with(['user', 'products'])
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/inventories.crud.title')]);
     }
 }

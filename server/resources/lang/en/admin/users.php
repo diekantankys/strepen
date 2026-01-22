@@ -123,5 +123,5 @@ return [
     'item.active_user' => 'Make user visible in the system',
     'item.cancel' => 'Cancel',
     'item.delete_user' => 'Delete user',
-    'item.delete_description' => 'Are you sure you want to delete this user and all it\'s history?'
+    'item.delete_description' => 'Are you sure you want to delete this user and all it\'s history?',
 ];

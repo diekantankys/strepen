@@ -13,15 +13,17 @@ class Transaction extends Model
 
     // A transaction can be a normal transaction, a deposit or a payment
     public const TYPE_TRANSACTION = 0;
+
     public const TYPE_DEPOSIT = 1;
+
     public const TYPE_PAYMENT = 2;
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected $casts = [
-        'price' => 'double'
+        'price' => 'double',
     ];
 
     // A transaction belongs to a user
@@ -39,7 +41,7 @@ class Transaction extends Model
     // Search by a query
     public static function search($query, $searchQuery)
     {
-        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%' . $searchQuery . '%')
-            ->orWhere('created_at', 'LIKE', '%' . $searchQuery . '%'));
+        return $query->where(fn ($query) => $query->where('name', 'LIKE', '%'.$searchQuery.'%')
+            ->orWhere('created_at', 'LIKE', '%'.$searchQuery.'%'));
     }
 }

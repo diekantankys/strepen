@@ -8,5 +8,5 @@ return [
     // Posts item livewire component
     'item.like' => 'Like',
     'item.dislike' => 'Dislike',
-    'item.written_by' => 'Written by :user.name on :post.created_at'
+    'item.written_by' => 'Written by :user.name on :post.created_at',
 ];

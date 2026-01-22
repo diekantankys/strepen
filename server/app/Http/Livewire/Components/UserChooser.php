@@ -2,27 +2,39 @@
 
 namespace App\Http\Livewire\Components;
 
-use App\Models\User;
 use App\Models\Transaction;
+use App\Models\User;
 
 class UserChooser extends InputComponent
 {
     // Props
     public $userId;
+
     public $inline = false;
+
     public $relationship = false;
+
     public $includeInactive = false;
+
     public $includeStrepenUser = false;
+
     public $postsRequired = false;
+
     public $inventoriesRequired = false;
+
     public $sortBy = 'lastname';
 
     // State
     public $htmlInputId;
+
     public $users;
+
     public $filteredUsers;
+
     public $userName;
+
     public $user;
+
     public $isOpen = false;
 
     // Lifecycle
@@ -31,7 +43,7 @@ class UserChooser extends InputComponent
         $this->htmlInputId = uniqid();
 
         $users = User::select();
-        if (!$this->includeInactive) {
+        if (! $this->includeInactive) {
             if ($this->includeStrepenUser) {
                 $users = $users->where(fn ($query) => $query->where('active', true)->orWhere('id', 1));
             } else {
@@ -68,6 +80,7 @@ class UserChooser extends InputComponent
                     ->where('type', Transaction::TYPE_TRANSACTION)
                     ->orderBy('created_at', 'DESC')->first();
                 $user->lastTransactionCreatedAt = $lastTransaction != null ? $lastTransaction->created_at : null;
+
                 return $user;
             })->sortByDesc('lastTransactionCreatedAt')->values();
         }

@@ -15,6 +15,7 @@ class NewPost extends Notification
     use Queueable;
 
     public $user;
+
     public $post;
 
     /**
@@ -47,10 +48,10 @@ class NewPost extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject($this->post->title . ' - Een nieuw nieuws bericht op het Strepen Systeem')
-            ->greeting('Beste ' . $this->user->name . ',')
+            ->subject($this->post->title.' - Een nieuw nieuws bericht op het Strepen Systeem')
+            ->greeting('Beste '.$this->user->name.',')
             ->line('Er is een nieuw nieuws bericht op het Strepen Systeem geplaatst:')
             ->line(new HtmlString(BetterParsedown::instance()->text($this->post->body)))
             ->salutation('Groetjes, het stambestuur');
@@ -65,7 +66,7 @@ class NewPost extends Notification
     public function toArray($notifiable)
     {
         return [
-            'post_id' => $this->post->id
+            'post_id' => $this->post->id,
         ];
     }
 }

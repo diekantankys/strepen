@@ -13,5 +13,5 @@ return [
     'title_asc' => 'Title (A - Z)',
     'title_desc' => 'Title (Z - A)',
     'posts' => 'posts',
-    'posts_empty' => 'No posts found!'
+    'posts_empty' => 'No posts found!',
 ];

@@ -21,7 +21,7 @@ class Notifications extends PaginationComponent
     {
         return view('livewire.notifications', [
             'notifications' => Auth::user()->notifications()
-                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+                ->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('notifications.title')]);
     }
 }

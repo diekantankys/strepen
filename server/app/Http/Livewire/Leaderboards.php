@@ -9,8 +9,11 @@ use Livewire\Component;
 class Leaderboards extends Component
 {
     public $range;
+
     public $oldestItemDate;
+
     public $startDate;
+
     public $amountUsers = 10;
 
     public $queryString = ['range' => ['except' => '']];

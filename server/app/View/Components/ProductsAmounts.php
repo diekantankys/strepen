@@ -7,6 +7,7 @@ use Illuminate\View\Component;
 class ProductsAmounts extends Component
 {
     public $products;
+
     public $totalPrice;
 
     public function __construct($products, $totalPrice, $createdAt)

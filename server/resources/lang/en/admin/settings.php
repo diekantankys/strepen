@@ -56,5 +56,5 @@ return [
     'change_default_product_image.change_button' => 'Change default product image',
     'change_default_product_image.delete_button' => 'Delete default product image',
     'change_default_product_image.success_message' => 'Your default product image has changed',
-    'change_default_product_image.delete_message' => 'Your default product image has been deleted'
+    'change_default_product_image.delete_message' => 'Your default product image has been deleted',
 ];

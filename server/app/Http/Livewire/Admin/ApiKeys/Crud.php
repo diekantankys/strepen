@@ -9,10 +9,11 @@ use App\Models\Setting;
 class Crud extends PaginationComponent
 {
     public $apiKey;
+
     public $isCreating;
 
     public $rules = [
-        'apiKey.name' => 'required|min:2|max:48'
+        'apiKey.name' => 'required|min:2|max:48',
     ];
 
     public function mount()
@@ -21,7 +22,7 @@ class Crud extends PaginationComponent
             $this->sort_by = null;
         }
 
-        $this->apiKey = new ApiKey();
+        $this->apiKey = new ApiKey;
         $this->isCreating = false;
     }
 
@@ -51,7 +52,7 @@ class Crud extends PaginationComponent
         }
 
         return view('livewire.admin.api_keys.crud', [
-            'apiKeys' => $apiKeys->paginate(Setting::get('pagination_rows') * 3)->withQueryString()
+            'apiKeys' => $apiKeys->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),
         ])->layout('layouts.app', ['title' => __('admin/api_keys.crud.title')]);
     }
 }

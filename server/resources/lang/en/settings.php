@@ -60,5 +60,5 @@ return [
     'change_password.password' => 'New password',
     'change_password.password_confirmation' => 'Confirm new password',
     'change_password.button' => 'Change password',
-    'change_password.success_message' => 'Your password has changed'
+    'change_password.success_message' => 'Your password has changed',
 ];

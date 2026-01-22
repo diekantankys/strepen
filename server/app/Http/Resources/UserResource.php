@@ -56,8 +56,8 @@ class UserResource extends JsonResource
             'firstname' => $this->firstname,
             'insertion' => $this->insertion,
             'lastname' => $this->lastname,
-            'avatar' => asset('/storage/avatars/' . ($this->avatar ?? Setting::get('default_user_avatar'))),
-            'thanks' => asset('/storage/thanks/' . ($this->thanks ?? Setting::get('default_user_thanks'))),
+            'avatar' => asset('/storage/avatars/'.($this->avatar ?? Setting::get('default_user_avatar'))),
+            'thanks' => asset('/storage/thanks/'.($this->thanks ?? Setting::get('default_user_thanks'))),
             $this->mergeWhen($request->user()->manager || $this->id == $request->user()->id, [
                 'gender' => $gender,
                 'birthday' => $this->birthday != null ? $this->birthday->format('Y-m-d') : null,
@@ -72,15 +72,15 @@ class UserResource extends JsonResource
                 'receive_news' => $this->receive_news,
                 'balance' => $this->balance,
                 'minor' => $this->minor,
-                'created_at' => $this->created_at
+                'created_at' => $this->created_at,
             ]),
             $this->mergeWhen($request->user()->manager, [
                 'active' => $this->active,
-                'updated_at' => $this->updated_at
+                'updated_at' => $this->updated_at,
             ]),
             'posts' => PostResource::collection($this->whenLoaded('posts')),
             'inventories' => InventoryResource::collection($this->whenLoaded('inventories')),
-            'transactions' => TransactionResource::collection($this->whenLoaded('transactions'))
+            'transactions' => TransactionResource::collection($this->whenLoaded('transactions')),
         ];
     }
 }

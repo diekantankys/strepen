@@ -51,5 +51,5 @@ return [
     'item.active_product' => 'Make product visible in the system',
     'item.cancel' => 'Cancel',
     'item.delete_product' => 'Delete product',
-    'item.delete_description' => 'Are you sure you want to delete this product and all it\'s history?'
+    'item.delete_description' => 'Are you sure you want to delete this product and all it\'s history?',
 ];

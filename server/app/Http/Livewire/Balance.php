@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class Balance extends Component
 {
     public $startDate;
+
     public $endDate;
 
     public function mount()
@@ -38,7 +39,7 @@ class Balance extends Component
     public function render()
     {
         return view('livewire.balance', [
-            'balanceChart' => Auth::user()->getBalanceChart($this->startDate, $this->endDate)
+            'balanceChart' => Auth::user()->getBalanceChart($this->startDate, $this->endDate),
         ])->layout('layouts.app', ['title' => __('balance.title'), 'chartjs' => true]);
     }
 }

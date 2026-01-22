@@ -44,7 +44,7 @@ class Recalculate extends Command
             foreach ($users as $user) {
                 $user->recalculateBalance();
                 $user->save();
-                echo $user->name . ': $ ' . $user->balance . "\n";
+                echo $user->name.': $ '.$user->balance."\n";
             }
         });
         echo "Recalculate user balances done\n\n";
@@ -54,7 +54,7 @@ class Recalculate extends Command
             foreach ($products as $product) {
                 $product->recalculateAmount();
                 $product->save();
-                echo $product->name . ': ' . $product->amount . " x\n";
+                echo $product->name.': '.$product->amount." x\n";
             }
         });
         echo "Recalculate product amounts done\n";

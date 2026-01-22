@@ -13,11 +13,13 @@ class ChangeAvatar extends Component
     use WithFileUploads;
 
     public $avatar;
+
     public $isChanged = false;
+
     public $isDeleted = false;
 
     public $rules = [
-        'avatar' => 'required|image|mimes:jpg,jpeg,png|max:1024'
+        'avatar' => 'required|image|mimes:jpg,jpeg,png|max:1024',
     ];
 
     public function changeAvatar()
@@ -30,7 +32,7 @@ class ChangeAvatar extends Component
 
         // Delete old user avatar
         if (Auth::user()->avatar != null) {
-            Storage::delete('public/avatars/' . Auth::user()->avatar);
+            Storage::delete('public/avatars/'.Auth::user()->avatar);
         }
 
         // Update user that he has an avatar
@@ -45,7 +47,7 @@ class ChangeAvatar extends Component
     public function deleteAvatar()
     {
         // Delete user avatar file from storage
-        Storage::delete('public/avatars/' . Auth::user()->avatar);
+        Storage::delete('public/avatars/'.Auth::user()->avatar);
 
         // Update user that he has no avatar
         $user = Auth::user();
