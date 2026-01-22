@@ -2,7 +2,8 @@ name: check
 
 on:
   push:
-    branches: [master]
+    branches:
+      - master
   pull_request:
 
 permissions:
@@ -13,14 +14,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  server-check:
+  check:
     runs-on: ubuntu-24.04
-    defaults:
-      run:
-        working-directory: server
     steps:
       - uses: actions/checkout@v4
-      - name: Install composer dependencies
-        run: composer install --no-progress --no-suggest --prefer-dist
-      - name: Run lint check
-        run: php artisan lint
+      - run: ./meta.sh check
