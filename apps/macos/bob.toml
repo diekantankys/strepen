@@ -7,4 +7,5 @@ version = "0.1.0"
 ldflags = "-framework Cocoa -framework WebKit"
 
 [package.metadata.bundle]
+resources_dir = "Resources"
 copyright = "Copyright © 2021-2025 PlaatSoft"
