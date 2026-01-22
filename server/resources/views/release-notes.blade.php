@@ -15,6 +15,8 @@
                 <li>Remove the word 'new' from welcome page</li>
                 <li>Add totals section to leaderboards page</li>
                 <li>Fixed some issue with PHP 8.5</li>
+                <li>Add PHP linting to GitHub actions CI</li>
+                <li>Remove unused email_verified_at column from users table</li>
                 <li>Fixed other small bugs</li>
             </ul>
         </div>

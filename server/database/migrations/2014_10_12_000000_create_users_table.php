@@ -23,7 +23,6 @@ class CreateUsersTable extends Migration
             $table->unsignedTinyInteger('gender')->nullable();
             $table->date('birthday')->nullable();
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('phone')->nullable();
             $table->string('address')->nullable();
             $table->string('postcode')->nullable();

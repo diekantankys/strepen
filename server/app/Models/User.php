@@ -47,7 +47,6 @@ class User extends Authenticatable
     public const THEME_SYSTEM = 2;
 
     protected $hidden = [
-        'email_verified_at',
         'password',
         'remember_token',
         'deleted_at',
@@ -55,7 +54,6 @@ class User extends Authenticatable
 
     protected $casts = [
         'birthday' => 'datetime:Y-m-d',
-        'email_verified_at' => 'datetime',
         'receive_news' => 'boolean',
         'balance' => 'double',
         'active' => 'boolean',
