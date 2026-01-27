@@ -3,8 +3,12 @@
 namespace App\Http\Resources;
 
 use App\Helpers\BetterParsedown;
+use App\Models\Post;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Post
+ */
 class PostResource extends JsonResource
 {
     public function toArray($request)

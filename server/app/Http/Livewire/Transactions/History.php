@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class History extends PaginationComponent
 {
-    public $type;
+    public $type = null;
 
     public $product_id;
 
@@ -63,6 +63,7 @@ class History extends PaginationComponent
     {
         $transactions = Transaction::search(Auth::user()->transactions(), $this->query);
         if ($this->type != null) {
+            $type = null;
             if ($this->type == 'transaction') {
                 $type = Transaction::TYPE_TRANSACTION;
             }

@@ -300,6 +300,7 @@ class Crud extends PaginationComponent
     {
         $transactions = Transaction::search(Transaction::select(), $this->query);
         if ($this->type != null) {
+            $type = null;
             if ($this->type == 'transaction') {
                 $type = Transaction::TYPE_TRANSACTION;
             }

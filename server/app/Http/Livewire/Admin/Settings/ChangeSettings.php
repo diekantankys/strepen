@@ -30,6 +30,12 @@ class ChangeSettings extends Component
 
     public $isChanged = false;
 
+    public $productBeerIds;
+
+    public $productSodaIds;
+
+    public $productSnackIds;
+
     public $rules = [
         'currencySymbol' => 'required|min:1|max:1',
         'currencyName' => 'required|min:2|max:24',

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -60,13 +61,15 @@ class Product extends Model
     }
 
     // A product belongs to many inventories
-    public function inventories()
+    /** @return BelongsToMany<Inventory> */
+    public function inventories(): BelongsToMany
     {
         return $this->belongsToMany(Inventory::class)->withPivot('price', 'amount')->withTimestamps();
     }
 
     // A product belongs to many transactions
-    public function transactions()
+    /** @return BelongsToMany<Transaction> */
+    public function transactions(): BelongsToMany
     {
         return $this->belongsToMany(Transaction::class, 'transaction_product')->withPivot('price', 'amount')->withTimestamps();
     }

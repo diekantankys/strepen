@@ -141,6 +141,7 @@ class Crud extends PaginationComponent
     {
         $users = User::search(User::select(), $this->query);
         if ($this->role != null) {
+            $role = null;
             if ($this->role == 'normal') {
                 $role = User::ROLE_NORMAL;
             }

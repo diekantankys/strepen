@@ -75,6 +75,7 @@ class Crud extends PaginationComponent
     {
         $products = Product::search(Product::select(), $this->query);
         if ($this->alcoholic != null) {
+            $alcoholic = null;
             if ($this->alcoholic == 'yes') {
                 $alcoholic = true;
             }

@@ -8,5 +8,4 @@ parameters:
         - routes
         - tests
 
-    # FIXME: Increase in future
-    level: 0
+    level: 1

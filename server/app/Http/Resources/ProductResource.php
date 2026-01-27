@@ -2,9 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Product;
 use App\Models\Setting;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Product
+ */
 class ProductResource extends JsonResource
 {
     public function toArray($request)
@@ -27,6 +31,7 @@ class ProductResource extends JsonResource
             'transactions_count' => $this->transactions()->count(),
         ];
         if ($this->relationLoaded('pivot')) {
+            // @phpstan-ignore-next-line
             $data['amount'] = $this->pivot->amount;
         }
 

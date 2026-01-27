@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Notifications\LowBalance;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\DatabaseNotification;
@@ -159,19 +160,22 @@ class User extends Authenticatable
     }
 
     // A user has many posts
-    public function posts()
+    /** @return HasMany<Post> */
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
     // A user has many inventories
-    public function inventories()
+    /** @return HasMany<Inventory> */
+    public function inventories(): HasMany
     {
         return $this->hasMany(Inventory::class);
     }
 
     // A user has many transactions
-    public function transactions()
+    /** @return HasMany<Transaction> */
+    public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
     }

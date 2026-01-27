@@ -2,8 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Inventory;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Inventory
+ */
 class InventoryResource extends JsonResource
 {
     public function toArray($request)

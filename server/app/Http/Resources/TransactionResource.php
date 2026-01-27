@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use App\Models\Transaction;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Transaction
+ */
 class TransactionResource extends JsonResource
 {
     public function toArray($request)

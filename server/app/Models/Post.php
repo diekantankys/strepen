@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
@@ -31,19 +33,22 @@ class Post extends Model
     }
 
     // A post belongs to a user
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class)->withTrashed();
     }
 
     // A post belongs to many users as a like
-    public function likes()
+    /** @return BelongsToMany<User> */
+    public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_likes')->withTimestamps();
     }
 
     // A post belongs to many users as a dislike
-    public function dislikes()
+    /** @return BelongsToMany<User> */
+    public function dislikes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_dislikes')->withTimestamps();
     }

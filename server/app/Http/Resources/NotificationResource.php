@@ -2,10 +2,14 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Notification;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin Notification
+ */
 class NotificationResource extends JsonResource
 {
     public function toArray($request)
