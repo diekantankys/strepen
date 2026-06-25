@@ -14,6 +14,7 @@ return [
     'navbar.admin_inventories' => 'Voorraden',
     'navbar.admin_transactions' => 'Transacties',
     'navbar.admin_kiosk' => 'Kiosk',
+    'navbar.games' => 'Games',
     'navbar.apps' => 'Download apps',
     'navbar.settings' => 'Instellingen',
     'navbar.logout' => 'Uitloggen',

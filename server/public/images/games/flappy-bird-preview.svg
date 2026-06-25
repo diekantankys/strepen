@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 90" width="100%" height="100%">
+    <!-- Sky -->
+    <rect width="160" height="90" fill="#70c5ce"/>
+    <!-- Clouds -->
+    <ellipse cx="28" cy="18" rx="20" ry="11" fill="white" opacity="0.85"/>
+    <ellipse cx="45" cy="15" rx="15" ry="9" fill="white" opacity="0.85"/>
+    <ellipse cx="112" cy="22" rx="17" ry="9" fill="white" opacity="0.85"/>
+    <ellipse cx="126" cy="19" rx="13" ry="8" fill="white" opacity="0.85"/>
+    <!-- Left pipe top -->
+    <rect x="30" y="0" width="22" height="30" fill="#5ea832"/>
+    <rect x="27" y="28" width="28" height="7" fill="#4c8c27"/>
+    <!-- Left pipe bottom -->
+    <rect x="30" y="55" width="22" height="35" fill="#5ea832"/>
+    <rect x="27" y="53" width="28" height="7" fill="#4c8c27"/>
+    <!-- Right pipe top -->
+    <rect x="108" y="0" width="22" height="20" fill="#5ea832"/>
+    <rect x="105" y="18" width="28" height="7" fill="#4c8c27"/>
+    <!-- Right pipe bottom -->
+    <rect x="108" y="65" width="22" height="25" fill="#5ea832"/>
+    <rect x="105" y="63" width="28" height="7" fill="#4c8c27"/>
+    <!-- Ground -->
+    <rect y="76" width="160" height="14" fill="#ded895"/>
+    <rect y="76" width="160" height="7" fill="#8fcc55"/>
+    <!-- Beak -->
+    <path d="M87 42 L95 38.5 L95 45.5 Z" fill="#f09000" stroke="#c07000" stroke-width="0.8"/>
+    <!-- Bird wing -->
+    <ellipse cx="73" cy="47" rx="8" ry="3.5" fill="#e0579a" transform="rotate(-15 73 47)"/>
+    <!-- Bird body -->
+    <circle cx="77" cy="43" r="11" fill="#ff69b4"/>
+    <circle cx="77" cy="43" r="11" fill="none" stroke="#cc3a82" stroke-width="1.2"/>
+    <!-- Eye white -->
+    <circle cx="82" cy="39" r="5.5" fill="white"/>
+    <!-- Pupil -->
+    <circle cx="84" cy="39" r="2.8" fill="#111"/>
+    <!-- Eye shine -->
+    <circle cx="85" cy="37.5" r="1.1" fill="white"/>
+</svg>
