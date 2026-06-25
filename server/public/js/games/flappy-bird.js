@@ -83,10 +83,12 @@
     }
 
     function die() {
+        if (state === 'dead') return;
+
         state = 'dead';
         const finalScore = score;
         deathTimer = setTimeout(function () {
-            Livewire.emit('gameOver', finalScore);
+            Livewire.dispatch('gameOver', [finalScore]);
         }, 700);
     }
 
