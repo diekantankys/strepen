@@ -9,6 +9,7 @@
             <ul>
                 <li>Add games page, score system and Flappy Flügel game</li>
                 <li>Add Kratje Hop game</li>
+                <li>Add Wantend game</li>
             </ul>
         </div>
 

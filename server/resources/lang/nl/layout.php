@@ -13,7 +13,7 @@ return [
     'navbar.admin_products' => 'Producten',
     'navbar.admin_inventories' => 'Voorraden',
     'navbar.admin_transactions' => 'Transacties',
-    'navbar.admin_games' => 'Spellen instellingen',
+    'navbar.admin_games' => 'Spellen',
     'navbar.admin_kiosk' => 'Kiosk',
     'navbar.games' => 'Spellen',
     'navbar.apps' => 'Download apps',
