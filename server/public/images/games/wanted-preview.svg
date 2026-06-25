@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 90" width="100%" height="100%">
+  <defs>
+    <radialGradient id="wbg" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="#252545"/>
+      <stop offset="100%" stop-color="#0a0a1c"/>
+    </radialGradient>
+    <radialGradient id="wglow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f8d030" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#f8d030" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="wcc"><circle cx="80" cy="45" r="19"/></clipPath>
+    <clipPath id="wc1"><circle cx="20" cy="30" r="11"/></clipPath>
+    <clipPath id="wc2"><circle cx="140" cy="28" r="10"/></clipPath>
+    <clipPath id="wc3"><circle cx="16" cy="68" r="10"/></clipPath>
+    <clipPath id="wc4"><circle cx="147" cy="66" r="11"/></clipPath>
+    <clipPath id="wc5"><circle cx="44" cy="71" r="9"/></clipPath>
+    <clipPath id="wc6"><circle cx="120" cy="71" r="9"/></clipPath>
+    <clipPath id="wc7"><circle cx="55" cy="22" r="8"/></clipPath>
+    <clipPath id="wc8"><circle cx="108" cy="20" r="8"/></clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="160" height="90" fill="url(#wbg)"/>
+
+  <!-- Stars -->
+  <circle cx="7"   cy="20" r="0.6" fill="white" opacity="0.5"/>
+  <circle cx="30"  cy="40" r="0.5" fill="white" opacity="0.3"/>
+  <circle cx="70"  cy="82" r="0.6" fill="white" opacity="0.3"/>
+  <circle cx="98"  cy="80" r="0.5" fill="white" opacity="0.35"/>
+  <circle cx="152" cy="20" r="0.6" fill="white" opacity="0.4"/>
+  <circle cx="155" cy="50" r="0.5" fill="white" opacity="0.3"/>
+  <circle cx="4"   cy="55" r="0.7" fill="white" opacity="0.25"/>
+  <circle cx="158" cy="70" r="0.5" fill="white" opacity="0.25"/>
+
+  <!-- Face 1 — top left, gold -->
+  <circle cx="20" cy="30" r="11" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc1)">
+    <circle cx="20" cy="27" r="4"   fill="#5a5a8a"/>
+    <ellipse cx="20" cy="38" rx="9" ry="6" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 2 — top right, gold -->
+  <circle cx="140" cy="28" r="10" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc2)">
+    <circle cx="140" cy="25" r="3.5" fill="#5a5a8a"/>
+    <ellipse cx="140" cy="36"  rx="8" ry="5.5" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 3 — bottom left, gold -->
+  <circle cx="16" cy="68" r="10" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc3)">
+    <circle cx="16" cy="65" r="3.5" fill="#5a5a8a"/>
+    <ellipse cx="16" cy="76"  rx="8" ry="5.5" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 4 — bottom right, gold -->
+  <circle cx="147" cy="66" r="11" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc4)">
+    <circle cx="147" cy="63" r="4"   fill="#5a5a8a"/>
+    <ellipse cx="147" cy="75" rx="9" ry="6" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 5 — bottom, RED wrong flash -->
+  <circle cx="44" cy="71" r="9" fill="#1c1c36" stroke="#e03030" stroke-width="2"/>
+  <g clip-path="url(#wc5)">
+    <circle cx="44" cy="68" r="3"   fill="#5a5a8a"/>
+    <ellipse cx="44" cy="78" rx="7.5" ry="5" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 6 — bottom right-ish, gold -->
+  <circle cx="120" cy="71" r="9" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc6)">
+    <circle cx="120" cy="68" r="3"   fill="#5a5a8a"/>
+    <ellipse cx="120" cy="78" rx="7.5" ry="5" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 7 — top center-left, gold -->
+  <circle cx="55" cy="22" r="8" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc7)">
+    <circle cx="55" cy="19" r="2.8" fill="#5a5a8a"/>
+    <ellipse cx="55" cy="28"  rx="6.5" ry="4.5" fill="#5a5a8a"/>
+  </g>
+
+  <!-- Face 8 — top center-right, gold -->
+  <circle cx="108" cy="20" r="8" fill="#1c1c36" stroke="#f0c040" stroke-width="1.5"/>
+  <g clip-path="url(#wc8)">
+    <circle cx="108" cy="17" r="2.8" fill="#5a5a8a"/>
+    <ellipse cx="108" cy="26"  rx="6.5" ry="4.5" fill="#5a5a8a"/>
+  </g>
+
+  <!-- CENTER TARGET — glow + thick ring -->
+  <circle cx="80" cy="45" r="27" fill="url(#wglow)"/>
+  <circle cx="80" cy="45" r="23" fill="none" stroke="#f8d030" stroke-width="0.8" opacity="0.3"/>
+  <circle cx="80" cy="45" r="20" fill="none" stroke="#f8d030" stroke-width="1.2" opacity="0.55"/>
+  <circle cx="80" cy="45" r="19" fill="#20203c" stroke="#f8d030" stroke-width="2.8"/>
+  <g clip-path="url(#wcc)">
+    <circle cx="80" cy="41" r="7"    fill="#9090c0"/>
+    <ellipse cx="80" cy="56" rx="15" ry="10" fill="#9090c0"/>
+  </g>
+</svg>
