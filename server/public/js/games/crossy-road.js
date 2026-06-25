@@ -524,9 +524,11 @@
         var newRow   = player.rowIndex + dz;
         if (newRow < 0) return;
 
-        // Reset idle timer on any actual movement
-        idleTime = 0;
-        if (timerEl) timerEl.style.display = 'none';
+        // Reset idle timer only on forward movement - left/right hops don't count
+        if (dz > 0) {
+            idleTime = 0;
+            if (timerEl) timerEl.style.display = 'none';
+        }
 
         player.startX = actualX;
         player.startZ = player.mesh.position.z;
@@ -570,7 +572,7 @@
 
     // --- Idle timer: show countdown after IDLE_WARN seconds, die at IDLE_LIMIT ---
     function updateIdleTimer(dt) {
-        if (state !== 'playing' || !player.alive || player.isHopping) return;
+        if (state !== 'playing' || !player.alive) return;
 
         idleTime += dt;
 
@@ -718,7 +720,10 @@
         e.preventDefault();
         var dx = e.changedTouches[0].clientX - touchStartX;
         var dy = e.changedTouches[0].clientY - touchStartY;
-        if (Math.abs(dx) < SWIPE_MIN && Math.abs(dy) < SWIPE_MIN) return;
+        if (Math.abs(dx) < SWIPE_MIN && Math.abs(dy) < SWIPE_MIN) {
+            tryMove(0, 1);  // tap = move forward
+            return;
+        }
         if (Math.abs(dx) > Math.abs(dy)) {
             tryMove(dx > 0 ? 1 : -1, 0);
         } else {
