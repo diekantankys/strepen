@@ -13,7 +13,7 @@
             <label class="label" for="currentPassword">@lang('settings.change_password.current_password')</label>
             <div class="control">
                 <input class="input @error('currentPassword') is-danger @enderror" type="password" id="currentPassword"
-                    wire:model.defer="currentPassword" required>
+                    wire:model="currentPassword" required>
             </div>
             @error('currentPassword') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
@@ -22,7 +22,7 @@
             <label class="label" for="password">@lang('settings.change_password.password')</label>
             <div class="control">
                 <input class="input @error('password') is-danger @enderror" type="password" id="password"
-                    wire:model.defer="password" required>
+                    wire:model="password" required>
             </div>
             @error('password') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
@@ -31,7 +31,7 @@
             <label class="label" for="passwordConfirmation">@lang('settings.change_password.password_confirmation')</label>
             <div class="control">
                 <input class="input @error('passwordConfirmation') is-danger @enderror" type="password" id="passwordConfirmation"
-                    wire:model.defer="passwordConfirmation" required>
+                    wire:model="passwordConfirmation" required>
             </div>
             @error('passwordConfirmation') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>

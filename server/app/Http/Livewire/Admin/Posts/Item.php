@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Posts;
 
+use App\Http\Livewire\Components\UserChooser;
+use App\Http\Livewire\Concerns\ManagesChooserValidation;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
@@ -9,6 +11,7 @@ use Livewire\WithFileUploads;
 
 class Item extends Component
 {
+    use ManagesChooserValidation;
     use WithFileUploads;
 
     public $post;
@@ -45,13 +48,15 @@ class Item extends Component
     public function inputValue($name, $value)
     {
         if ($name == 'item_user') {
+            $this->setInputInvalid('item_user', false);
             $this->post->user_id = $value;
         }
     }
 
     public function editPost()
     {
-        $this->emit('inputValidate', 'item_user');
+        $this->requireInput('item_user', $this->post->user_id);
+        $this->dispatch('inputValidate', 'item_user')->to(UserChooser::class);
         $this->validate();
 
         if ($this->image != null) {
@@ -69,7 +74,7 @@ class Item extends Component
         $this->post->save();
 
         $this->isEditing = false;
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteImage()
@@ -79,14 +84,14 @@ class Item extends Component
         }
         $this->post->image = null;
         $this->post->save();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deletePost()
     {
         $this->isDeleting = false;
         $this->post->delete();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function render()

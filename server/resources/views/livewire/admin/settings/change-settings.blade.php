@@ -15,7 +15,7 @@
                     <label class="label" for="currencySymbol">@lang('admin/settings.change_settings.currency_symbol')</label>
                     <div class="control">
                         <input class="input @error('currencySymbol') is-danger @enderror" type="text" id="currencySymbol"
-                            wire:model.defer="currencySymbol">
+                            wire:model="currencySymbol">
                     </div>
                     @error('currencySymbol') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -26,7 +26,7 @@
                     <label class="label" for="currencyName">@lang('admin/settings.change_settings.currency_name')</label>
                     <div class="control">
                         <input class="input @error('currencyName') is-danger @enderror" type="text" id="currencyName"
-                            wire:model.defer="currencyName">
+                            wire:model="currencyName">
                     </div>
                     @error('currencyName') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -40,7 +40,7 @@
 
                     <div class="control has-icons-left">
                         <input class="input @error('minUserBalance') is-danger @enderror" type="number" id="minUserBalance"
-                            wire:model.defer="minUserBalance" required>
+                            wire:model="minUserBalance" required>
                         <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                     </div>
                     @error('minUserBalance') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -52,7 +52,7 @@
                     <label class="label" for="maxStripeAmount">@lang('admin/settings.change_settings.max_stripe_amount')</label>
                     <div class="control">
                         <input class="input @error('maxStripeAmount') is-danger @enderror" type="number" id="maxStripeAmount"
-                            wire:model.defer="maxStripeAmount" required>
+                            wire:model="maxStripeAmount" required>
                     </div>
                     @error('maxStripeAmount') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -65,7 +65,7 @@
                     <label class="label" for="minorAge">@lang('admin/settings.change_settings.minor_age')</label>
                     <div class="control">
                         <input class="input @error('minorAge') is-danger @enderror" type="number" id="minorAge"
-                            wire:model.defer="minorAge" required>
+                            wire:model="minorAge" required>
                     </div>
                     @error('minorAge') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -76,7 +76,7 @@
                     <label class="label" for="paginationRows">@lang('admin/settings.change_settings.pagination_rows')</label>
                     <div class="control">
                         <input class="input @error('paginationRows') is-danger @enderror" type="number" id="paginationRows"
-                            wire:model.defer="paginationRows" required>
+                            wire:model="paginationRows" required>
                     </div>
                     @error('paginationRows') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -87,7 +87,7 @@
             <label class="label" for="kioskIpWhitelist">@lang('admin/settings.change_settings.kiosk_ip_whitelist')</label>
             <div class="control">
                 <input class="input @error('kioskIpWhitelist') is-danger @enderror" type="text" id="kioskIpWhitelist"
-                    wire:model.defer="kioskIpWhitelist">
+                    wire:model="kioskIpWhitelist">
             </div>
             @error('kioskIpWhitelist') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
@@ -97,7 +97,7 @@
                 <div class="field">
                     <label class="label" for="leaderboardsEnabled">@lang('admin/settings.change_settings.leaderboards_enabled')</label>
                     <label class="checkbox" for="leaderboardsEnabled">
-                        <input type="checkbox" id="leaderboardsEnabled" wire:model.defer="leaderboardsEnabled">
+                        <input type="checkbox" id="leaderboardsEnabled" wire:model="leaderboardsEnabled">
                         @lang('admin/settings.change_settings.leaderboards_enabled_info')
                     </label>
                 </div>
@@ -110,7 +110,7 @@
                     <label class="label" for="bankAccountIban">@lang('admin/settings.change_settings.bank_account_iban')</label>
                     <div class="control">
                         <input class="input @error('bankAccountIban') is-danger @enderror" type="text" id="bankAccountIban"
-                            wire:model.defer="bankAccountIban">
+                            wire:model="bankAccountIban">
                     </div>
                     @error('bankAccountIban') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -121,7 +121,7 @@
                     <label class="label" for="bankAccountHolder">@lang('admin/settings.change_settings.bank_account_holder')</label>
                     <div class="control">
                         <input class="input @error('bankAccountHolder') is-danger @enderror" type="text" id="bankAccountHolder"
-                            wire:model.defer="bankAccountHolder">
+                            wire:model="bankAccountHolder">
                     </div>
                     @error('bankAccountHolder') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
@@ -142,7 +142,7 @@
                            <i>@lang('admin/settings.change_settings.no_products_selected')</i>
                         @endforelse
                     </p>
-                    <livewire:components.product-chooser name="product_beer" inline="true" includeInactive="true" includeDeleted="true" />
+                    <livewire:components.product-chooser name="product_beer" inline="true" includeInactive="true" includeDeleted="true" wire:key="admin-settings-product-beer-chooser" />
                     @error('productBeerIds') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -160,7 +160,7 @@
                            <i>@lang('admin/settings.change_settings.no_products_selected')</i>
                         @endforelse
                     </p>
-                    <livewire:components.product-chooser name="product_soda" inline="true" includeInactive="true" includeDeleted="true"  />
+                    <livewire:components.product-chooser name="product_soda" inline="true" includeInactive="true" includeDeleted="true" wire:key="admin-settings-product-soda-chooser" />
                     @error('productSodaIds') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>
@@ -178,7 +178,7 @@
                            <i>@lang('admin/settings.change_settings.no_products_selected')</i>
                         @endforelse
                     </p>
-                    <livewire:components.product-chooser name="product_snack" inline="true" includeInactive="true" includeDeleted="true"  />
+                    <livewire:components.product-chooser name="product_snack" inline="true" includeInactive="true" includeDeleted="true" wire:key="admin-settings-product-snack-chooser" />
                     @error('productSnackIds') <p class="help is-danger">{{ $message }}</p> @enderror
                 </div>
             </div>

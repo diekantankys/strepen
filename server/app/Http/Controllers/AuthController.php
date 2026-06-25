@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Session;
 
 class AuthController extends Controller
 {
-    public function logout()
+    public function logout(Request $request)
     {
-        // Logout user
-        Session::flush();
         Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        // Go to login page
         return redirect()->route('auth.login');
     }
 }

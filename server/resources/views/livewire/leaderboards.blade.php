@@ -14,7 +14,7 @@
                 <div class="field has-addons is-block-mobile">
                     <div class="control" style="width: 100%;">
                         <div class="select is-fullwidth">
-                            <select wire:model.defer="range">
+                            <select wire:model="range">
                                 <option value="month_to_date">@lang('leaderboards.range_chooser_month_to_date') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-01') }})</option>
                                 <option value="month">@lang('leaderboards.range_chooser_month') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 30 * 24 * 60 * 60) }})</option>
                                 <option value="half_year">@lang('leaderboards.range_chooser_half_year') (@lang('leaderboards.range_chooser_from') {{ date('Y-m-d', time() - 182 * 24 * 60 * 60) }})</option>
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <div class="control">
-                        <input class="input" type="number" wire:model.defer="amountUsers" placeholder="@lang('leaderboards.amount_users')">
+                        <input class="input" type="number" wire:model="amountUsers" placeholder="@lang('leaderboards.amount_users')">
                     </div>
                     <div class="control">
                         <button class="button is-link" type="submit" style="width: 100%;">@lang('leaderboards.select')</button>

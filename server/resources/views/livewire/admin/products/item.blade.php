@@ -130,7 +130,7 @@
                         <label class="label" for="name">@lang('admin/products.item.name')</label>
                         <div class="control">
                             <input class="input @error('product.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="product.name" required>
+                                wire:model="product.name" required>
                         </div>
                         @error('product.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -139,7 +139,7 @@
                         <label class="label" for="price">@lang('admin/products.item.price')</label>
                         <div class="control has-icons-left">
                             <input class="input @error('product.price') is-danger @enderror" type="number" step="0.01" id="price"
-                                wire:model.defer="product.price" required>
+                                wire:model="product.price" required>
                             <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                         </div>
                         @error('product.price') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -149,7 +149,7 @@
                         <label class="label" for="description">@lang('admin/products.item.description')</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('product.description') is-danger @enderror" id="description"
-                                wire:model.defer="product.description"></textarea>
+                                wire:model="product.description"></textarea>
                         </div>
                         @error('product.description') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -194,7 +194,7 @@
                             <div class="field">
                                 <label class="label" for="alcoholic">@lang('admin/products.item.alcoholic')</label>
                                 <label class="checkbox" for="alcoholic">
-                                    <input type="checkbox" id="alcoholic" wire:model.defer="product.alcoholic">
+                                    <input type="checkbox" id="alcoholic" wire:model="product.alcoholic">
                                     @lang('admin/products.item.alcoholic_product')
                                 </label>
                             </div>
@@ -204,7 +204,7 @@
                             <div class="field">
                                 <label class="label" for="active">@lang('admin/products.item.active')</label>
                                 <label class="checkbox" for="active">
-                                    <input type="checkbox" id="active" wire:model.defer="product.active">
+                                    <input type="checkbox" id="active" wire:model="product.active">
                                     @lang('admin/products.item.active_product')
                                 </label>
                             </div>

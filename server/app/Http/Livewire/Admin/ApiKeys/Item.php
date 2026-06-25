@@ -22,14 +22,14 @@ class Item extends Component
         $this->validate();
         $this->apiKey->save();
         $this->isEditing = false;
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteApiKey()
     {
         $this->isDeleting = false;
         $this->apiKey->delete();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function render()

@@ -21,7 +21,7 @@
             @endif
                     <div class="field has-addons is-block-mobile">
                         <div class="control" style="width: 100%;">
-                            <input class="input" type="text" wire:model.defer="query" placeholder="@lang('components.search_header.query', ['item.name' => $itemName])">
+                            <input class="input" type="text" wire:model="query" placeholder="@lang('components.search_header.query', ['item.name' => $itemName])">
                         </div>
                         @if (isset($filters))
                             {{ $filters }}

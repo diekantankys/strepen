@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Transactions;
 
+use App\Http\Livewire\Components\ProductsChooser;
+use App\Http\Livewire\Components\UserChooser;
+use App\Http\Livewire\Concerns\ManagesChooserValidation;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
@@ -11,6 +14,8 @@ use Livewire\Component;
 
 class Create extends Component
 {
+    use ManagesChooserValidation;
+
     public $transaction;
 
     public $selectedProducts = [];
@@ -37,41 +42,59 @@ class Create extends Component
 
     public function mount()
     {
+        $this->resetTransactionForm();
+    }
+
+    private function resetTransactionForm()
+    {
         $this->transaction = new Transaction;
         $this->transaction->name = __('transactions.create.name_default').' '.date('Y-m-d H:i:s');
+        $this->selectedProducts = [];
+        $this->isMinor = false;
+        $this->invalidInputs = [];
         $this->isCreated = false;
     }
 
     public function inputValue($name, $value)
     {
         if ($name == 'user') {
+            $this->setInputInvalid('user', false);
             $this->transaction->user_id = $value;
 
             $user = User::find($this->transaction->user_id);
             if ($user != null && $user->minor) {
                 $this->isMinor = true;
-                $this->emit('inputProps', 'products', [
+                $this->dispatch('inputProps', 'products', [
                     'minor' => $this->isMinor,
-                ]);
+                ])->to(ProductsChooser::class);
             }
             if ($this->isMinor && ($user == null || ! $user->minor)) {
                 $this->isMinor = false;
-                $this->emit('inputProps', 'products', [
+                $this->dispatch('inputProps', 'products', [
                     'minor' => $this->isMinor,
-                ]);
+                ])->to(ProductsChooser::class);
             }
         }
 
         if ($name == 'products') {
+            $this->setInputInvalid('products', false);
             $this->selectedProducts = $value;
         }
     }
 
     public function createTransaction()
     {
+        if ($this->isCreated) {
+            return;
+        }
+
         // Validate input
-        $this->emit('inputValidate', 'user');
-        $this->emit('inputValidate', 'products');
+        if (Auth::id() == 1) {
+            $this->requireInput('user', $this->transaction->user_id);
+        }
+        $this->requireInput('products', collect($this->selectedProducts)->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0));
+        $this->dispatch('inputValidate', 'user')->to(UserChooser::class);
+        $this->dispatch('inputValidate', 'products')->to(ProductsChooser::class);
         $this->validate();
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
@@ -125,9 +148,9 @@ class Create extends Component
 
     public function closeCreated()
     {
-        $this->emit('inputClear', 'user');
-        $this->emit('inputClear', 'products');
-        $this->mount();
+        $this->dispatch('inputClear', 'user')->to(UserChooser::class);
+        $this->dispatch('inputClear', 'products')->to(ProductsChooser::class);
+        $this->resetTransactionForm();
     }
 
     public function render()

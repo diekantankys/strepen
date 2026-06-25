@@ -14,7 +14,7 @@
         <x-slot name="filters">
             <x-transaction-type-chooser />
 
-            <livewire:components.product-chooser name="product_filter" :productId="$product_id" inline="true" relationship="true" />
+            <livewire:components.product-chooser name="product_filter" :productId="$product_id" inline="true" relationship="true" wire:key="transactions-history-product-filter-chooser" />
         </x-slot>
     </x-search-header>
 

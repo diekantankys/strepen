@@ -33,7 +33,7 @@ class Balance extends Component
     public function search()
     {
         $this->mount();
-        $this->emit('refreshChart', Auth::user()->getBalanceChart($this->startDate, $this->endDate));
+        $this->dispatch('refreshChart', data: Auth::user()->getBalanceChart($this->startDate, $this->endDate));
     }
 
     public function render()

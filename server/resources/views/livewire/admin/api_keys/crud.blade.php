@@ -19,7 +19,7 @@
 
         <div class="columns is-multiline">
             @foreach ($apiKeys as $apiKey)
-                <livewire:admin.api-keys.item :apiKey="$apiKey" :wire:key="$apiKey->id" />
+                <livewire:admin.api-keys.item :apiKey="$apiKey" wire:key="api-key-{{ $apiKey->id }}" />
             @endforeach
         </div>
 
@@ -43,7 +43,7 @@
                         <label class="label" for="name">@lang('admin/api_keys.crud.name')</label>
                         <div class="control">
                             <input class="input @error('apiKey.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="apiKey.name" required>
+                                wire:model="apiKey.name" required>
                         </div>
                         @error('apiKey.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>

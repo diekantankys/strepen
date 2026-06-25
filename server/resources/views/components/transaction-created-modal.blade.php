@@ -21,7 +21,7 @@
         </div>
 
         <div class="modal-card-foot">
-            <button type="button" class="button is-link is-fullwidth p-4" " wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
+            <button type="button" class="button is-link is-fullwidth p-4" wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
         </div>
     </div>
 
@@ -34,6 +34,9 @@
             }
         }
         window.addEventListener('keydown', keydownListener);
+        document.addEventListener('livewire:navigating', () => {
+            window.removeEventListener('keydown', keydownListener);
+        }, { once: true });
         window.scrollTo({top: 0, behavior: 'smooth'});
     </script>
 </div>

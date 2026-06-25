@@ -60,14 +60,16 @@ class ProductChooser extends InputComponent
 
     public function filterProducts()
     {
+        $productName = (string) $this->productName;
+
         $this->filteredProducts = $this->products
-            ->filter(fn ($product) => strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false)
+            ->filter(fn ($product) => strlen($productName) == 0 || stripos($product->name, $productName) !== false)
             ->slice(0, 10);
     }
 
     public function emitValue()
     {
-        $this->emitUp('inputValue', $this->name, $this->product != null ? $this->product->id : null);
+        $this->dispatch('inputValue', $this->name, $this->product != null ? $this->product->id : null);
     }
 
     public function render()

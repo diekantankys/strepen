@@ -36,13 +36,13 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser name="item_user" :userId="$transaction->user_id" includeInactive="true" />
+                    <livewire:components.user-chooser name="item_user" :userId="$transaction->user_id" includeInactive="true" :invalid="$this->isInputInvalid('item_user')" wire:key="admin-transaction-{{ $transaction->id }}-user-chooser" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.item.name')</label>
                         <div class="control">
                             <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="transaction.name" required>
+                                wire:model="transaction.name" required>
                         </div>
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -53,7 +53,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/transactions.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        wire:model.defer="createdAtDate" required>
+                                        wire:model="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -64,7 +64,7 @@
                                 <label class="label" for="created_at_time">@lang('admin/transactions.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        wire:model.defer="createdAtTime" required>
+                                        wire:model="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -72,7 +72,7 @@
                     </div>
 
                     @if ($transaction->type == App\Models\Transaction::TYPE_TRANSACTION)
-                        <livewire:components.products-chooser name="item_products" :initialProducts="$transaction->products" noMax="true" includeInactive="true" />
+                        <livewire:components.products-chooser name="item_products" :initialProducts="$transaction->products" noMax="true" includeInactive="true" :invalid="$this->isInputInvalid('item_products')" wire:key="admin-transaction-{{ $transaction->id }}-products-chooser" />
                     @endif
 
                     @if ($transaction->type == App\Models\Transaction::TYPE_DEPOSIT || $transaction->type == App\Models\Transaction::TYPE_PAYMENT)
@@ -80,7 +80,7 @@
                             <label class="label" for="amount">@lang('admin/transactions.item.amount')</label>
                             <div class="control has-icons-left">
                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
-                                    wire:model.defer="transaction.price" required>
+                                    wire:model="transaction.price" required>
                                 <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                             </div>
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror

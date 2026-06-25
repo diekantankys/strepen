@@ -40,7 +40,7 @@ class AdminItemBehaviorTest extends TestCase
         $this->actingAs($manager);
 
         Livewire::test(InventoryItem::class, ['inventory' => $inventory])
-            ->emit('inputValue', 'item_products', [
+            ->dispatch('inputValue', 'item_products', [
                 ['product_id' => $product->id, 'price' => 3.0, 'amount' => 7],
             ])
             ->set('inventory.name', 'Edited inventory')
@@ -86,8 +86,8 @@ class AdminItemBehaviorTest extends TestCase
         $this->actingAs($manager);
 
         Livewire::test(TransactionItem::class, ['transaction' => $transaction])
-            ->emit('inputValue', 'item_user', $newUser->id)
-            ->emit('inputValue', 'item_products', [
+            ->dispatch('inputValue', 'item_user', $newUser->id)
+            ->dispatch('inputValue', 'item_products', [
                 ['product_id' => $product->id, 'price' => 3.0, 'amount' => 3],
             ])
             ->set('transaction.name', 'Edited transaction')

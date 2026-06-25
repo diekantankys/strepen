@@ -14,7 +14,7 @@
         </x-slot>
 
         <x-slot name="filters">
-            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" postsRequired="true" />
+            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" postsRequired="true" wire:key="admin-posts-filter-user-chooser" />
         </x-slot>
     </x-search-header>
 
@@ -23,7 +23,7 @@
 
         <div class="columns is-multiline">
             @foreach ($posts as $post)
-                <livewire:admin.posts.item :post="$post" :wire:key="$post->id" />
+                <livewire:admin.posts.item :post="$post" wire:key="post-{{ $post->id }}" />
             @endforeach
         </div>
 
@@ -47,7 +47,7 @@
                         <label class="label" for="title">@lang('admin/posts.crud._title')</label>
                         <div class="control">
                             <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
-                                wire:model.defer="post.title" required>
+                                wire:model="post.title" required>
                         </div>
                         @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -69,7 +69,7 @@
                         <label class="label" for="body">@lang('admin/posts.crud.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Examples" target="_blank" rel="noreferrer">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="body"
-                                wire:model.defer="post.body" rows="12" required></textarea>
+                                wire:model="post.body" rows="12" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -78,7 +78,7 @@
                         <div class="field">
                             <label class="label" for="send_notification">@lang('admin/posts.crud.send_notification')</label>
                             <label class="checkbox" for="send_notification">
-                                <input type="checkbox" id="send_notification" wire:model.defer="sendNotification">
+                                <input type="checkbox" id="send_notification" wire:model="sendNotification">
                                 @lang('admin/posts.crud.send_notification_details')
                             </label>
                         </div>
