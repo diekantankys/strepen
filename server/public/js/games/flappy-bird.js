@@ -10,32 +10,39 @@
 
     let W = 0;
     let H = 0;
-    let GROUND_Y = H * 0.87;
+    let GROUND_Y = 0;
 
+    // Physics constants expressed as per-second rates, scaled to canvas dimensions.
+    // Converted from original per-frame values (60fps):
+    //   GRAVITY   = H * 0.00078 / frame  ->  H * 0.00078 * 60^2 = H * 2.808 px/s^2
+    //   FLAP_VY   = H * -0.0194 / frame  ->  H * -0.0194 * 60   = H * -1.164 px/s (impulse)
+    //   PIPE_SPEED = W * 0.005 / frame   ->  W * 0.005 * 60      = W * 0.30 px/s
     let GRAVITY, FLAP_VY, PIPE_W, PIPE_GAP, PIPE_SPEED, PIPE_INTERVAL;
 
     let state = 'idle';
     let score = 0;
-    let frameCount = 0;
+    let pipeTimer = 0;
     let groundOffset = 0;
     let bird, pipes, deathTimer;
+    let lastTime = null;
 
     function updateScales() {
         GROUND_Y = H * 0.87;
 
-        GRAVITY = H * 0.00078;
-        FLAP_VY = H * -0.0194;
-        PIPE_W = W * 0.081;
-        PIPE_GAP = H * 0.333;
-        PIPE_SPEED = W * 0.005;
-        PIPE_INTERVAL = 90;
+        GRAVITY       = H * 2.808;   // px/s^2
+        FLAP_VY       = H * -1.164;  // px/s (instantaneous velocity impulse)
+        PIPE_W        = W * 0.081;
+        PIPE_GAP      = H * 0.333;
+        PIPE_SPEED    = W * 0.30;    // px/s
+        PIPE_INTERVAL = 1.5;         // seconds between pipe spawns
     }
 
     function reset() {
         state = 'idle';
         score = 0;
-        frameCount = 0;
+        pipeTimer = 0;
         groundOffset = 0;
+        lastTime = null;
         bird = { x: W * 0.15, y: H / 2, vy: 0 };
         pipes = [];
         clearTimeout(deathTimer);
@@ -92,10 +99,10 @@
         }, 700);
     }
 
-    function update() {
+    function update(dt) {
         if (state === 'playing') {
-            bird.vy += GRAVITY;
-            bird.y += bird.vy;
+            bird.vy += GRAVITY * dt;
+            bird.y  += bird.vy * dt;
 
             const radius = H * 0.033;
             if (bird.y + radius >= GROUND_Y) { bird.y = GROUND_Y - radius; die(); return; }
@@ -103,15 +110,18 @@
 
             for (let i = pipes.length - 1; i >= 0; i--) {
                 const p = pipes[i];
-                p.x -= PIPE_SPEED;
+                p.x -= PIPE_SPEED * dt;
                 if (!p.passed && bird.x > p.x + PIPE_W / 2) { p.passed = true; score++; }
                 if (hitsPipe(p)) { die(); return; }
                 if (p.x + PIPE_W < 0) pipes.splice(i, 1);
             }
 
-            frameCount++;
-            if (frameCount % PIPE_INTERVAL === 0) spawnPipe();
-            groundOffset = (groundOffset + PIPE_SPEED) % (W * 0.037);
+            pipeTimer += dt;
+            if (pipeTimer >= PIPE_INTERVAL) {
+                pipeTimer -= PIPE_INTERVAL;
+                spawnPipe();
+            }
+            groundOffset = (groundOffset + PIPE_SPEED * dt) % (W * 0.037);
 
         } else if (state === 'idle') {
             bird.y = H / 2 + Math.sin(Date.now() / 350) * (H * 0.033);
@@ -131,9 +141,12 @@
     }
 
     function drawBird() {
+        // Tilt angle based on vertical speed, normalized to canvas height so it
+        // feels consistent across portrait/landscape. Factor 0.54/H is derived
+        // from the original per-frame constant (0.09 * 360/H) divided by 60fps.
         const angle = state === 'dead'
             ? Math.PI / 3
-            : Math.max(-Math.PI / 6, Math.min(Math.PI / 2.5, bird.vy * (0.09 * (360 / H))));
+            : Math.max(-Math.PI / 6, Math.min(Math.PI / 2.5, bird.vy * (0.54 / H)));
 
         const rBase = H * 0.038;
 
@@ -257,6 +270,7 @@
 
         const targetWidth = container.clientWidth;
         const targetHeight = container.clientHeight;
+        if (targetWidth === 0 || targetHeight === 0) return;
 
         const portrait = targetHeight > targetWidth;
         const aspectW = portrait ? 9 : 16;
@@ -298,8 +312,11 @@
         resizeCanvas();
     });
 
-    function loop() {
-        update();
+    function loop(timestamp) {
+        // Cap dt at 50ms so a tab losing focus for a while doesn't cause a physics jump.
+        const dt = lastTime !== null ? Math.min((timestamp - lastTime) / 1000, 0.05) : 0;
+        lastTime = timestamp;
+        update(dt);
         draw();
         requestAnimationFrame(loop);
     }
