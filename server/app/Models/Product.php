@@ -91,7 +91,7 @@ class Product extends Model
         if ($firstTransaction != null || $firstInventory != null) {
             $oldestItem = $firstTransaction ?? $firstInventory;
             if ($firstTransaction != null && $firstInventory != null) {
-                $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
+                $oldestItem = $firstTransaction->created_at->getTimestamp() < $firstInventory->created_at->getTimestamp()
                     ? $firstTransaction
                     : $firstInventory;
             }
@@ -130,7 +130,7 @@ class Product extends Model
 
         // Loop trough days
         $amount = $startInventoryAmount - $startTransactionAmount;
-        $days = ceil((($endDate + 24 * 60 * 60) - $startDate + 1) / (24 * 60 * 60));
+        $days = ceil((($endDate + 24 * 60 * 60) - $startDate) / (24 * 60 * 60));
         $amountData = [];
         $index = 0;
         for ($day = 0; $day < $days; $day++) {
