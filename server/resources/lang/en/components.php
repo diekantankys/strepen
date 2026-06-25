@@ -25,6 +25,7 @@ return [
     'user_chooser.search_by_user' => 'Search by user...',
     'user_chooser.empty' => 'No users found!',
     'user_chooser.empty_error' => 'You must select an user',
+    'user_chooser.anonymous' => 'Anonymous',
 
     // Product Chooser livewire component
     'product_chooser.product' => 'Product',
