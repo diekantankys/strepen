@@ -49,8 +49,14 @@
             };
 
             window.addEventListener('keydown', keydownListener);
+
+            const cleanupScrollTop = Livewire.on('scroll-top', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+
             document.addEventListener('livewire:navigating', () => {
                 window.removeEventListener('keydown', keydownListener);
+                cleanupScrollTop();
             }, { once: true });
         }, { once: true });
     </script>
