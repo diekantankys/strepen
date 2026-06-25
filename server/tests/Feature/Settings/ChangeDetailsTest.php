@@ -15,9 +15,9 @@ class ChangeDetailsTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $newFirstname = $this->faker->firstname;
+        $newFirstname = $this->faker->firstName;
         $newInsertion = $this->faker->randomElement(['', '', '', 'van', 'de', 'van der']);
-        $newLastname = $this->faker->lastname;
+        $newLastname = $this->faker->lastName;
         Livewire::test(ChangeDetails::class)
             ->set('user.firstname', $newFirstname)
             ->set('user.insertion', $newInsertion)

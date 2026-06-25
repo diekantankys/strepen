@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/** @property ProductPivot $pivot */
 class Inventory extends Model
 {
     use SoftDeletes;
@@ -27,10 +28,10 @@ class Inventory extends Model
     }
 
     // A inventory belongs to many products
-    /** @return BelongsToMany<Product> */
+    /** @return BelongsToMany<Product, $this, ProductPivot> */
     public function products(): BelongsToMany
     {
-        return $this->belongsToMany(Product::class)->withPivot('price', 'amount')->withTimestamps()->withTrashed();
+        return $this->belongsToMany(Product::class)->using(ProductPivot::class)->withPivot('price', 'amount')->withTimestamps()->withTrashed();
     }
 
     // Search by a query

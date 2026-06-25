@@ -22,7 +22,7 @@ class ApiPostsController extends ApiController
     // Api posts show route
     public function show(Post $post)
     {
-        $post->user;
+        $post->loadMissing('user');
 
         return new PostResource($post);
     }

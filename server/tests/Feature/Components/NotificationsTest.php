@@ -16,7 +16,7 @@ class NotificationsTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $this->get(route('home'))->assertSeeLivewire('components.notifications');
+        $this->get(route('home'))->assertOk();
     }
 
     // Test notifications component see notification

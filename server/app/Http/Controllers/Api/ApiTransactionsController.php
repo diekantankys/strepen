@@ -25,8 +25,7 @@ class ApiTransactionsController extends ApiController
     // Api transactions show route
     public function show(Transaction $transaction)
     {
-        $transaction->user;
-        $transaction->products;
+        $transaction->loadMissing(['user', 'products']);
 
         return new TransactionResource($transaction);
     }
@@ -69,7 +68,7 @@ class ApiTransactionsController extends ApiController
 
         // Attach products to transaction
         foreach ($productsData as $productData) {
-            $product = Product::find($productData['product_id']);
+            $product = Product::findOrFail($productData['product_id']);
             $transaction->price += $product->price * $productData['amount'];
             $transaction->products()->attach($product->id, [
                 'price' => $product->price,
@@ -87,8 +86,7 @@ class ApiTransactionsController extends ApiController
         $user->save();
 
         // Return success message
-        $transaction->user; // For backwards compatability
-        $transaction->products;
+        $transaction->loadMissing(['user', 'products']);
 
         return [
             'message' => 'Your transaction is successfully created',

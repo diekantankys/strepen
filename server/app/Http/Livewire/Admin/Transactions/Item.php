@@ -90,7 +90,7 @@ class Item extends Component
             $this->validateOnly('selectedProducts.*.amount');
 
             $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
-                $product = Product::find($selectedProduct['product_id']);
+                $product = Product::findOrFail($selectedProduct['product_id']);
                 $product->selectedPrice = $selectedProduct['price'];
                 $product->selectedAmount = $selectedProduct['amount'];
 

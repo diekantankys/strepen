@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
+/**
+ * @property ProductPivot $pivot
+ * @property float|null $selectedPrice
+ * @property int|null $selectedAmount
+ */
 class Product extends Model
 {
     use HasFactory;
@@ -61,17 +66,17 @@ class Product extends Model
     }
 
     // A product belongs to many inventories
-    /** @return BelongsToMany<Inventory> */
+    /** @return BelongsToMany<Inventory, $this, ProductPivot> */
     public function inventories(): BelongsToMany
     {
-        return $this->belongsToMany(Inventory::class)->withPivot('price', 'amount')->withTimestamps();
+        return $this->belongsToMany(Inventory::class)->using(ProductPivot::class)->withPivot('price', 'amount')->withTimestamps();
     }
 
     // A product belongs to many transactions
-    /** @return BelongsToMany<Transaction> */
+    /** @return BelongsToMany<Transaction, $this, ProductPivot> */
     public function transactions(): BelongsToMany
     {
-        return $this->belongsToMany(Transaction::class, 'transaction_product')->withPivot('price', 'amount')->withTimestamps();
+        return $this->belongsToMany(Transaction::class, 'transaction_product')->using(ProductPivot::class)->withPivot('price', 'amount')->withTimestamps();
     }
 
     // Search by a query
