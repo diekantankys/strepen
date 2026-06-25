@@ -40,14 +40,14 @@ class Post extends Model
     }
 
     // A post belongs to many users as a like
-    /** @return BelongsToMany<User> */
+    /** @return BelongsToMany<User, $this> */
     public function likes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_likes')->withTimestamps();
     }
 
     // A post belongs to many users as a dislike
-    /** @return BelongsToMany<User> */
+    /** @return BelongsToMany<User, $this> */
     public function dislikes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_dislikes')->withTimestamps();

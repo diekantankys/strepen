@@ -73,7 +73,7 @@ class Item extends Component
         $this->validate();
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
-            $product = Product::find($selectedProduct['product_id']);
+            $product = Product::findOrFail($selectedProduct['product_id']);
             $product->selectedPrice = $selectedProduct['price'];
             $product->selectedAmount = $selectedProduct['amount'];
 

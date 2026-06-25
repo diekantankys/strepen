@@ -56,17 +56,17 @@ class DatabaseSeeder extends Seeder
 
         $setting = new Setting;
         $setting->key = 'min_user_balance';
-        $setting->value = 20;
+        $setting->value = '20';
         $setting->save();
 
         $setting = new Setting;
         $setting->key = 'max_stripe_amount';
-        $setting->value = 24;
+        $setting->value = '24';
         $setting->save();
 
         $setting = new Setting;
         $setting->key = 'minor_age';
-        $setting->value = 18;
+        $setting->value = '18';
         $setting->save();
 
         $setting = new Setting;

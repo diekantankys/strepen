@@ -160,21 +160,21 @@ class User extends Authenticatable
     }
 
     // A user has many posts
-    /** @return HasMany<Post> */
+    /** @return HasMany<Post, $this> */
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
     }
 
     // A user has many inventories
-    /** @return HasMany<Inventory> */
+    /** @return HasMany<Inventory, $this> */
     public function inventories(): HasMany
     {
         return $this->hasMany(Inventory::class);
     }
 
     // A user has many transactions
-    /** @return HasMany<Transaction> */
+    /** @return HasMany<Transaction, $this> */
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);

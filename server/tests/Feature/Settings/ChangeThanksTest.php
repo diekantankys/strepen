@@ -46,6 +46,7 @@ class ChangeThanksTest extends TestCase
             ->call('changeThanks')
             ->assertHasNoErrors();
 
-        $this->assertTrue($user->thanks != null);
+        $user->refresh();
+        $this->assertTrue($user->thanks !== null);
     }
 }

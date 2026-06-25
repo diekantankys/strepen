@@ -46,6 +46,7 @@ class ChangeAvatarTest extends TestCase
             ->call('changeAvatar')
             ->assertHasNoErrors();
 
-        $this->assertTrue($user->avatar != null);
+        $user->refresh();
+        $this->assertTrue($user->avatar !== null);
     }
 }

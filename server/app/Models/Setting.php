@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class Setting extends Model
 {
-    private static $cache = [];
+    protected static $cache = [];
 
     public static function get($key)
     {

@@ -22,8 +22,7 @@ class ApiInventoriesController extends ApiController
     // Api inventories show route
     public function show(Inventory $inventory)
     {
-        $inventory->user;
-        $inventory->products;
+        $inventory->loadMissing(['user', 'products']);
 
         return new InventoryResource($inventory);
     }

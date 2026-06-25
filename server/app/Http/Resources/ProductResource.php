@@ -31,7 +31,6 @@ class ProductResource extends JsonResource
             'transactions_count' => $this->transactions()->count(),
         ];
         if ($this->relationLoaded('pivot')) {
-            // @phpstan-ignore-next-line
             $data['amount'] = $this->pivot->amount;
         }
 
