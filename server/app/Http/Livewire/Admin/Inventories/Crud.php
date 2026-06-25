@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Admin\Inventories;
 
+use App\Http\Livewire\Components\ProductsChooser;
+use App\Http\Livewire\Concerns\ManagesChooserValidation;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Inventory;
 use App\Models\Product;
@@ -11,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 class Crud extends PaginationComponent
 {
+    use ManagesChooserValidation;
+
     public $user_id;
 
     public $userIdTemp;
@@ -32,13 +36,14 @@ class Crud extends PaginationComponent
         'selectedProducts.*.amount' => 'required|integer|min:1',
     ];
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->queryString[] = 'user_id';
-        $this->queryString[] = 'product_id';
-        $this->listeners[] = 'inputValue';
-    }
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => ''],
+        'user_id',
+        'product_id',
+    ];
+
+    public $listeners = ['refresh' => '$refresh', 'inputValue'];
 
     public function mount()
     {
@@ -75,6 +80,7 @@ class Crud extends PaginationComponent
         }
 
         if ($name == 'products') {
+            $this->setInputInvalid('products', false);
             $this->selectedProducts = $value;
         }
     }
@@ -89,7 +95,8 @@ class Crud extends PaginationComponent
     public function createInventory()
     {
         // Validate input
-        $this->emit('inputValidate', 'products');
+        $this->requireInput('products', collect($this->selectedProducts)->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0));
+        $this->dispatch('inputValidate', 'products')->to(ProductsChooser::class);
         $this->validate();
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
@@ -125,7 +132,7 @@ class Crud extends PaginationComponent
         }
 
         // Refresh page
-        $this->emit('inputClear', 'products');
+        $this->dispatch('inputClear', 'products')->to(ProductsChooser::class);
         $this->mount();
         $this->isCreating = false;
     }

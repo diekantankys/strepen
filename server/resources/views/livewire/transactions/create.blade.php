@@ -5,21 +5,21 @@
         <h1 class="title">@lang('transactions.create.header_no_kiosk')</h1>
     @endif
 
-    <form class="box" wire:submit.prevent="createTransaction">
+    <form class="box" id="create_transaction_form" wire:submit.prevent="createTransaction">
         @if (Auth::id() == 1)
-            <livewire:components.user-chooser name="user" sortBy="last_transaction" />
+            <livewire:components.user-chooser name="user" sortBy="last_transaction" :invalid="$this->isInputInvalid('user')" wire:key="transactions-create-user-chooser" />
         @endif
 
         <div class="field">
             <label class="label" for="name">@lang('transactions.create.name')</label>
             <div class="control">
                 <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                    wire:model.defer="transaction.name" required>
+                    wire:model="transaction.name" required>
             </div>
             @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
-        <livewire:components.products-chooser name="products" :minor="Auth::user()->minor" bigMode="true" />
+        <livewire:components.products-chooser name="products" :minor="Auth::user()->minor" bigMode="true" :invalid="$this->isInputInvalid('products')" wire:key="transactions-create-products-chooser" />
 
         <div class="field">
             <div class="control">
@@ -33,13 +33,25 @@
     @endif
 
     <script>
-        document.addEventListener('livewire:load', () => {
-            window.addEventListener('keydown', event => {
+        document.addEventListener('livewire:navigated', () => {
+            const form = document.getElementById('create_transaction_form');
+            if (form == null || form.dataset.initialized === 'true') {
+                return;
+            }
+
+            form.dataset.initialized = 'true';
+
+            const keydownListener = event => {
                 if (event.key == 'Enter' && !@this.isCreated) {
                     event.preventDefault();
                     @this.createTransaction();
                 }
-            });
-        });
+            };
+
+            window.addEventListener('keydown', keydownListener);
+            document.addEventListener('livewire:navigating', () => {
+                window.removeEventListener('keydown', keydownListener);
+            }, { once: true });
+        }, { once: true });
     </script>
 </div>

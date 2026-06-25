@@ -2,11 +2,16 @@
 
 namespace App\Http\Livewire\Admin\Inventories;
 
+use App\Http\Livewire\Components\ProductsChooser;
+use App\Http\Livewire\Components\UserChooser;
+use App\Http\Livewire\Concerns\ManagesChooserValidation;
 use App\Models\Product;
 use Livewire\Component;
 
 class Item extends Component
 {
+    use ManagesChooserValidation;
+
     public $inventory;
 
     public $createdAtDate;
@@ -48,10 +53,12 @@ class Item extends Component
     public function inputValue($name, $value)
     {
         if ($name == 'item_user') {
+            $this->setInputInvalid('item_user', false);
             $this->inventory->user_id = $value;
         }
 
         if ($name == 'item_products') {
+            $this->setInputInvalid('item_products', false);
             $this->selectedProducts = $value;
         }
     }
@@ -59,8 +66,10 @@ class Item extends Component
     public function editInventory()
     {
         // Validate input
-        $this->emit('inputValidate', 'item_user');
-        $this->emit('inputValidate', 'item_products');
+        $this->requireInput('item_user', $this->inventory->user_id);
+        $this->requireInput('item_products', collect($this->selectedProducts)->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0));
+        $this->dispatch('inputValidate', 'item_user')->to(UserChooser::class);
+        $this->dispatch('inputValidate', 'item_products')->to(ProductsChooser::class);
         $this->validate();
 
         $selectedProducts = collect($this->selectedProducts)->map(function ($selectedProduct) {
@@ -101,7 +110,7 @@ class Item extends Component
         });
 
         $this->isEditing = false;
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteInventory()
@@ -115,7 +124,7 @@ class Item extends Component
             $product->save();
         }
 
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function render()

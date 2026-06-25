@@ -16,13 +16,14 @@ class History extends PaginationComponent
 
     public $productIdTemp;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->queryString['type'] = ['except' => ''];
-        $this->queryString[] = 'product_id';
-        $this->listeners[] = 'inputValue';
-    }
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => ''],
+        'type' => ['except' => ''],
+        'product_id',
+    ];
+
+    public $listeners = ['refresh' => '$refresh', 'inputValue'];
 
     public function mount()
     {

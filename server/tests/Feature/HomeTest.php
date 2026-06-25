@@ -52,6 +52,6 @@ class HomeTest extends TestCase
         Livewire::test(Home::class)
             ->set('query', Str::substr($searchPost->title, 0, 8))
             ->call('search')
-            ->assertSee($searchPost->title);
+            ->assertSee('wire:key="post-'.$searchPost->id.'"', false);
     }
 }

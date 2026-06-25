@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Admin\Transactions;
 
+use App\Http\Livewire\Components\ProductsChooser;
+use App\Http\Livewire\Components\UserChooser;
+use App\Http\Livewire\Concerns\ManagesChooserValidation;
 use App\Http\Livewire\PaginationComponent;
 use App\Models\Product;
 use App\Models\Setting;
@@ -11,6 +14,8 @@ use App\Notifications\NewDeposit;
 
 class Crud extends PaginationComponent
 {
+    use ManagesChooserValidation;
+
     public $user_id;
 
     public $userIdTemp;
@@ -49,14 +54,15 @@ class Crud extends PaginationComponent
         'userAmounts.*' => 'nullable|numeric',
     ];
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->queryString['type'] = ['except' => ''];
-        $this->queryString[] = 'user_id';
-        $this->queryString[] = 'product_id';
-        $this->listeners[] = 'inputValue';
-    }
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => ''],
+        'type' => ['except' => ''],
+        'user_id',
+        'product_id',
+    ];
+
+    public $listeners = ['refresh' => '$refresh', 'inputValue'];
 
     public function mount()
     {
@@ -98,10 +104,12 @@ class Crud extends PaginationComponent
         }
 
         if ($name == 'user') {
+            $this->setInputInvalid('user', false);
             $this->transaction->user_id = $value;
         }
 
         if ($name == 'products') {
+            $this->setInputInvalid('products', false);
             $this->selectedProducts = $value;
         }
     }
@@ -127,8 +135,10 @@ class Crud extends PaginationComponent
     public function createTransaction()
     {
         // Validate input
-        $this->emit('inputValidate', 'user');
-        $this->emit('inputValidate', 'products');
+        $this->requireInput('user', $this->transaction->user_id);
+        $this->requireInput('products', collect($this->selectedProducts)->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0));
+        $this->dispatch('inputValidate', 'user')->to(UserChooser::class);
+        $this->dispatch('inputValidate', 'products')->to(ProductsChooser::class);
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
         $this->validateOnly('selectedProducts.*.product_id');
@@ -174,8 +184,8 @@ class Crud extends PaginationComponent
         }
 
         // Refresh page
-        $this->emit('inputClear', 'user');
-        $this->emit('inputClear', 'products');
+        $this->dispatch('inputClear', 'user')->to(UserChooser::class);
+        $this->dispatch('inputClear', 'products')->to(ProductsChooser::class);
         $this->mount();
         $this->isCreatingTransaction = false;
     }
@@ -191,7 +201,8 @@ class Crud extends PaginationComponent
     {
         // Create single deposit
         if ($this->creatingDepositTab == 'single') {
-            $this->emit('inputValidate', 'user');
+            $this->requireInput('user', $this->transaction->user_id);
+            $this->dispatch('inputValidate', 'user')->to(UserChooser::class);
             $this->validateOnly('transaction.name');
             $this->validateOnly('transaction.user_id');
             $this->validateOnly('transaction.price');
@@ -236,7 +247,7 @@ class Crud extends PaginationComponent
             }
         }
 
-        $this->emit('inputClear', 'user');
+        $this->dispatch('inputClear', 'user')->to(UserChooser::class);
         $this->mount();
         $this->isCreatingDeposit = false;
     }
@@ -252,7 +263,8 @@ class Crud extends PaginationComponent
     {
         // Create single deposit
         if ($this->creatingPaymentTab == 'single') {
-            $this->emit('inputValidate', 'user');
+            $this->requireInput('user', $this->transaction->user_id);
+            $this->dispatch('inputValidate', 'user')->to(UserChooser::class);
             $this->validateOnly('transaction.name');
             $this->validateOnly('transaction.user_id');
             $this->validateOnly('transaction.price');
@@ -291,7 +303,7 @@ class Crud extends PaginationComponent
             }
         }
 
-        $this->emit('inputClear', 'user');
+        $this->dispatch('inputClear', 'user')->to(UserChooser::class);
         $this->mount();
         $this->isCreatingPayment = false;
     }

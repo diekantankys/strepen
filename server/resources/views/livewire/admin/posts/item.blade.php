@@ -36,7 +36,7 @@
                                 <div class="image mb-5 is-widescreen is-rounded" style="background-image: url(/storage/posts/{{ $post->image }});"></div>
                             @endif
                             <h4>
-                                <a href="{{ route('posts.show', $post) }}" style="color: inherit;">{{ $post->title }}</a>
+                                <a href="{{ route('posts.show', $post) }}" style="color: inherit;" wire:navigate>{{ $post->title }}</a>
                             </h4>
                             <p><i>@lang('admin/posts.item.written_by', ['user.name' => $post->user->name, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</i></p>
                             {!! App\Helpers\BetterParsedown::instance()->text($post->body) !!}
@@ -90,13 +90,13 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser name="item_user" :userId="$post->user_id" includeInactive="true" />
+                    <livewire:components.user-chooser name="item_user" :userId="$post->user_id" includeInactive="true" :invalid="$this->isInputInvalid('item_user')" wire:key="admin-post-{{ $post->id }}-user-chooser" />
 
                     <div class="field">
                         <label class="label" for="title">@lang('admin/posts.item.title')</label>
                         <div class="control">
                             <input class="input @error('post.title') is-danger @enderror" type="text" id="title"
-                                wire:model.defer="post.title" required>
+                                wire:model="post.title" required>
                         </div>
                         @error('post.title') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -107,7 +107,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/posts.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        wire:model.defer="createdAtDate" required>
+                                        wire:model="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -118,7 +118,7 @@
                                 <label class="label" for="created_at_time">@lang('admin/posts.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        wire:model.defer="createdAtTime" required>
+                                        wire:model="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -164,7 +164,7 @@
                         <label class="label" for="body">@lang('admin/posts.item.body', ['markdown_link' => '<a href="https://en.wikipedia.org/wiki/Markdown#Examples" target="_blank" rel="noreferrer">Markdown</a>'])</label>
                         <div class="control">
                             <textarea class="textarea is-family-monospace has-fixed-size @error('post.body') is-danger @enderror" id="postBody"
-                                wire:model.defer="post.body" rows="12" required></textarea>
+                                wire:model="post.body" rows="12" required></textarea>
                         </div>
                         @error('post.body') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>

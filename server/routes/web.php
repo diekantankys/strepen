@@ -38,7 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/leaderboards', Leaderboards::class)->name('leaderboards');
     });
 
-    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     // No kiosk routes
     Route::middleware('nokiosk')->group(function () {

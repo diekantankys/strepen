@@ -13,7 +13,7 @@
                                 $transaction = App\Models\Transaction::withTrashed()->find($notification->data['transaction_id']);
                             @endphp
                             <h1 class="title is-5">
-                                <a href="{{ route('transactions.history') }}" style="color: inherit;">@lang('notifications.new_deposit_header')</a>
+                                <a href="{{ route('transactions.history') }}" style="color: inherit;" wire:navigate>@lang('notifications.new_deposit_header')</a>
                                 @if ($notification->read_at == null)
                                     <span class="is-pulled-right" style="display: flex; align-items: center;">
                                         <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
@@ -35,7 +35,7 @@
                                 $post = App\Models\Post::withTrashed()->find($notification->data['post_id']);
                             @endphp
                             <h1 class="title is-5">
-                                <a href="{{ route('posts.show', $post) }}" style="color: inherit;">@lang('notifications.new_post_header')</a>
+                                <a href="{{ route('posts.show', $post) }}" style="color: inherit;" wire:navigate>@lang('notifications.new_post_header')</a>
                                 @if ($notification->read_at == null)
                                     <span class="is-pulled-right" style="display: flex; align-items: center;">
                                         <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
@@ -53,7 +53,7 @@
 
                         @if ($notification->type == 'App\Notifications\LowBalance')
                             <h1 class="title is-5">
-                                <a href="{{ route('balance') }}" style="color: inherit;">@lang('notifications.low_balance_header')</a>
+                                <a href="{{ route('balance') }}" style="color: inherit;" wire:navigate>@lang('notifications.low_balance_header')</a>
                                 @if ($notification->read_at == null)
                                     <span class="is-pulled-right" style="display: flex; align-items: center;">
                                         <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>

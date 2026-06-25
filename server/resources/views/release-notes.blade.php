@@ -17,6 +17,7 @@
                 <li>Fixed some issue with PHP 8.5</li>
                 <li>Add PHP linting to GitHub actions CI</li>
                 <li>Remove unused email_verified_at column from users table</li>
+                <li>Upgrade to Laravel 13 and Livewire 4 and other used libraries</li>
                 <li>Fixed other small bugs</li>
             </ul>
         </div>

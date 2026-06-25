@@ -5,14 +5,14 @@
 
         <div class="buttons">
             @if (Auth::user()->admin)
-                <a class="button" href="{{ route('admin.settings') }}">@lang('admin/home.settings')</a>
-                <a class="button" href="{{ route('admin.api_keys.crud') }}">@lang('admin/home.api_keys')</a>
+                <a class="button" href="{{ route('admin.settings') }}" wire:navigate>@lang('admin/home.settings')</a>
+                <a class="button" href="{{ route('admin.api_keys.crud') }}" wire:navigate>@lang('admin/home.api_keys')</a>
             @endif
-            <a class="button" href="{{ route('admin.users.crud') }}">@lang('admin/home.users')</a>
-            <a class="button" href="{{ route('admin.posts.crud') }}">@lang('admin/home.posts')</a>
-            <a class="button" href="{{ route('admin.products.crud') }}">@lang('admin/home.products')</a>
-            <a class="button" href="{{ route('admin.inventories.crud') }}">@lang('admin/home.inventories')</a>
-            <a class="button" href="{{ route('admin.transactions.crud') }}">@lang('admin/home.transactions')</a>
+            <a class="button" href="{{ route('admin.users.crud') }}" wire:navigate>@lang('admin/home.users')</a>
+            <a class="button" href="{{ route('admin.posts.crud') }}" wire:navigate>@lang('admin/home.posts')</a>
+            <a class="button" href="{{ route('admin.products.crud') }}" wire:navigate>@lang('admin/home.products')</a>
+            <a class="button" href="{{ route('admin.inventories.crud') }}" wire:navigate>@lang('admin/home.inventories')</a>
+            <a class="button" href="{{ route('admin.transactions.crud') }}" wire:navigate>@lang('admin/home.transactions')</a>
         </div>
     </div>
 @endcomponent

@@ -38,7 +38,7 @@ class CreateTest extends TestCase
         $this->actingAs($user);
 
         Livewire::test(Create::class)
-            ->emit('inputValue', 'products', [
+            ->dispatch('inputValue', 'products', [
                 [
                     'product_id' => $product->id,
                     'amount' => 0,
@@ -58,7 +58,7 @@ class CreateTest extends TestCase
         $product = Product::factory()->create(['price' => 2.5, 'amount' => 10]);
         $amount = 2;
         Livewire::test(Create::class)
-            ->emit('inputValue', 'products', [
+            ->dispatch('inputValue', 'products', [
                 [
                     'product_id' => $product->id,
                     'amount' => $amount,
@@ -77,5 +77,35 @@ class CreateTest extends TestCase
             'price' => 2.5,
             'amount' => $amount,
         ]);
+    }
+
+    public function test_created_transaction_cannot_be_submitted_twice_and_closing_resets_form_state()
+    {
+        $user = User::factory()->create(['balance' => 20]);
+        $this->actingAs($user);
+
+        $product = Product::factory()->create(['price' => 2.5, 'amount' => 10]);
+
+        Livewire::test(Create::class)
+            ->dispatch('inputValue', 'products', [
+                [
+                    'product_id' => $product->id,
+                    'amount' => 2,
+                ],
+            ])
+            ->call('createTransaction')
+            ->assertSet('isCreated', true)
+            ->call('createTransaction')
+            ->call('closeCreated')
+            ->assertSet('isCreated', false)
+            ->assertSet('selectedProducts', [])
+            ->assertSet('invalidInputs', [])
+            ->call('createTransaction')
+            ->assertSet('invalidInputs', ['products']);
+
+        $this->assertSame(1, Transaction::where('user_id', $user->id)->count());
+        $this->assertSame(5.0, $user->fresh()->transactions()->first()->price);
+        $this->assertSame(15.0, $user->fresh()->balance);
+        $this->assertSame(8, $product->fresh()->amount);
     }
 }

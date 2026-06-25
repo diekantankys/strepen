@@ -29,6 +29,12 @@ class Crud extends PaginationComponent
 
     public $exportTab;
 
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => ''],
+        'role' => ['except' => ''],
+    ];
+
     public function rules()
     {
         $rules = [
@@ -58,12 +64,6 @@ class Crud extends PaginationComponent
         }
 
         return $rules;
-    }
-
-    public function __construct()
-    {
-        parent::__construct();
-        $this->queryString['role'] = ['except' => ''];
     }
 
     public function mount()

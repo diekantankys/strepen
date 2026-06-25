@@ -2,6 +2,6 @@
     <livewire:posts.item :post="$post" standalone="true" />
 
     <div class="buttons mt-5 is-centered">
-        <a class="button is-link" href="{{ route('home') }}">@lang('posts.show.go_back')</a>
+        <a class="button is-link" href="{{ route('home') }}" wire:navigate>@lang('posts.show.go_back')</a>
     </div>
 </div>

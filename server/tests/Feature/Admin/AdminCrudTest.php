@@ -146,7 +146,7 @@ class AdminCrudTest extends TestCase
 
         Livewire::test(InventoriesCrud::class)
             ->set('inventory.name', 'Restock')
-            ->emit('inputValue', 'products', [
+            ->dispatch('inputValue', 'products', [
                 ['product_id' => $product->id, 'price' => 1.25, 'amount' => 8],
             ])
             ->call('createInventory')
@@ -174,7 +174,7 @@ class AdminCrudTest extends TestCase
         Livewire::test(TransactionsCrud::class)
             ->set('transaction.user_id', $user->id)
             ->set('transaction.name', 'Admin order')
-            ->emit('inputValue', 'products', [
+            ->dispatch('inputValue', 'products', [
                 ['product_id' => $product->id, 'price' => 2.5, 'amount' => 2],
             ])
             ->call('createTransaction')

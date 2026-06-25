@@ -131,7 +131,7 @@ class Item extends Component
 
         $this->isEditing = false;
         $this->user->save();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
 
         $this->newPassword = null;
         $this->newPasswordConfirmation = null;
@@ -141,7 +141,7 @@ class Item extends Component
     {
         Auth::login($this->user, true);
 
-        return redirect()->route('home');
+        return $this->redirectRoute('home', navigate: true);
     }
 
     public function deleteAvatar()
@@ -151,7 +151,7 @@ class Item extends Component
         }
         $this->user->avatar = null;
         User::find($this->user->id)->update(['avatar' => null]);
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteThanks()
@@ -161,7 +161,7 @@ class Item extends Component
         }
         $this->user->thanks = null;
         User::find($this->user->id)->update(['thanks' => null]);
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteUser()
@@ -172,7 +172,7 @@ class Item extends Component
             Auth::user()->role == User::ROLE_ADMIN
         ) {
             $this->user->delete();
-            $this->emitUp('refresh');
+            $this->dispatch('refresh')->to(Crud::class);
         }
     }
 

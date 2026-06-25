@@ -7,10 +7,10 @@
             <form wire:submit.prevent="search">
                 <div class="field has-addons is-block-mobile">
                     <div class="control" style="width: 100%;">
-                        <input class="input" type="date" wire:model.defer="startDate">
+                        <input class="input" type="date" wire:model="startDate">
                     </div>
                     <div class="control" style="width: 100%;">
-                        <input class="input" type="date" wire:model.defer="endDate" value="{{ date('Y-m-d') }}">
+                        <input class="input" type="date" wire:model="endDate" value="{{ date('Y-m-d') }}">
                     </div>
                     <div class="control">
                         <button class="button is-link" type="submit" style="width: 100%;">@lang('balance.search')</button>
@@ -23,8 +23,15 @@
     <canvas id="balance_chart_canvas" wire:ignore></canvas>
 
     <script>
-        document.addEventListener('livewire:load', () => {
-            let chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+        document.addEventListener('livewire:navigated', () => {
+            const canvas = document.getElementById('balance_chart_canvas');
+            if (canvas == null || canvas.dataset.initialized === 'true') {
+                return;
+            }
+
+            canvas.dataset.initialized = 'true';
+
+            let chart = new Chart(canvas.getContext('2d'), {
                 type: 'line',
                 data: {
                     datasets: [{
@@ -39,9 +46,10 @@
                 }
             });
 
-            @this.on('refreshChart', (data) => {
+            const cleanupRefreshChart = Livewire.on('refreshChart', (event) => {
+                const data = event.detail?.data ?? event.data;
                 chart.destroy();
-                chart = new Chart(document.getElementById('balance_chart_canvas').getContext('2d'), {
+                chart = new Chart(canvas.getContext('2d'), {
                     type: 'line',
                     data: {
                         datasets: [{
@@ -56,6 +64,11 @@
                     }
                 });
             });
-        });
+
+            document.addEventListener('livewire:navigating', () => {
+                cleanupRefreshChart();
+                chart.destroy();
+            }, { once: true });
+        }, { once: true });
     </script>
 </div>

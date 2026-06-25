@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Admin\Settings;
 
 use App\Helpers\ParseProductIds;
+use App\Http\Livewire\Components\ProductChooser;
 use App\Models\Setting;
 use Livewire\Component;
 
@@ -72,15 +73,15 @@ class ChangeSettings extends Component
     {
         if ($name == 'product_beer' && $value != null) {
             $this->productBeerIds[] = $value;
-            $this->emit('inputClear', 'product_beer');
+            $this->dispatch('inputClear', 'product_beer')->to(ProductChooser::class);
         }
         if ($name == 'product_soda' && $value != null) {
             $this->productSodaIds[] = $value;
-            $this->emit('inputClear', 'product_soda');
+            $this->dispatch('inputClear', 'product_soda')->to(ProductChooser::class);
         }
         if ($name == 'product_snack' && $value != null) {
             $this->productSnackIds[] = $value;
-            $this->emit('inputClear', 'product_snack');
+            $this->dispatch('inputClear', 'product_snack')->to(ProductChooser::class);
         }
     }
 

@@ -33,12 +33,13 @@ class Crud extends PaginationComponent
         'sendNotification' => 'required|boolean',
     ];
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->queryString[] = 'user_id';
-        $this->listeners[] = 'inputValue';
-    }
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => ''],
+        'user_id',
+    ];
+
+    public $listeners = ['refresh' => '$refresh', 'inputValue'];
 
     public function mount()
     {

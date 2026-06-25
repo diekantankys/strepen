@@ -27,11 +27,11 @@ class Crud extends PaginationComponent
         'product.alcoholic' => 'nullable|boolean',
     ];
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->queryString['alcoholic'] = ['except' => ''];
-    }
+    public $queryString = [
+        'sort_by' => ['except' => ''],
+        'query' => ['except' => ''],
+        'alcoholic' => ['except' => ''],
+    ];
 
     public function mount()
     {

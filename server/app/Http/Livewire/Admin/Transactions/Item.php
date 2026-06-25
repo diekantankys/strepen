@@ -2,6 +2,9 @@
 
 namespace App\Http\Livewire\Admin\Transactions;
 
+use App\Http\Livewire\Components\ProductsChooser;
+use App\Http\Livewire\Components\UserChooser;
+use App\Http\Livewire\Concerns\ManagesChooserValidation;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -9,6 +12,8 @@ use Livewire\Component;
 
 class Item extends Component
 {
+    use ManagesChooserValidation;
+
     public $transaction;
 
     public $oldUserId;
@@ -55,10 +60,12 @@ class Item extends Component
     public function inputValue($name, $value)
     {
         if ($name == 'item_user') {
+            $this->setInputInvalid('item_user', false);
             $this->transaction->user_id = $value;
         }
 
         if ($name == 'item_products') {
+            $this->setInputInvalid('item_products', false);
             $this->selectedProducts = $value;
         }
     }
@@ -66,9 +73,11 @@ class Item extends Component
     public function editTransaction()
     {
         // Validate same input
-        $this->emit('inputValidate', 'item_user');
+        $this->requireInput('item_user', $this->transaction->user_id);
+        $this->dispatch('inputValidate', 'item_user')->to(UserChooser::class);
         if ($this->transaction->type == Transaction::TYPE_TRANSACTION) {
-            $this->emit('inputValidate', 'item_products');
+            $this->requireInput('item_products', collect($this->selectedProducts)->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0));
+            $this->dispatch('inputValidate', 'item_products')->to(ProductsChooser::class);
         }
         $this->validateOnly('transaction.user_id');
         $this->validateOnly('transaction.name');
@@ -138,7 +147,7 @@ class Item extends Component
         $user->save();
 
         $this->isEditing = false;
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteTransaction()
@@ -158,7 +167,7 @@ class Item extends Component
             $product->save();
         }
 
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function render()
