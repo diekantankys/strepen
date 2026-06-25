@@ -212,6 +212,7 @@
             ctx.font = `bold ${Math.floor(H * 0.12)}px system-ui, sans-serif`;
             ctx.textAlign = 'center';
             ctx.lineWidth = Math.max(2, H * 0.011);
+            ctx.lineJoin = 'round';
             ctx.strokeStyle = 'rgba(0,0,0,0.4)';
             ctx.strokeText(score, W / 2, H * 0.14);
             ctx.fillStyle = 'white';
