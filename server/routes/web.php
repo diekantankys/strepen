@@ -1,8 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Livewire\Admin\Users\Crud;
+use App\Http\Livewire\Auth\ForgotPassword;
+use App\Http\Livewire\Auth\Login;
+use App\Http\Livewire\Auth\ResetPassword;
+use App\Http\Livewire\Balance;
+use App\Http\Livewire\Home;
+use App\Http\Livewire\Leaderboards;
+use App\Http\Livewire\Notifications;
+use App\Http\Livewire\Posts\Show;
+use App\Http\Livewire\Transactions\Create;
+use App\Http\Livewire\Transactions\History;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', App\Http\Livewire\Home::class)->name('home');
+Route::get('/', Home::class)->name('home');
 
 Route::view('/apps', 'apps')->name('apps');
 
@@ -12,23 +25,23 @@ Route::view('/account-deletion', 'account-deletion')->name('account-deletion');
 
 // Auth routes
 Route::middleware('auth')->group(function () {
-    Route::get('/posts/{post}', App\Http\Livewire\Posts\Show::class)->name('posts.show');
+    Route::get('/posts/{post}', Show::class)->name('posts.show');
 
-    Route::get('/stripe', App\Http\Livewire\Transactions\Create::class)->name('transactions.create');
+    Route::get('/stripe', Create::class)->name('transactions.create');
 
     Route::middleware('leaderboards')->group(function () {
-        Route::get('/leaderboards', App\Http\Livewire\Leaderboards::class)->name('leaderboards');
+        Route::get('/leaderboards', Leaderboards::class)->name('leaderboards');
     });
 
-    Route::get('/auth/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('auth.logout');
+    Route::get('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
     // No kiosk routes
     Route::middleware('nokiosk')->group(function () {
-        Route::get('/transactions', App\Http\Livewire\Transactions\History::class)->name('transactions.history');
+        Route::get('/transactions', History::class)->name('transactions.history');
 
-        Route::get('/notifications', App\Http\Livewire\Notifications::class)->name('notifications');
+        Route::get('/notifications', Notifications::class)->name('notifications');
 
-        Route::get('/balance', App\Http\Livewire\Balance::class)->name('balance');
+        Route::get('/balance', Balance::class)->name('balance');
 
         Route::view('/settings', 'settings')->name('settings');
     });
@@ -37,7 +50,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('manager')->group(function () {
         Route::view('/admin', 'admin.home')->name('admin.home');
 
-        Route::get('/admin/users', App\Http\Livewire\Admin\Users\Crud::class)->name('admin.users.crud');
+        Route::get('/admin/users', Crud::class)->name('admin.users.crud');
 
         Route::get('/admin/posts', App\Http\Livewire\Admin\Posts\Crud::class)->name('admin.posts.crud');
 
@@ -58,14 +71,14 @@ Route::middleware('auth')->group(function () {
 
 // Can kiosk routes
 Route::middleware('cankiosk')->group(function () {
-    Route::get('/admin/kiosk', [App\Http\Controllers\Admin\AdminController::class, 'kiosk'])->name('admin.kiosk');
+    Route::get('/admin/kiosk', [AdminController::class, 'kiosk'])->name('admin.kiosk');
 });
 
 // Guest routes
 Route::middleware('guest')->group(function () {
-    Route::get('/auth/login', App\Http\Livewire\Auth\Login::class)->name('auth.login');
+    Route::get('/auth/login', Login::class)->name('auth.login');
 
-    Route::get('/auth/forgot-password', App\Http\Livewire\Auth\ForgotPassword::class)->name('auth.forgot_password');
+    Route::get('/auth/forgot-password', ForgotPassword::class)->name('auth.forgot_password');
 
-    Route::get('/auth/reset-password/{token}', App\Http\Livewire\Auth\ResetPassword::class)->name('password.reset');
+    Route::get('/auth/reset-password/{token}', ResetPassword::class)->name('password.reset');
 });
