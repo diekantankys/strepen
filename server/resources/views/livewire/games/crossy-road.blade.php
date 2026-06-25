@@ -1,7 +1,7 @@
-<div>
+<div style="margin-top: -3rem;">
     <div wire:ignore id="game-container"
         data-text-start="@lang('games.crossy_road_press_to_start')"
-        style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: 85vh; overflow: hidden; touch-action: none;">
+        style="position: relative; display: flex; justify-content: center; align-items: center; width: 100%; height: calc(100dvh - 3.25rem); overflow: hidden; touch-action: none;">
 
         {{-- Score overlay --}}
         <div id="crossy-road-score"

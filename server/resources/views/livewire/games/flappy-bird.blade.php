@@ -1,6 +1,6 @@
-<div>
+<div style="margin-top: -3rem;">
     <div wire:ignore id="game-container"
-        style="display: flex; justify-content: center; align-items: center; width: 100%; height: 85vh; padding: 10px; box-sizing: border-box;">
+        style="display: flex; justify-content: center; align-items: center; width: 100%; height: calc(100dvh - 3.25rem); padding: 4px; box-sizing: border-box;">
         {{-- CSS properties are fixed at 100%, let JavaScript adjust the canvas attributes --}}
         <canvas id="flappy-bird-canvas"
             data-text-start="@lang('games.flappy_bird_press_to_start')"
