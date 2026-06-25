@@ -22,16 +22,18 @@
 <body>
     @include('layouts.navbar')
 
-    <div class="section">
+    <div class="section pb-0">
         {{ $slot }}
     </div>
 
-    <div class="footer">
+    @unless ($hideFooter ?? false)
+    <div class="footer mt-5">
         <div class="content has-text-centered">
             <p>@lang('layout.footer.authors')</p>
             <p><a href="{{ route('release-notes') }}" class="tag mr-1">v{{ config('app.version') }}</a> @lang('layout.footer.source')</p>
         </div>
     </div>
+    @endunless
 
     <script src="/js/script.js?v={{ config('app.version') }}"></script>
     @livewireScripts

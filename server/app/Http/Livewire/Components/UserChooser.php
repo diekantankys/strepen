@@ -24,6 +24,8 @@ class UserChooser extends InputComponent
 
     public $sortBy = 'lastname';
 
+    public $anonymous = false;
+
     // State
     public $htmlInputId;
 
@@ -69,7 +71,17 @@ class UserChooser extends InputComponent
 
         if ($this->userId != null) {
             $this->selectUser($this->userId);
+        } elseif ($this->anonymous) {
+            $this->selectAnonymous();
         }
+    }
+
+    public function selectAnonymous(): void
+    {
+        $this->user = null;
+        $this->userName = __('components.user_chooser.anonymous');
+        $this->emitUp('inputValue', $this->name, null);
+        $this->isOpen = false;
     }
 
     public function sortUsers()
@@ -107,7 +119,7 @@ class UserChooser extends InputComponent
     public function inputValidate($name)
     {
         if ($this->name == $name) {
-            $this->valid = $this->user != null;
+            $this->valid = $this->anonymous || $this->user != null;
         }
     }
 

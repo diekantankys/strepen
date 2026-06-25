@@ -13,6 +13,12 @@
         </div>
         <div class="dropdown-menu" style="width: 100%;">
             <div id="user-chooser-dropdown-{{ $htmlInputId }}" class="dropdown-content">
+                @if ($anonymous)
+                    <a wire:click.prevent="selectAnonymous()" class="dropdown-item">
+                        <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ App\Models\Setting::get('default_user_avatar') }});"></div>
+                        @lang('components.user_chooser.anonymous')
+                    </a>
+                @endif
                 @forelse ($filteredUsers as $user)
                     <a wire:click.prevent="selectUser({{ $user->id }})" class="dropdown-item" wire:key="{{ $user->id }}">
                         <div class="image is-small is-round is-inline" style="background-image: url(/storage/avatars/{{ $user->avatar ?? App\Models\Setting::get('default_user_avatar') }});"></div>
