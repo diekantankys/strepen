@@ -23,13 +23,13 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser name="item_user" :userId="$inventory->user_id" includeInactive="true" />
+                    <livewire:components.user-chooser name="item_user" :userId="$inventory->user_id" includeInactive="true" :invalid="$this->isInputInvalid('item_user')" wire:key="admin-inventory-{{ $inventory->id }}-user-chooser" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/inventories.item.name')</label>
                         <div class="control">
                             <input class="input @error('inventory.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="inventory.name" required>
+                                wire:model="inventory.name" required>
                         </div>
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -40,7 +40,7 @@
                                 <label class="label" for="created_at_date">@lang('admin/inventories.item.created_at_date')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtDate') is-danger @enderror" type="date" id="created_at_date"
-                                        wire:model.defer="createdAtDate" required>
+                                        wire:model="createdAtDate" required>
                                 </div>
                                 @error('createdAtDate') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -51,14 +51,14 @@
                                 <label class="label" for="created_at_time">@lang('admin/inventories.item.created_at_time')</label>
                                 <div class="control">
                                     <input class="input @error('createdAtTime') is-danger @enderror" type="time" step="1" id="created_at_time"
-                                        wire:model.defer="createdAtTime" required>
+                                        wire:model="createdAtTime" required>
                                 </div>
                                 @error('createdAtTime') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
                     </div>
 
-                    <livewire:components.products-chooser name="item_products" :initialProducts="$inventory->products" noMax="true" includeInactive="true" />
+                    <livewire:components.products-chooser name="item_products" :initialProducts="$inventory->products" noMax="true" includeInactive="true" :invalid="$this->isInputInvalid('item_products')" wire:key="admin-inventory-{{ $inventory->id }}-products-chooser" />
                 </div>
 
                 <div class="modal-card-foot">

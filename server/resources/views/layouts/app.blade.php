@@ -30,7 +30,7 @@
     <div class="footer mt-5">
         <div class="content has-text-centered">
             <p>@lang('layout.footer.authors')</p>
-            <p><a href="{{ route('release-notes') }}" class="tag mr-1">v{{ config('app.version') }}</a> @lang('layout.footer.source')</p>
+            <p><a href="{{ route('release-notes') }}" class="tag mr-1" wire:navigate>v{{ config('app.version') }}</a> @lang('layout.footer.source')</p>
         </div>
     </div>
     @endunless

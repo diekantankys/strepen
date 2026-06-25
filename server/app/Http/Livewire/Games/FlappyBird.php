@@ -45,7 +45,7 @@ class FlappyBird extends Component
     {
         $this->persistScore();
         $this->showModal = false;
-        $this->dispatchBrowserEvent('game-restart');
+        $this->dispatch('game-restart');
     }
 
     private function persistScore(): void

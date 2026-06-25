@@ -20,9 +20,9 @@
         <x-slot name="filters">
             <x-transaction-type-chooser />
 
-            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" />
+            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" wire:key="admin-transactions-filter-user-chooser" />
 
-            <livewire:components.product-chooser name="product_filter" :productId="$product_id" includeInactive="true" inline="true" relationship="true" />
+            <livewire:components.product-chooser name="product_filter" :productId="$product_id" includeInactive="true" inline="true" relationship="true" wire:key="admin-transactions-filter-product-chooser" />
         </x-slot>
     </x-search-header>
 
@@ -31,7 +31,7 @@
 
         <div class="columns is-multiline">
             @foreach ($transactions as $transaction)
-                <livewire:admin.transactions.item :transaction="$transaction" :wire:key="$transaction->id" />
+                <livewire:admin.transactions.item :transaction="$transaction" wire:key="transaction-{{ $transaction->id }}" />
             @endforeach
         </div>
 
@@ -51,18 +51,18 @@
                 </div>
 
                 <div class="modal-card-body">
-                    <livewire:components.user-chooser name="user" includeInactive="true" sortBy="last_transaction" />
+                    <livewire:components.user-chooser name="user" includeInactive="true" sortBy="last_transaction" :invalid="$this->isInputInvalid('user')" wire:key="admin-transactions-create-transaction-user-chooser" />
 
                     <div class="field">
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
                         <div class="control">
                             <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="transaction.name" required>
+                                wire:model="transaction.name" required>
                         </div>
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" />
+                    <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" :invalid="$this->isInputInvalid('products')" wire:key="admin-transactions-create-transaction-products-chooser" />
                 </div>
 
                 <div class="modal-card-foot">
@@ -88,7 +88,7 @@
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
                         <div class="control">
                             <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="transaction.name" required>
+                                wire:model="transaction.name" required>
                         </div>
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -105,13 +105,13 @@
                     </div>
 
                     @if ($creatingDepositTab == 'single')
-                        <livewire:components.user-chooser name="user" includeInactive="true" />
+                        <livewire:components.user-chooser name="user" includeInactive="true" :invalid="$this->isInputInvalid('user')" wire:key="admin-transactions-create-deposit-user-chooser" />
 
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
                             <div class="control has-icons-left">
                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
-                                    wire:model.defer="transaction.price" required>
+                                    wire:model="transaction.price" required>
                                 <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                             </div>
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -136,7 +136,7 @@
                                         <td>
                                             <div class="control has-icons-left">
                                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
-                                                    wire:model.defer="userAmounts.{{ $index }}">
+                                                    wire:model="userAmounts.{{ $index }}">
                                                 <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                                             </div>
                                         </td>
@@ -170,7 +170,7 @@
                         <label class="label" for="name">@lang('admin/transactions.crud.name')</label>
                         <div class="control">
                             <input class="input @error('transaction.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="transaction.name" required>
+                                wire:model="transaction.name" required>
                         </div>
                         @error('transaction.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -187,13 +187,13 @@
                     </div>
 
                     @if ($creatingPaymentTab == 'single')
-                        <livewire:components.user-chooser name="user" includeInactive="true" />
+                        <livewire:components.user-chooser name="user" includeInactive="true" :invalid="$this->isInputInvalid('user')" wire:key="admin-transactions-create-payment-user-chooser" />
 
                         <div class="field">
                             <label class="label" for="amount">@lang('admin/transactions.crud.amount')</label>
                             <div class="control has-icons-left">
                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="amount"
-                                    wire:model.defer="transaction.price" required>
+                                    wire:model="transaction.price" required>
                                 <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                             </div>
                             @error('transaction.price') <p class="help is-danger">{{ $message }}</p> @enderror
@@ -218,7 +218,7 @@
                                         <td>
                                             <div class="control has-icons-left">
                                                 <input class="input @error('transaction.price') is-danger @enderror" type="number" step="0.01" id="user-amount-{{ $index }}"
-                                                    wire:model.defer="userAmounts.{{ $index }}">
+                                                    wire:model="userAmounts.{{ $index }}">
                                                 <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                                             </div>
                                         </td>

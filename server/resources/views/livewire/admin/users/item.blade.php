@@ -196,7 +196,7 @@
                                 <label class="label" for="firstname">@lang('admin/users.item.firstname')</label>
                                 <div class="control">
                                     <input class="input @error('user.firstname') is-danger @enderror" type="text" id="firstname"
-                                        wire:model.defer="user.firstname" required>
+                                        wire:model="user.firstname" required>
                                 </div>
                                 @error('user.firstname') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -207,7 +207,7 @@
                                 <label class="label" for="insertion">@lang('admin/users.item.insertion')</label>
                                 <div class="control">
                                     <input class="input @error('user.insertion') is-danger @enderror" type="text" id="insertion"
-                                        wire:model.defer="user.insertion">
+                                        wire:model="user.insertion">
                                 </div>
                                 @error('user.insertion') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -218,7 +218,7 @@
                                 <label class="label" for="lastname">@lang('admin/users.item.lastname')</label>
                                 <div class="control">
                                     <input class="input @error('user.lastname') is-danger @enderror" type="text" id="lastname"
-                                        wire:model.defer="user.lastname" required>
+                                        wire:model="user.lastname" required>
                                 </div>
                                 @error('user.lastname') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -231,7 +231,7 @@
                                 <label class="label" for="gender">@lang('admin/users.item.gender')</label>
                                 <div class="control">
                                     <div class="select is-fullwidth @error('user.gender') is-danger @enderror">
-                                        <select id="gender" wire:model.defer="user.gender">
+                                        <select id="gender" wire:model="user.gender">
                                             <option value="">@lang('admin/users.item.gender_null')</option>
                                             <option value="{{ App\Models\User::GENDER_MALE }}">@lang('admin/users.item.gender_male')</option>
                                             <option value="{{ App\Models\User::GENDER_FEMALE }}">@lang('admin/users.item.gender_female')</option>
@@ -247,7 +247,7 @@
                             <div class="field">
                                 <label class="label" for="birthday">@lang('admin/users.item.birthday')</label>
                                 <div class="control">
-                                    <input class="input @error('user.birthday') is-danger @enderror" type="date" id="birthday" wire:model.defer="user.birthday">
+                                    <input class="input @error('user.birthday') is-danger @enderror" type="date" id="birthday" wire:model="user.birthday">
                                 </div>
                                 @error('user.birthday') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -259,7 +259,7 @@
                             <div class="field">
                                 <label class="label" for="email">@lang('admin/users.item.email')</label>
                                 <div class="control">
-                                    <input class="input @error('user.email') is-danger @enderror" type="email" id="email" wire:model.defer="user.email" required>
+                                    <input class="input @error('user.email') is-danger @enderror" type="email" id="email" wire:model="user.email" required>
                                 </div>
                                 @error('user.email') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -269,7 +269,7 @@
                             <div class="field">
                                 <label class="label" for="phone">@lang('admin/users.item.phone')</label>
                                 <div class="control">
-                                    <input class="input @error('userPhone') is-danger @enderror" type="tel" id="phone" wire:model.defer="user.phone">
+                                    <input class="input @error('userPhone') is-danger @enderror" type="tel" id="phone" wire:model="user.phone">
                                 </div>
                                 @error('user.phone') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -281,7 +281,7 @@
                             <div class="field">
                                 <label class="label" for="address">@lang('admin/users.item.address')</label>
                                 <div class="control">
-                                    <input class="input @error('user.address') is-danger @enderror" type="text" id="address" wire:model.defer="user.address">
+                                    <input class="input @error('user.address') is-danger @enderror" type="text" id="address" wire:model="user.address">
                                 </div>
                                 @error('user.address') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -291,7 +291,7 @@
                             <div class="field">
                                 <label class="label" for="postcode">@lang('admin/users.item.postcode')</label>
                                 <div class="control">
-                                    <input class="input @error('user.postcode') is-danger @enderror" type="text" id="postcode" wire:model.defer="user.postcode">
+                                    <input class="input @error('user.postcode') is-danger @enderror" type="text" id="postcode" wire:model="user.postcode">
                                 </div>
                                 @error('user.postcode')
                                     <p class="help is-danger">{{ $message }}</p>
@@ -303,7 +303,7 @@
                             <div class="field">
                                 <label class="label" for="city">@lang('admin/users.item.city')</label>
                                 <div class="control">
-                                    <input class="input @error('user.city') is-danger @enderror" type="text" id="city" wire:model.defer="user.city">
+                                    <input class="input @error('user.city') is-danger @enderror" type="text" id="city" wire:model="user.city">
                                 </div>
                                 @error('user.city') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -315,7 +315,7 @@
                             <div class="field">
                                 <label class="label" for="password">@lang('admin/users.item.password')</label>
                                 <div class="control">
-                                    <input class="input @error('newPassword') is-danger @enderror" type="password" id="password" wire:model.defer="newPassword">
+                                    <input class="input @error('newPassword') is-danger @enderror" type="password" id="password" wire:model="newPassword">
                                 </div>
                                 @error('newPassword')
                                     <p class="help is-danger">{{ $message }}</p>
@@ -329,7 +329,7 @@
                             <div class="field">
                                 <label class="label" for="password_confirmation">@lang('admin/users.item.password_confirmation')</label>
                                 <div class="control">
-                                    <input class="input @error('newPasswordConfirmation') is-danger @enderror" type="password" id="password_confirmation" wire:model.defer="newPasswordConfirmation">
+                                    <input class="input @error('newPasswordConfirmation') is-danger @enderror" type="password" id="password_confirmation" wire:model="newPasswordConfirmation">
                                 </div>
                                 @error('newPasswordConfirmation') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
@@ -402,7 +402,7 @@
                                 <label class="label" for="role">@lang('admin/users.item.role')</label>
                                 <div class="control">
                                     <div class="select is-fullwidth @error('user.role') is-danger @enderror">
-                                        <select id="role" wire:model.defer="user.role" @if (Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role == App\Models\User::ROLE_ADMIN) disabled @endif>
+                                        <select id="role" wire:model="user.role" @if (Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role == App\Models\User::ROLE_ADMIN) disabled @endif>
                                             <option value="{{ App\Models\User::ROLE_NORMAL }}">@lang('admin/users.item.role_normal')</option>
                                             <option value="{{ App\Models\User::ROLE_MANAGER }}">@lang('admin/users.item.role_manager')</option>
                                             @if ((Auth::user()->role == App\Models\User::ROLE_MANAGER && $user->role == App\Models\User::ROLE_ADMIN) || Auth::user()->role == App\Models\User::ROLE_ADMIN)
@@ -426,7 +426,7 @@
                                 <label class="label" for="language">@lang('admin/users.item.language')</label>
                                 <div class="control">
                                     <div class="select is-fullwidth @error('user.language') is-danger @enderror">
-                                        <select id="language" wire:model.defer="user.language">
+                                        <select id="language" wire:model="user.language">
                                             <option value="{{ App\Models\User::LANGUAGE_ENGLISH }}">English</option>
                                             <option value="{{ App\Models\User::LANGUAGE_DUTCH }}">Nederlands</option>
                                         </select>
@@ -443,7 +443,7 @@
                                 <label class="label" for="theme">@lang('admin/users.crud.theme')</label>
                                 <div class="control">
                                     <div class="select is-fullwidth @error('user.theme') is-danger @enderror">
-                                        <select id="theme" wire:model.defer="user.theme">
+                                        <select id="theme" wire:model="user.theme">
                                             <option value="{{ App\Models\User::THEME_LIGHT }}">@lang('admin/users.crud.theme_light')</option>
                                             <option value="{{ App\Models\User::THEME_DARK }}">@lang('admin/users.crud.theme_dark')</option>
                                             <option value="{{ App\Models\User::THEME_SYSTEM }}">@lang('admin/users.crud.theme_system')</option>
@@ -458,7 +458,7 @@
                             <div class="field">
                                 <label class="label" for="receive_news">@lang('admin/users.item.receive_news')</label>
                                 <label class="checkbox" for="receive_news">
-                                    <input type="checkbox" id="receive_news" wire:model.defer="user.receive_news">
+                                    <input type="checkbox" id="receive_news" wire:model="user.receive_news">
                                     @lang('admin/users.item.receive_news_user')
                                 </label>
                             </div>
@@ -468,7 +468,7 @@
                     <div class="field">
                         <label class="label" for="active">@lang('admin/users.item.active')</label>
                         <label class="checkbox" for="active">
-                            <input type="checkbox" id="active" wire:model.defer="user.active">
+                            <input type="checkbox" id="active" wire:model="user.active">
                             @lang('admin/users.item.active_user')
                         </label>
                     </div>

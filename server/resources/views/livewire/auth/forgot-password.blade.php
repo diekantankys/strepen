@@ -20,7 +20,7 @@
             <label class="label" for="email">@lang('auth.forgot_password.email')</label>
             <div class="control">
                 <input class="input @error('email') is-danger @enderror" type="email" id="email"
-                    wire:model.defer="email" autofocus required>
+                    wire:model="email" autofocus required>
             </div>
             @error('email') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>

@@ -48,7 +48,7 @@ class ViewComponentsTest extends TestCase
 
     public function test_transaction_type_and_search_header_components_render_controls()
     {
-        $this->assertStringContainsString('wire:model.defer="type"', Blade::render('<x-transaction-type-chooser />'));
+        $this->assertStringContainsString('wire:model="type"', Blade::render('<x-transaction-type-chooser />'));
 
         $search = Blade::render('<x-search-header itemName="products"><span>Filters</span></x-search-header>');
         $this->assertStringContainsString('wire:submit.prevent="search"', $search);

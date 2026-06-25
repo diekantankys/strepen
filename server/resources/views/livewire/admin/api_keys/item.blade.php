@@ -39,7 +39,7 @@
                         <label class="label" for="name">@lang('admin/api_keys.item.name')</label>
                         <div class="control">
                             <input class="input @error('apiKey.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="apiKey.name" required>
+                                wire:model="apiKey.name" required>
                         </div>
                         @error('apiKey.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
@@ -47,7 +47,7 @@
                     <div class="field">
                         <label class="label" for="active">@lang('admin/api_keys.item.active')</label>
                         <label class="checkbox" for="active">
-                            <input type="checkbox" id="active" wire:model.defer="apiKey.active">
+                            <input type="checkbox" id="active" wire:model="apiKey.active">
                             @lang('admin/api_keys.item.active_api_key')
                         </label>
                     </div>

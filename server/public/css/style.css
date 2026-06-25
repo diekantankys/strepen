@@ -33,6 +33,9 @@ html.theme-dark .navbar .is-active {background-color:rgba(255, 255, 255, 0.05)}
 .card-image-tags{position:absolute;top:.5rem;right:.5rem}
 
 .dropdown-item{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding-right:1rem}
+.field.has-addons .control>.dropdown{width:100%}
+.modal-card-foot{gap:.5rem;flex-wrap:wrap}
+.modal-card-foot .button{margin-bottom:0}
 
 .medal-column{width:1.5rem;text-align:center!important}
 .medal{width:1.5rem;line-height:1.5rem;text-align:center}

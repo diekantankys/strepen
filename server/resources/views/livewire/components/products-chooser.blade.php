@@ -2,7 +2,7 @@
     @if ($bigMode)
         <label class="label" for="productName">@lang('components.products_chooser.products')</label>
 
-        @if (!$valid)
+        @if (!$valid || $invalid)
             <div class="notification is-danger">
                 <button type="button" class="delete" wire:click="$set('valid', true)"></button>
                 <p>@lang('components.products_chooser.empty_error')</p>
@@ -79,8 +79,8 @@
                         <div class="columns">
                             <div class="column">
                                 <div class="control has-icons-left">
-                                    <input @class(['input', 'is-danger' => !$valid]) type="number" step="0.01" placeholder="@lang('components.products_chooser.price')"
-                                        id="product-price-{{ $index }}" wire:model="selectedProducts.{{ $index }}.price" required>
+                                    <input @class(['input', 'is-danger' => !$valid || $invalid]) type="number" step="0.01" placeholder="@lang('components.products_chooser.price')"
+                                        id="product-price-{{ $index }}" wire:model.live.debounce.150ms="selectedProducts.{{ $index }}.price" required>
                                     <span class="icon is-small is-left">{{ App\Models\Setting::get('currency_symbol') }}</span>
                                 </div>
                             </div>
@@ -89,9 +89,9 @@
                             </div>
                             <div class="column">
                                 <div class="control">
-                                    <input @class(['input', 'is-danger' => !$valid]) type="number" placeholder="@lang('components.products_chooser.amount')"
+                                    <input @class(['input', 'is-danger' => !$valid || $invalid]) type="number" placeholder="@lang('components.products_chooser.amount')"
                                         min="1" @if (!$noMax) max="{{ App\Models\Setting::get('max_stripe_amount') }}" @endif id="product-amount-{{ $index }}"
-                                        wire:model="selectedProducts.{{ $index }}.amount" required>
+                                        wire:model.live.debounce.150ms="selectedProducts.{{ $index }}.amount" required>
                                 </div>
                             </div>
                         </div>
@@ -105,14 +105,15 @@
         <div class="field">
             <div @class(['dropdown', 'is-active' => $isOpen, 'control']) style="width: 100%;">
                 <div class="dropdown-trigger control" style="width: 100%;">
-                    <input id="products-chooser-input-{{ $htmlInputId }}" @class(['input', 'is-danger' => !$valid]) type="text"
+                    <input id="products-chooser-input-{{ $htmlInputId }}" @class(['input', 'is-danger' => !$valid || $invalid]) type="text"
                         placeholder="@lang('components.products_chooser.search_product')"
-                        id="productName" autocomplete="off" wire:model="productName" wire:focus="$set('isOpen', true)">
+                        autocomplete="off" wire:model.live.debounce.150ms="productName" wire:focus="$set('isOpen', true)"
+                        data-chooser-input data-chooser-type="products" data-chooser-dropdown="products-chooser-dropdown-{{ $htmlInputId }}">
                 </div>
                 <div class="dropdown-menu" style="width: 100%;">
                     <div id="products-chooser-dropdown-{{ $htmlInputId }}" class="dropdown-content">
                         @forelse ($filteredProducts as $product)
-                            <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" wire:key="dropdown-{{ $product->id }}">
+                            <a wire:click.prevent="addProduct({{ $product->id }})" class="dropdown-item" wire:key="dropdown-{{ $product->id }}" data-chooser-option data-chooser-value="{{ $product->id }}">
                                 <div class="image is-small is-rounded is-inline" style="background-image: url(/storage/products/{{ $product->image ?? 'default.png' }});"></div>
                                 {!! $productName != '' ? str_replace(' ', '&nbsp;', preg_replace('#(' . preg_quote($productName) . ')#i', '<b>$1</b>', $product->name)) : $product->name !!}
                             </a>
@@ -127,61 +128,10 @@
                 <p class="help">@lang('components.products_chooser.minor')</p>
             @endif
 
-            @if (!$valid)
+            @if (!$valid || $invalid)
                 <p class="help is-danger">@lang('components.products_chooser.empty_error')</p>
             @endif
 
-            <script>
-                (function () {
-                    const productChooserInput = document.getElementById('products-chooser-input-{{ $htmlInputId }}');
-                    const productChooserDropdown = document.getElementById('products-chooser-dropdown-{{ $htmlInputId }}');
-                    let selectedItem = -1;
-                    productChooserInput.addEventListener('keydown', event => {
-                        if (event.key == 'Enter') {
-                            event.preventDefault();
-                            event.stopPropagation();
-                        }
-                        const items = productChooserDropdown.children;
-                        if (event.key == 'Enter' || event.key == 'Tab') {
-                            event.preventDefault();
-                            if (selectedItem != -1) {
-                                @this.addProduct(items[selectedItem].getAttribute('wire:key').replace('dropdown-', ''));
-                            } else {
-                                @this.addFirstProduct();
-                            }
-                        }
-                        else if (event.key == 'ArrowUp') {
-                            event.preventDefault();
-                            if (selectedItem != -1) items[selectedItem].classList.remove('is-active');
-                            if (selectedItem > -1) {
-                                selectedItem--;
-                            } else {
-                                selectedItem = items.length - 1;
-                            }
-                            if (selectedItem != -1) items[selectedItem].classList.add('is-active');
-                        }
-                        else if (event.key == 'ArrowDown') {
-                            event.preventDefault();
-                            if (selectedItem != -1) items[selectedItem].classList.remove('is-active');
-                            if (selectedItem < items.length - 1) {
-                                selectedItem++;
-                            } else {
-                                selectedItem = -1;
-                            }
-                            if (selectedItem != -1) items[selectedItem].classList.add('is-active');
-                        }
-                        else {
-                            selectedItem = -1;
-                        }
-                    });
-                    productChooserInput.addEventListener('blur', () => {
-                        setTimeout(() => {
-                            @this.$set('isOpen', false);
-                            selectedItem = -1;
-                        }, 100);
-                    });
-                })();
-            </script>
         </div>
     @endif
 </div>

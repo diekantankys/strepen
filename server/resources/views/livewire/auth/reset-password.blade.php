@@ -20,7 +20,7 @@
             <label class="label" for="password">@lang('auth.reset_password.password')</label>
             <div class="control">
                 <input class="input @error('password') is-danger @enderror" type="password" id="password"
-                    wire:model.defer="password" required>
+                    wire:model="password" required>
             </div>
             @error('password') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
@@ -29,7 +29,7 @@
             <label class="label" for="passwordConfirmation">@lang('auth.reset_password.password_confirmation')</label>
             <div class="control">
                 <input class="input @error('passwordConfirmation') is-danger @enderror" type="password" id="passwordConfirmation"
-                    wire:model.defer="passwordConfirmation" required>
+                    wire:model="passwordConfirmation" required>
             </div>
             @error('passwordConfirmation') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>

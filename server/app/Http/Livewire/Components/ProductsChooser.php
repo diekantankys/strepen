@@ -76,11 +76,12 @@ class ProductsChooser extends InputComponent
 
     public function filterProducts()
     {
+        $productName = (string) $this->productName;
         $filteredProducts = $this->products;
         if (! $this->bigMode) {
             $filteredProducts = $filteredProducts->filter(
                 fn ($product) => ! $this->selectedProducts->pluck('product_id')->contains($product->id) &&
-                (strlen($this->productName) == 0 || stripos($product->name, $this->productName) !== false)
+                (strlen($productName) == 0 || stripos($product->name, $productName) !== false)
             );
         }
         if ($this->minor) {
@@ -94,7 +95,7 @@ class ProductsChooser extends InputComponent
 
     public function emitValue()
     {
-        $this->emitUp('inputValue', $this->name, $this->selectedProducts
+        $this->dispatch('inputValue', $this->name, $this->selectedProducts
             ->filter(fn ($selectedProduct) => $selectedProduct['amount'] > 0)
             ->toArray());
     }

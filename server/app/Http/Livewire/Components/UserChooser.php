@@ -80,7 +80,7 @@ class UserChooser extends InputComponent
     {
         $this->user = null;
         $this->userName = __('components.user_chooser.anonymous');
-        $this->emitUp('inputValue', $this->name, null);
+        $this->emitValue();
         $this->isOpen = false;
     }
 
@@ -100,14 +100,16 @@ class UserChooser extends InputComponent
 
     public function filterUsers()
     {
+        $userName = (string) $this->userName;
+
         $this->filteredUsers = $this->users
-            ->filter(fn ($user) => strlen($this->userName) == 0 || stripos($user->name, $this->userName) !== false)
+            ->filter(fn ($user) => strlen($userName) == 0 || stripos($user->name, $userName) !== false)
             ->slice(0, 10);
     }
 
     public function emitValue()
     {
-        $this->emitUp('inputValue', $this->name, $this->user != null ? $this->user->id : null);
+        $this->dispatch('inputValue', $this->name, $this->user != null ? $this->user->id : null);
     }
 
     public function render()

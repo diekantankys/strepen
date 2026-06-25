@@ -10,7 +10,7 @@ class LogoutTest extends TestCase
     // Test to logout when guest
     public function test_logout_guest()
     {
-        $this->get(route('auth.logout'))->assertRedirect(route('auth.login'));
+        $this->post(route('auth.logout'))->assertRedirect(route('auth.login'));
     }
 
     // Test to logout when authed
@@ -19,6 +19,6 @@ class LogoutTest extends TestCase
         $user = User::factory()->create();
         $this->actingAs($user);
 
-        $this->get(route('auth.logout'))->assertRedirect(route('auth.login'));
+        $this->post(route('auth.logout'))->assertRedirect(route('auth.login'));
     }
 }

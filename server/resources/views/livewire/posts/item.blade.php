@@ -7,7 +7,7 @@
 
     <div class="card-content content">
         <h4>
-            <a href="{{ route('posts.show', $post) }}" style="color: inherit;">{{ $post->title }}</a>
+            <a href="{{ route('posts.show', $post) }}" style="color: inherit;" wire:navigate>{{ $post->title }}</a>
 
             <div class="buttons is-pulled-right is-hidden-touch">
                 <button class="button @if ($post->likes->contains(Auth::user())) is-success @endif" wire:click="likePost">

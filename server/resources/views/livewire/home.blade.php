@@ -13,7 +13,7 @@
             </x-slot>
 
             <x-slot name="filters">
-                <livewire:components.user-chooser name="user_filter" :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" />
+                <livewire:components.user-chooser name="user_filter" :userId="$user_id" inline="true" includeStrepenUser="true" relationship="true" postsRequired="true" wire:key="home-user-filter-chooser" />
             </x-slot>
         </x-search-header>
 
@@ -22,7 +22,7 @@
 
             <div class="container is-max-desktop">
                 @foreach ($posts as $post)
-                    <livewire:posts.item :post="$post" wire:key="{{ $post->id }}" />
+                    <livewire:posts.item :post="$post" wire:key="post-{{ $post->id }}" />
                 @endforeach
             </div>
 

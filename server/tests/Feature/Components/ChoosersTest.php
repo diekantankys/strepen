@@ -23,12 +23,32 @@ class ChoosersTest extends TestCase
             ->assertDontSee('Beta')
             ->call('selectFirstUser')
             ->assertSet('user.id', $included->id)
-            ->assertEmittedUp('inputValue', 'user', $included->id)
+            ->assertDispatched('inputValue', 'user', $included->id)
             ->call('inputValidate', 'user')
             ->assertSet('valid', true)
             ->call('inputClear', 'user')
             ->assertSet('user', null)
-            ->assertEmittedUp('inputValue', 'user', null);
+            ->assertDispatched('inputValue', 'user', null);
+    }
+
+    public function test_user_chooser_can_search_again_after_selected_user_is_cleared_by_typing()
+    {
+        $alpha = User::factory()->create(['firstname' => 'Alpha', 'lastname' => 'Tester']);
+        $beta = User::factory()->create(['firstname' => 'Beta', 'lastname' => 'Tester']);
+
+        Livewire::test(UserChooser::class, ['name' => 'user'])
+            ->assertSeeHtml('wire:model.live.debounce.150ms="userName"')
+            ->assertSeeHtml('data-chooser-type="user"')
+            ->set('userName', 'Alpha')
+            ->call('selectFirstUser')
+            ->assertSet('user.id', $alpha->id)
+            ->set('userName', 'Beta')
+            ->assertSet('user', null)
+            ->assertDispatched('inputValue', 'user', null)
+            ->assertSee('Beta')
+            ->assertDontSee('Alpha')
+            ->call('selectFirstUser')
+            ->assertSet('user.id', $beta->id);
     }
 
     public function test_user_chooser_can_require_posts()
@@ -52,10 +72,30 @@ class ChoosersTest extends TestCase
             ->assertDontSee('Inactive')
             ->call('selectFirstProduct')
             ->assertSet('product.id', $active->id)
-            ->assertEmittedUp('inputValue', 'product', $active->id);
+            ->assertDispatched('inputValue', 'product', $active->id);
 
         Livewire::test(ProductChooser::class, ['name' => 'product', 'includeInactive' => true])
             ->set('productName', 'Inactive')
             ->assertSee('Inactive');
+    }
+
+    public function test_product_chooser_can_search_again_after_selected_product_is_cleared_by_typing()
+    {
+        $cola = Product::factory()->create(['name' => 'Cola', 'active' => true]);
+        $water = Product::factory()->create(['name' => 'Water', 'active' => true]);
+
+        Livewire::test(ProductChooser::class, ['name' => 'product'])
+            ->assertSeeHtml('wire:model.live.debounce.150ms="productName"')
+            ->assertSeeHtml('data-chooser-type="product"')
+            ->set('productName', 'Cola')
+            ->call('selectFirstProduct')
+            ->assertSet('product.id', $cola->id)
+            ->set('productName', 'Water')
+            ->assertSet('product', null)
+            ->assertDispatched('inputValue', 'product', null)
+            ->assertSee('Water')
+            ->assertDontSee('Cola')
+            ->call('selectFirstProduct')
+            ->assertSet('product.id', $water->id);
     }
 }

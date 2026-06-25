@@ -72,7 +72,7 @@ class Item extends Component
 
         $this->isEditing = false;
         $this->product->save();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteImage()
@@ -82,14 +82,14 @@ class Item extends Component
         }
         $this->product->image = null;
         $this->product->save();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function deleteProduct()
     {
         $this->isDeleting = false;
         $this->product->delete();
-        $this->emitUp('refresh');
+        $this->dispatch('refresh')->to(Crud::class);
     }
 
     public function render()

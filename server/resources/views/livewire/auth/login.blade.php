@@ -6,16 +6,16 @@
             <label class="label" for="email">@lang('auth.login.email')</label>
             <div class="control">
                 <input class="input @error('email') is-danger @enderror" type="email" id="email"
-                    wire:model.defer="email" tabindex="1" autofocus required>
+                    wire:model="email" tabindex="1" autofocus required>
             </div>
             @error('email') <p class="help is-danger">{{ $message }}</p> @enderror
         </div>
 
         <div class="field">
-            <label class="label" for="password">@lang('auth.login.password') (<a href="{{ route('auth.forgot_password') }}" tabindex="4">@lang('auth.login.forgot')</a>)</label>
+            <label class="label" for="password">@lang('auth.login.password') (<a href="{{ route('auth.forgot_password') }}" tabindex="4" wire:navigate>@lang('auth.login.forgot')</a>)</label>
             <div class="control">
                 <input class="input @error('password') is-danger @enderror" type="password" id="password"
-                    wire:model.defer="password" tabindex="2" required>
+                    wire:model="password" tabindex="2" required>
             </div>
             @error('password') @if ($message != 'null') <p class="help is-danger">{{ $message }}</p> @endif @enderror
         </div>

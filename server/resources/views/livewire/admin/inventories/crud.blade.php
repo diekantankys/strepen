@@ -16,9 +16,9 @@
         </x-slot>
 
         <x-slot name="filters">
-            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" inventoriesRequired="true" />
+            <livewire:components.user-chooser name="user_filter" :userId="$user_id" includeInactive="true" inline="true" relationship="true" inventoriesRequired="true" wire:key="admin-inventories-filter-user-chooser" />
 
-            <livewire:components.product-chooser name="product_filter" :productId="$product_id" includeInactive="true" inline="true" relationship="true" />
+            <livewire:components.product-chooser name="product_filter" :productId="$product_id" includeInactive="true" inline="true" relationship="true" wire:key="admin-inventories-filter-product-chooser" />
         </x-slot>
     </x-search-header>
 
@@ -27,7 +27,7 @@
 
         <div class="columns is-multiline">
             @foreach ($inventories as $inventory)
-                <livewire:admin.inventories.item :inventory="$inventory" :wire:key="$inventory->id" />
+                <livewire:admin.inventories.item :inventory="$inventory" wire:key="inventory-{{ $inventory->id }}" />
             @endforeach
         </div>
 
@@ -51,12 +51,12 @@
                         <label class="label" for="name">@lang('admin/inventories.crud.name')</label>
                         <div class="control">
                             <input class="input @error('inventory.name') is-danger @enderror" type="text" id="name"
-                                wire:model.defer="inventory.name" required>
+                                wire:model="inventory.name" required>
                         </div>
                         @error('inventory.name') <p class="help is-danger">{{ $message }}</p> @enderror
                     </div>
 
-                    <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" />
+                    <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" :invalid="$this->isInputInvalid('products')" wire:key="admin-inventories-create-products-chooser" />
                 </div>
 
                 <div class="modal-card-foot">

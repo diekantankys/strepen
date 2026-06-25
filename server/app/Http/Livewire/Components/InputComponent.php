@@ -12,6 +12,8 @@ abstract class InputComponent extends Component
     // State
     public $valid = true;
 
+    public $invalid = false;
+
     // Events
     public $listeners = ['inputValidate', 'inputClear', 'inputProps'];
 
