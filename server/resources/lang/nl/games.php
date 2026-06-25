@@ -37,4 +37,24 @@ return [
     'crossy_road_score_label' => 'Score',
     'crossy_road_no_scores_yet' => 'Nog geen scores deze maand. Wees de eerste!',
     'crossy_road_press_to_start' => 'Gebruik pijltjestoetsen of swipe om te starten',
+
+    // Wanted
+    'wanted' => 'Gezocht',
+    'wanted_description' => 'Vind het gezochte gezicht voordat de tijd om is!',
+
+    'wanted_game_over' => 'Game Over!',
+    'wanted_your_score' => 'Jouw score',
+    'wanted_monthly_leaderboard' => 'Leaderboard',
+    'wanted_player' => 'Speler',
+    'wanted_score_column' => 'Score',
+    'wanted_no_scores_yet' => 'Nog geen scores deze maand. Wees de eerste!',
+    'wanted_play_again' => 'Opnieuw spelen',
+    'wanted_saving' => 'Opslaan...',
+
+    'wanted_press_to_start' => 'Druk op SPATIE of tik om te starten',
+    'wanted_no_faces' => 'Nog geen gezichten beschikbaar. Vraag een admin om ze toe te voegen!',
+    'wanted_poster_label' => 'GEZOCHT',
+    'wanted_score_label' => 'Score',
+    'wanted_lives_label' => 'Levens',
+    'wanted_time_label' => 'Tijd',
 ];

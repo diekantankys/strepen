@@ -6,12 +6,12 @@
             <a href="{{ route('games.flappy-bird') }}">
                 <div class="card">
                     <div class="card-image">
-                        <img src="/images/games/flappy-bird-preview.svg" alt="Flappy Flügel" style="height: 220px; width: 100%; object-fit: cover; background: #1a1a2e; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; display: block;">
+                        <img src="/images/games/flappy-bird-preview.svg" alt="@lang('games.flappy_bird')" style="height: 220px; width: 100%; object-fit: cover; background: #1a1a2e; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; display: block;">
                     </div>
                     <div class="card-content">
                         <div class="media is-align-items-center">
                             <div class="media-content">
-                                <p class="title is-4 mb-1">Flappy Flügel</p>
+                                <p class="title is-4 mb-1">@lang('games.flappy_bird')</p>
                                 <p class="subtitle is-6 has-text-grey">@lang('games.flappy_bird_description')</p>
                             </div>
                         </div>
@@ -31,6 +31,24 @@
                             <div class="media-content">
                                 <p class="title is-4 mb-1">Kratje Hop</p>
                                 <p class="subtitle is-6 has-text-grey">@lang('games.crossy_road_description')</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="column is-one-third-desktop is-half-tablet">
+            <a href="{{ route('games.wanted') }}">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/images/games/wanted-preview.svg" alt="@lang('games.wanted')" style="height: 220px; width: 100%; object-fit: cover; background: #0a0a1c; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; display: block;">
+                    </div>
+                    <div class="card-content">
+                        <div class="media is-align-items-center">
+                            <div class="media-content">
+                                <p class="title is-4 mb-1">@lang('games.wanted')</p>
+                                <p class="subtitle is-6 has-text-grey">@lang('games.wanted_description')</p>
                             </div>
                         </div>
                     </div>
