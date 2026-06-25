@@ -234,7 +234,7 @@ class User extends Authenticatable
 
         // Loop trough days
         $balance = $startDepositsPrice - $startTransactionsPrice;
-        $days = ceil((($endDate + 24 * 60 * 60) - $startDate + 1) / (24 * 60 * 60));
+        $days = ceil((($endDate + 24 * 60 * 60) - $startDate) / (24 * 60 * 60));
         $balanceData = [];
         $index = 0;
         for ($day = 0; $day < $days; $day++) {

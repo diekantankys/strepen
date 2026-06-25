@@ -52,19 +52,30 @@ class CreateTest extends TestCase
     // Test transactions create transaction with product with amount
     public function test_create_transaction_with_product_with_amount()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['balance' => 20]);
         $this->actingAs($user);
 
-        $product = Product::factory()->create();
+        $product = Product::factory()->create(['price' => 2.5, 'amount' => 10]);
+        $amount = 2;
         Livewire::test(Create::class)
             ->emit('inputValue', 'products', [
                 [
                     'product_id' => $product->id,
-                    'amount' => $this->faker->numberBetween(1, 5),
+                    'amount' => $amount,
                 ],
             ])
             ->call('createTransaction');
 
-        $this->assertTrue($user->transactions->count() == 1);
+        $transaction = $user->transactions()->first();
+        $this->assertNotNull($transaction);
+        $this->assertSame(2.5 * $amount, $transaction->price);
+        $this->assertSame(20 - (2.5 * $amount), $user->fresh()->balance);
+        $this->assertSame(10 - $amount, $product->fresh()->amount);
+        $this->assertDatabaseHas('transaction_product', [
+            'transaction_id' => $transaction->id,
+            'product_id' => $product->id,
+            'price' => 2.5,
+            'amount' => $amount,
+        ]);
     }
 }
