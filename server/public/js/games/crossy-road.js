@@ -697,6 +697,8 @@
     }
 
     document.addEventListener('keydown', function (e) {
+        var tag = document.activeElement ? document.activeElement.tagName : '';
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
         if      (e.code === 'ArrowUp'    || e.code === 'KeyW') { e.preventDefault(); tryMove( 0,  1); }
         else if (e.code === 'ArrowDown'  || e.code === 'KeyS') { e.preventDefault(); tryMove( 0, -1); }
         else if (e.code === 'ArrowLeft'  || e.code === 'KeyA') { e.preventDefault(); tryMove(-1,  0); }

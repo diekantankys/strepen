@@ -37,6 +37,5 @@
         document.addEventListener('livewire:navigating', () => {
             window.removeEventListener('keydown', keydownListener);
         }, { once: true });
-        window.scrollTo({top: 0, behavior: 'smooth'});
     </script>
 </div>

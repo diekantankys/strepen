@@ -144,6 +144,7 @@ class Create extends Component
         $user->save();
 
         $this->isCreated = true;
+        $this->dispatch('scroll-top');
     }
 
     public function closeCreated()
@@ -151,6 +152,7 @@ class Create extends Component
         $this->dispatch('inputClear', 'user')->to(UserChooser::class);
         $this->dispatch('inputClear', 'products')->to(ProductsChooser::class);
         $this->resetTransactionForm();
+        $this->dispatch('scroll-top');
     }
 
     public function render()
