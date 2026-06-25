@@ -13,6 +13,7 @@
             <a class="button" href="{{ route('admin.products.crud') }}" wire:navigate>@lang('admin/home.products')</a>
             <a class="button" href="{{ route('admin.inventories.crud') }}" wire:navigate>@lang('admin/home.inventories')</a>
             <a class="button" href="{{ route('admin.transactions.crud') }}" wire:navigate>@lang('admin/home.transactions')</a>
+            <a class="button" href="{{ route('admin.games.index') }}" wire:navigate>@lang('admin/home.games')</a>
         </div>
     </div>
 @endcomponent

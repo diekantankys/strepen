@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Livewire\Admin\ApiKeys\Crud as ApiKeysCrud;
+use App\Http\Livewire\Admin\Games\Index as AdminGamesIndex;
+use App\Http\Livewire\Admin\Inventories\Crud as InventoriesCrud;
+use App\Http\Livewire\Admin\Posts\Crud as PostsCrud;
+use App\Http\Livewire\Admin\Products\Crud as ProductsCrud;
+use App\Http\Livewire\Admin\Transactions\Crud as TransactionsCrud;
 use App\Http\Livewire\Admin\Users\Crud;
 use App\Http\Livewire\Auth\ForgotPassword;
 use App\Http\Livewire\Auth\Login;
@@ -10,6 +16,7 @@ use App\Http\Livewire\Balance;
 use App\Http\Livewire\Games\CrossyRoad;
 use App\Http\Livewire\Games\FlappyBird;
 use App\Http\Livewire\Games\Index as GamesIndex;
+use App\Http\Livewire\Games\Wanted;
 use App\Http\Livewire\Home;
 use App\Http\Livewire\Leaderboards;
 use App\Http\Livewire\Notifications;
@@ -31,6 +38,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/games', GamesIndex::class)->name('games.index');
     Route::get('/games/flappy-bird', FlappyBird::class)->name('games.flappy-bird');
     Route::get('/games/crossy-road', CrossyRoad::class)->name('games.crossy-road');
+    Route::get('/games/wanted', Wanted::class)->name('games.wanted');
 
     Route::get('/posts/{post}', Show::class)->name('posts.show');
 
@@ -59,20 +67,23 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/admin/users', Crud::class)->name('admin.users.crud');
 
-        Route::get('/admin/posts', App\Http\Livewire\Admin\Posts\Crud::class)->name('admin.posts.crud');
+        Route::get('/admin/posts', PostsCrud::class)->name('admin.posts.crud');
 
-        Route::get('/admin/products', App\Http\Livewire\Admin\Products\Crud::class)->name('admin.products.crud');
+        Route::get('/admin/products', ProductsCrud::class)->name('admin.products.crud');
 
-        Route::get('/admin/inventories', App\Http\Livewire\Admin\Inventories\Crud::class)->name('admin.inventories.crud');
+        Route::get('/admin/inventories', InventoriesCrud::class)->name('admin.inventories.crud');
 
-        Route::get('/admin/transactions', App\Http\Livewire\Admin\Transactions\Crud::class)->name('admin.transactions.crud');
+        Route::get('/admin/transactions', TransactionsCrud::class)->name('admin.transactions.crud');
+
+        Route::view('/admin/games', 'admin.games')->name('admin.games.index');
+        Route::get('/admin/games/wanted', AdminGamesIndex::class)->name('admin.games.wanted');
     });
 
     // Admin routes
     Route::middleware('admin')->group(function () {
         Route::view('/admin/settings', 'admin.settings')->name('admin.settings');
 
-        Route::get('/admin/api_keys', App\Http\Livewire\Admin\ApiKeys\Crud::class)->name('admin.api_keys.crud');
+        Route::get('/admin/api_keys', ApiKeysCrud::class)->name('admin.api_keys.crud');
     });
 });
 

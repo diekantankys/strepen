@@ -11,4 +11,5 @@ return [
     'products' => 'Producten',
     'inventories' => 'Voorraden',
     'transactions' => 'Transacties',
+    'games' => 'Spellen',
 ];

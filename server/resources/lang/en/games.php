@@ -37,4 +37,24 @@ return [
     'crossy_road_score_label' => 'Score',
     'crossy_road_no_scores_yet' => 'No scores this month yet. Be the first!',
     'crossy_road_press_to_start' => 'Use arrow keys or swipe to start',
+
+    // Wanted
+    'wanted' => 'Wanted',
+    'wanted_description' => 'Find the wanted face before time runs out!',
+
+    'wanted_game_over' => 'Time\'s up!',
+    'wanted_your_score' => 'Your score',
+    'wanted_monthly_leaderboard' => 'Monthly leaderboard',
+    'wanted_player' => 'Player',
+    'wanted_score_column' => 'Score',
+    'wanted_no_scores_yet' => 'No scores this month yet. Be the first!',
+    'wanted_play_again' => 'Play again',
+    'wanted_saving' => 'Saving...',
+
+    'wanted_press_to_start' => 'Press SPACE or tap to start',
+    'wanted_no_faces' => 'No faces available yet. Ask an admin to add some!',
+    'wanted_poster_label' => 'WANTED',
+    'wanted_score_label' => 'Score',
+    'wanted_lives_label' => 'Lives',
+    'wanted_time_label' => 'Time',
 ];
