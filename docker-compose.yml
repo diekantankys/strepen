@@ -1,0 +1,44 @@
+services:
+    app:
+        build:
+            context: server
+        volumes:
+            - ./server/.env:/var/www/html/.env:z
+            - app_storage:/var/www/html/storage
+        env_file:
+            - ./server/.env
+        environment:
+            DB_HOST: db
+        depends_on:
+            db:
+                condition: service_healthy
+
+    nginx:
+        image: nginx:alpine
+        ports:
+            - "${APP_PORT:-8000}:80"
+        volumes:
+            - ./server/docker/nginx.conf:/etc/nginx/conf.d/default.conf:ro,z
+            - ./server/public:/var/www/html/public:ro,z
+            - app_storage:/var/www/html/storage:ro
+        depends_on:
+            - app
+
+    db:
+        image: mysql:8.4
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE:-strepen}
+            MYSQL_USER: ${DB_USERNAME:-strepen}
+            MYSQL_PASSWORD: ${DB_PASSWORD:-strepen}
+            MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-strepen}
+        volumes:
+            - db_data:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+volumes:
+    app_storage:
+    db_data:

@@ -2,6 +2,43 @@
 
 # Installation Documentation
 
+## Docker
+
+-   Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
+-   Clone the repo
+
+    ```
+    git clone https://github.com/diekantankys/strepen.git
+    cd strepen
+    ```
+
+-   Copy the example env file and generate an app key
+
+    ```
+    cp server/.env.example server/.env
+    docker compose run --rm app php artisan key:generate
+    ```
+
+-   Start the services
+
+    ```
+    docker compose up -d
+    ```
+
+-   Run database migrations and seed initial data
+
+    ```
+    docker compose exec app php artisan migrate --seed
+    ```
+
+-   Goto http://localhost:8000/ and you're done!
+
+-   Optional: run the unit and feature tests
+
+    ```
+    docker compose exec app php artisan test --parallel
+    ```
+
 ## Windows
 
 -   Install [XAMPP](https://www.apachefriends.org/download.html) Apache web server, PHP and MySQL database
