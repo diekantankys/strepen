@@ -7,6 +7,7 @@ use App\Http\Livewire\Auth\ForgotPassword;
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\ResetPassword;
 use App\Http\Livewire\Balance;
+use App\Http\Livewire\Games\CrossyRoad;
 use App\Http\Livewire\Games\FlappyBird;
 use App\Http\Livewire\Games\Index as GamesIndex;
 use App\Http\Livewire\Home;
@@ -29,6 +30,7 @@ Route::view('/account-deletion', 'account-deletion')->name('account-deletion');
 Route::middleware('auth')->group(function () {
     Route::get('/games', GamesIndex::class)->name('games.index');
     Route::get('/games/flappy-bird', FlappyBird::class)->name('games.flappy-bird');
+    Route::get('/games/crossy-road', CrossyRoad::class)->name('games.crossy-road');
 
     Route::get('/posts/{post}', Show::class)->name('posts.show');
 

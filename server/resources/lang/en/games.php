@@ -3,6 +3,7 @@
 return [
     'title' => 'Games',
 
+    // Flappy Bird
     'flappy_bird' => 'Flappy Flügel',
     'flappy_bird_description' => 'Tap to fly, avoid the pipes!',
     'flappy_bird_tag_highscore' => 'Highscore',
@@ -21,4 +22,19 @@ return [
     'flappy_bird_no_scores_yet' => 'No scores this month yet. Be the first!',
     'flappy_bird_controls' => 'Controls',
     'flappy_bird_press_to_start' => 'Press SPACE or tap to start',
+
+    // Crossy Road
+    'crossy_road' => 'Kratje Hop',
+    'crossy_road_description' => 'Hop across the road, dodge the cars!',
+
+    'crossy_road_game_over' => 'Game Over!',
+    'crossy_road_your_score' => 'Your score',
+    'crossy_road_saving' => 'Saving...',
+    'crossy_road_play_again' => 'Play again',
+
+    'crossy_road_monthly_leaderboard' => 'Monthly leaderboard',
+    'crossy_road_player' => 'Player',
+    'crossy_road_score_label' => 'Score',
+    'crossy_road_no_scores_yet' => 'No scores this month yet. Be the first!',
+    'crossy_road_press_to_start' => 'Use arrow keys or swipe to start',
 ];

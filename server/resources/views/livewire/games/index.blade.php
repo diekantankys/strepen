@@ -19,5 +19,23 @@
                 </div>
             </a>
         </div>
+
+        <div class="column is-one-third-desktop is-half-tablet">
+            <a href="{{ route('games.crossy-road') }}">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="/images/games/crossy-road-preview.svg" alt="Kratje Hop" style="height: 220px; width: 100%; object-fit: cover; background: #8B5E3C; border-top-left-radius: 0.25rem; border-top-right-radius: 0.25rem; display: block;">
+                    </div>
+                    <div class="card-content">
+                        <div class="media is-align-items-center">
+                            <div class="media-content">
+                                <p class="title is-4 mb-1">Kratje Hop</p>
+                                <p class="subtitle is-6 has-text-grey">@lang('games.crossy_road_description')</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
     </div>
 </div>

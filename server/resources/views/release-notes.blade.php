@@ -19,6 +19,7 @@
                 <li>Remove unused email_verified_at column from users table</li>
                 <li>Upgrade to Laravel 13 and Livewire 4 and other used libraries</li>
                 <li>Add games page, score system and Flappy Flügel game</li>
+                <li>Add Kratje Hop game</li>
                 <li>Fixed other small bugs</li>
             </ul>
         </div>
