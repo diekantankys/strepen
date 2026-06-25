@@ -4,7 +4,16 @@
         <h1 class="title">@lang('release-notes.header')</h1>
 
         <div class="box content">
-            <h2 class="title is-4">Version 1.5.0-dev</h2>
+            <h2 class="title is-4">Version 1.6.0-dev</h2>
+            <p><i>In development</i></p>
+            <ul>
+                <li>Add games page, score system and Flappy Flügel game</li>
+                <li>Add Kratje Hop game</li>
+            </ul>
+        </div>
+
+        <div class="box content">
+            <h2 class="title is-4">Version 1.5.0</h2>
             <p><i>In development</i></p>
             <ul>
                 <li>Add live stats to leaderboards page</li>
@@ -18,8 +27,6 @@
                 <li>Add PHP linting to GitHub actions CI</li>
                 <li>Remove unused email_verified_at column from users table</li>
                 <li>Upgrade to Laravel 13 and Livewire 4 and other used libraries</li>
-                <li>Add games page, score system and Flappy Flügel game</li>
-                <li>Add Kratje Hop game</li>
                 <li>Fixed other small bugs</li>
             </ul>
         </div>
