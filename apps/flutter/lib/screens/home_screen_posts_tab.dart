@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
 import '../models/post.dart';
 import '../services/post_service.dart';
+import 'post_detail_screen.dart';
 
 class HomeScreenPostsTab extends StatefulWidget {
   const HomeScreenPostsTab({super.key});
@@ -47,7 +48,7 @@ class _HomeScreenPostsTabState extends State {
     super.dispose();
   }
 
-  void loadNextPage() async {
+  Future<void> loadNextPage() async {
     if (_isDone) return;
 
     _isLoading = true;
@@ -83,41 +84,57 @@ class _HomeScreenPostsTabState extends State {
     }
   }
 
+  Future<void> _refresh() async {
+    PostsService.getInstance().clearCache();
+    setState(() {
+      _posts = [];
+      _loadedPages.clear();
+      _page = 1;
+      _isDone = false;
+      _hasError = false;
+    });
+    await loadNextPage();
+  }
+
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
     return RefreshIndicator(
-      onRefresh: () async {
-        _posts = [];
-        _page = 1;
-        _isLoading = false;
-        _isDone = false;
-        loadNextPage();
-      },
-      child: _hasError
-          ? Center(child: Text(lang.home_posts_error))
-          : (_posts.isNotEmpty
-                ? ListView.builder(
-                    controller: _scrollController,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    itemCount: _posts.length,
-                    itemBuilder: (context, index) =>
-                        PostItem(post: _posts[index]),
-                  )
-                : (_isLoading
-                      ? const Center(child: CircularProgressIndicator())
-                      : Center(child: Text(lang.home_posts_empty)))),
+      onRefresh: _refresh,
+      child: _posts.isNotEmpty
+          ? ListView.builder(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              itemCount: _posts.length,
+              itemBuilder: (context, index) => PostItem(post: _posts[index]),
+            )
+          : ListView(
+              controller: _scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              children: [
+                SizedBox(
+                  height: MediaQuery.sizeOf(context).height * 0.65,
+                  child: Center(
+                    child: _hasError
+                        ? Text(lang.home_posts_error)
+                        : (_isLoading
+                              ? const CircularProgressIndicator()
+                              : Text(lang.home_posts_empty)),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }
 
 class PostItem extends StatefulWidget {
   final Post post;
+  final bool isDetail;
 
-  const PostItem({Key? key, required this.post}) : super(key: key);
+  const PostItem({Key? key, required this.post, this.isDetail = false})
+    : super(key: key);
 
   @override
   State createState() {
@@ -125,7 +142,7 @@ class PostItem extends StatefulWidget {
   }
 }
 
-class _PostItemState extends State {
+class _PostItemState extends State<PostItem> {
   final Post post;
 
   _PostItemState({required this.post});
@@ -142,187 +159,328 @@ class _PostItemState extends State {
           maxWidth: !isMobile ? 560 : double.infinity,
         ),
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Card(
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          child: Column(
-            children: [
-              if (post.image != null) ...[
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: CachedNetworkImageProvider(post.image!),
+        child: InkWell(
+          onTap: widget.isDetail
+              ? null
+              : () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => PostDetailScreen(post: post),
+                  ),
+                ),
+          child: Card(
+            clipBehavior: Clip.antiAliasWithSaveLayer,
+            child: Column(
+              children: [
+                if (post.image != null) ...[
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: CachedNetworkImageProvider(post.image!),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: Text(
+                ],
+                Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
                         post.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                    Container(
-                      width: double.infinity,
-                      child: Text(
-                        lang.home_posts_written_by(
-                          post.user!.name,
-                          DateFormat('yyyy-MM-dd kk:mm').format(post.createdAt),
+                      const SizedBox(height: 8),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: _PostVoteButtons(
+                          post: post,
+                          onChanged: () => setState(() {}),
                         ),
-                        style: const TextStyle(color: Colors.grey),
                       ),
-                    ),
-                    Html(
-                      data: post.body,
-                      style: {
-                        'body': Style(
-                          margin: Margins.zero,
-                          padding: HtmlPaddings.zero,
+                      const SizedBox(height: 8),
+                      Container(
+                        width: double.infinity,
+                        child: Text(
+                          lang.home_posts_written_by(
+                            post.user!.name,
+                            DateFormat(
+                              'yyyy-MM-dd kk:mm',
+                            ).format(post.createdAt),
+                          ),
+                          style: const TextStyle(color: Colors.grey),
                         ),
-                      },
-                      onLinkTap:
-                          (
-                            String? url,
-                            Map<String, String> attributes,
-                            dom.Element? element,
-                          ) async {
-                            if (url == null) return;
-                            Uri uri = Uri.parse(url);
-                            if (await canLaunchUrl(uri)) await launchUrl(uri);
-                          },
-                    ),
-                    Row(
-                      children: [
-                        // Like button
-                        Expanded(
-                          flex: 1,
-                          child: post.userLiked
-                              ? ElevatedButton.icon(
-                                  onPressed: () async {
-                                    await post.like();
-                                    setState(() {});
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.green,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                      ),
+                      Html(
+                        data: post.body,
+                        style: {
+                          'body': Style(
+                            margin: Margins.zero,
+                            padding: HtmlPaddings.zero,
+                          ),
+                        },
+                        onLinkTap:
+                            (
+                              String? url,
+                              Map<String, String> attributes,
+                              dom.Element? element,
+                            ) async {
+                              if (url == null) return;
+                              Uri uri = Uri.parse(url);
+                              if (await canLaunchUrl(uri)) await launchUrl(uri);
+                            },
+                      ),
+                      Offstage(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            alignment: WrapAlignment.end,
+                            children: [
+                              // Like button
+                              post.userLiked
+                                  ? ElevatedButton.icon(
+                                      onPressed: () async {
+                                        await post.like();
+                                        setState(() {});
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.green,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 12,
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.thumb_up_alt,
+                                        color: Colors.white,
+                                      ),
+                                      label: Text(
+                                        post.likes > 0
+                                            ? post.likes.toString()
+                                            : lang.home_posts_like,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  : OutlinedButton.icon(
+                                      onPressed: () async {
+                                        await post.like();
+                                        setState(() {});
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 12,
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.thumb_up_alt_outlined,
+                                      ),
+                                      label: Text(
+                                        post.likes > 0
+                                            ? post.likes.toString()
+                                            : lang.home_posts_like,
+                                      ),
                                     ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24,
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.thumb_up_alt,
-                                    color: Colors.white,
-                                  ),
-                                  label: Text(
-                                    post.likes > 0
-                                        ? post.likes.toString()
-                                        : lang.home_posts_like,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                )
-                              : OutlinedButton.icon(
-                                  onPressed: () async {
-                                    await post.like();
-                                    setState(() {});
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24,
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                  icon: const Icon(Icons.thumb_up_alt_outlined),
-                                  label: Text(
-                                    post.likes > 0
-                                        ? post.likes.toString()
-                                        : lang.home_posts_like,
-                                  ),
-                                ),
-                        ),
 
-                        const SizedBox(width: 16),
-
-                        // Dislike button
-                        Expanded(
-                          flex: 1,
-                          child: post.userDisliked
-                              ? ElevatedButton.icon(
-                                  onPressed: () async {
-                                    await post.dislike();
-                                    setState(() {});
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
+                              // Dislike button
+                              post.userDisliked
+                                  ? ElevatedButton.icon(
+                                      onPressed: () async {
+                                        await post.dislike();
+                                        setState(() {});
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 12,
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.thumb_down_alt,
+                                        color: Colors.white,
+                                      ),
+                                      label: Text(
+                                        post.dislikes > 0
+                                            ? post.dislikes.toString()
+                                            : lang.home_posts_dislike,
+                                        style: const TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    )
+                                  : OutlinedButton.icon(
+                                      onPressed: () async {
+                                        await post.dislike();
+                                        setState(() {});
+                                      },
+                                      style: OutlinedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 24,
+                                          vertical: 12,
+                                        ),
+                                      ),
+                                      icon: const Icon(
+                                        Icons.thumb_down_alt_outlined,
+                                      ),
+                                      label: Text(
+                                        post.dislikes > 0
+                                            ? post.dislikes.toString()
+                                            : lang.home_posts_dislike,
+                                      ),
                                     ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24,
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.thumb_down_alt,
-                                    color: Colors.white,
-                                  ),
-                                  label: Text(
-                                    post.dislikes > 0
-                                        ? post.dislikes.toString()
-                                        : lang.home_posts_dislike,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                )
-                              : OutlinedButton.icon(
-                                  onPressed: () async {
-                                    await post.dislike();
-                                    setState(() {});
-                                  },
-                                  style: OutlinedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 24,
-                                      vertical: 12,
-                                    ),
-                                  ),
-                                  icon: const Icon(
-                                    Icons.thumb_down_alt_outlined,
-                                  ),
-                                  label: Text(
-                                    post.dislikes > 0
-                                        ? post.dislikes.toString()
-                                        : lang.home_posts_dislike,
-                                  ),
-                                ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _PostVoteButtons extends StatefulWidget {
+  final Post post;
+  final VoidCallback onChanged;
+
+  const _PostVoteButtons({required this.post, required this.onChanged});
+
+  @override
+  State<_PostVoteButtons> createState() => _PostVoteButtonsState();
+}
+
+class _PostVoteButtonsState extends State<_PostVoteButtons> {
+  bool _isReacting = false;
+
+  Future<void> _react(Future<void> Function() reaction) async {
+    if (_isReacting) return;
+    setState(() => _isReacting = true);
+    try {
+      await reaction();
+      widget.onChanged();
+    } catch (exception, stacktrace) {
+      print(exception);
+      print(stacktrace);
+    } finally {
+      if (mounted) setState(() => _isReacting = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final lang = AppLocalizations.of(context)!;
+
+    return Wrap(
+      spacing: 8,
+      children: [
+        widget.post.userLiked
+            ? ElevatedButton.icon(
+                onPressed: _isReacting
+                    ? null
+                    : () => _react(() => widget.post.like()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                icon: const Icon(Icons.thumb_up_alt, color: Colors.white),
+                label: Text(
+                  widget.post.likes > 0
+                      ? widget.post.likes.toString()
+                      : lang.home_posts_like,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              )
+            : OutlinedButton.icon(
+                onPressed: _isReacting
+                    ? null
+                    : () => _react(() => widget.post.like()),
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                icon: const Icon(Icons.thumb_up_alt_outlined),
+                label: Text(
+                  widget.post.likes > 0
+                      ? widget.post.likes.toString()
+                      : lang.home_posts_like,
+                ),
+              ),
+        widget.post.userDisliked
+            ? ElevatedButton.icon(
+                onPressed: _isReacting
+                    ? null
+                    : () => _react(() => widget.post.dislike()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                icon: const Icon(Icons.thumb_down_alt, color: Colors.white),
+                label: Text(
+                  widget.post.dislikes > 0
+                      ? widget.post.dislikes.toString()
+                      : lang.home_posts_dislike,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              )
+            : OutlinedButton.icon(
+                onPressed: _isReacting
+                    ? null
+                    : () => _react(() => widget.post.dislike()),
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                icon: const Icon(Icons.thumb_down_alt_outlined),
+                label: Text(
+                  widget.post.dislikes > 0
+                      ? widget.post.dislikes.toString()
+                      : lang.home_posts_dislike,
+                ),
+              ),
+      ],
     );
   }
 }

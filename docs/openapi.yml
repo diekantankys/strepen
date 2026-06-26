@@ -96,6 +96,11 @@ components:
       in: path
       required: true
       schema: { type: string, format: uuid }
+    CommentId:
+      name: comment
+      in: path
+      required: true
+      schema: { type: integer }
 
   schemas:
     LoginInput:
@@ -185,6 +190,28 @@ components:
         dislikes: { type: integer }
         user_disliked: { type: boolean }
         user: { $ref: "#/components/schemas/User" }
+    PostComment:
+      type: object
+      required: [id, body, created_at, likes, user_liked, dislikes, user_disliked]
+      properties:
+        id: { type: integer }
+        parent_id: { type: integer, nullable: true }
+        body: { type: string }
+        created_at: { type: string, format: date-time }
+        likes: { type: integer }
+        user_liked: { type: boolean }
+        dislikes: { type: integer }
+        user_disliked: { type: boolean }
+        user: { $ref: "#/components/schemas/User" }
+        replies:
+          type: array
+          items: { $ref: "#/components/schemas/PostComment" }
+    CommentInput:
+      type: object
+      required: [body]
+      properties:
+        body: { type: string, minLength: 1, maxLength: 1000 }
+        parent_id: { type: integer, nullable: true }
     Product:
       type: object
       required:
@@ -455,7 +482,7 @@ paths:
           "404": { $ref: "#/components/responses/NotFound" },
         }
   /posts/{post}/like:
-    get:
+    put:
       tags: [Posts]
       operationId: togglePostLike
       summary: Toggle the current user's like.
@@ -468,8 +495,22 @@ paths:
           "401": { $ref: "#/components/responses/Unauthorized" },
           "404": { $ref: "#/components/responses/NotFound" },
         }
-  /posts/{post}/dislike:
     get:
+      tags: [Posts]
+      operationId: togglePostLikeLegacy
+      summary: Toggle the current user's like (deprecated - use PUT).
+      deprecated: true
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters: [{ $ref: "#/components/parameters/PostId" }]
+      responses:
+        {
+          "200": { description: Updated post. },
+          "400": { $ref: "#/components/responses/BadRequest" },
+          "401": { $ref: "#/components/responses/Unauthorized" },
+          "404": { $ref: "#/components/responses/NotFound" },
+        }
+  /posts/{post}/dislike:
+    put:
       tags: [Posts]
       operationId: togglePostDislike
       summary: Toggle the current user's dislike.
@@ -482,6 +523,154 @@ paths:
           "401": { $ref: "#/components/responses/Unauthorized" },
           "404": { $ref: "#/components/responses/NotFound" },
         }
+    get:
+      tags: [Posts]
+      operationId: togglePostDislikeLegacy
+      summary: Toggle the current user's dislike (deprecated - use PUT).
+      deprecated: true
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters: [{ $ref: "#/components/parameters/PostId" }]
+      responses:
+        {
+          "200": { description: Updated post. },
+          "400": { $ref: "#/components/responses/BadRequest" },
+          "401": { $ref: "#/components/responses/Unauthorized" },
+          "404": { $ref: "#/components/responses/NotFound" },
+        }
+  /posts/{post}/comments:
+    get:
+      tags: [Posts]
+      operationId: listPostComments
+      summary: List root comments for a post with up to three nested reply levels.
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters: [{ $ref: "#/components/parameters/PostId" }]
+      responses:
+        "200":
+          description: Comment list with embedded replies.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: "#/components/schemas/PostComment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    post:
+      tags: [Posts]
+      operationId: createPostComment
+      summary: Create a comment or reply on a post.
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters: [{ $ref: "#/components/parameters/PostId" }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/CommentInput" }
+          application/x-www-form-urlencoded:
+            schema: { $ref: "#/components/schemas/CommentInput" }
+      responses:
+        "200":
+          description: Created comment.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PostComment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /posts/{post}/comments/{comment}/like:
+    put:
+      tags: [Posts]
+      operationId: togglePostCommentLike
+      summary: Toggle the current user's like on a comment.
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters:
+        - { $ref: "#/components/parameters/PostId" }
+        - { $ref: "#/components/parameters/CommentId" }
+      responses:
+        "200":
+          description: Updated comment.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PostComment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get:
+      tags: [Posts]
+      operationId: togglePostCommentLikeLegacy
+      summary: Toggle the current user's like on a comment (deprecated - use PUT).
+      deprecated: true
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters:
+        - { $ref: "#/components/parameters/PostId" }
+        - { $ref: "#/components/parameters/CommentId" }
+      responses:
+        "200":
+          description: Updated comment.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PostComment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /posts/{post}/comments/{comment}/dislike:
+    put:
+      tags: [Posts]
+      operationId: togglePostCommentDislike
+      summary: Toggle the current user's dislike on a comment.
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters:
+        - { $ref: "#/components/parameters/PostId" }
+        - { $ref: "#/components/parameters/CommentId" }
+      responses:
+        "200":
+          description: Updated comment.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PostComment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+    get:
+      tags: [Posts]
+      operationId: togglePostCommentDislikeLegacy
+      summary: Toggle the current user's dislike on a comment (deprecated - use PUT).
+      deprecated: true
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters:
+        - { $ref: "#/components/parameters/PostId" }
+        - { $ref: "#/components/parameters/CommentId" }
+      responses:
+        "200":
+          description: Updated comment.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/PostComment" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "404": { $ref: "#/components/responses/NotFound" }
+  /posts/{post}/comments/{comment}:
+    delete:
+      tags: [Posts]
+      operationId: deletePostComment
+      summary: Delete a comment (owner or manager only).
+      security: [{ ApiKey: [], TokenAuth: [] }]
+      parameters:
+        - { $ref: "#/components/parameters/PostId" }
+        - { $ref: "#/components/parameters/CommentId" }
+      responses:
+        "200":
+          description: Comment deleted.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Message" }
+        "400": { $ref: "#/components/responses/BadRequest" }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "403": { $ref: "#/components/responses/Forbidden" }
+        "404": { $ref: "#/components/responses/NotFound" }
 
   /products:
     get:

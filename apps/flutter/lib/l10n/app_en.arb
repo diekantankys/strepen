@@ -128,5 +128,17 @@
     "settings_password_password_confirmation": "Confirm new password",
     "settings_password_success_header": "Success!",
     "settings_password_success_description": "Your password has changed successfully",
-    "settings_password_success_ok": "OK"
+    "settings_password_success_ok": "OK",
+
+    "post_detail_comments_title": "Comments",
+    "post_detail_comments_empty": "No comments yet. Be the first to comment!",
+    "post_detail_comments_error": "An error has occurred while loading the comments!",
+    "post_detail_comment_placeholder": "Write a comment...",
+    "post_detail_comment_submit": "Post",
+    "post_detail_comment_cancel": "Cancel",
+    "post_detail_comment_reply": "Reply",
+    "post_detail_comment_like": "Like",
+    "post_detail_comment_dislike": "Dislike",
+    "post_detail_replying_to": "Replying to {user_name}",
+    "@post_detail_replying_to": { "placeholders": { "user_name": {} } }
 }

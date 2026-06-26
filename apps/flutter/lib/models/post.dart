@@ -41,29 +41,19 @@ class Post {
     );
   }
 
-  Future like() async {
-    try {
-      Post updatedPost = await PostsService.getInstance().like(postId: id);
-      likes = updatedPost.likes;
-      userLiked = updatedPost.userLiked;
-      dislikes = updatedPost.dislikes;
-      userDisliked = updatedPost.userDisliked;
-    } catch (exception, stacktrace) {
-      print(exception);
-      print(stacktrace);
-    }
+  Future<void> like() async {
+    final updatedPost = await PostsService.getInstance().like(postId: id);
+    likes = updatedPost.likes;
+    userLiked = updatedPost.userLiked;
+    dislikes = updatedPost.dislikes;
+    userDisliked = updatedPost.userDisliked;
   }
 
-  Future dislike() async {
-    try {
-      Post updatedPost = await PostsService.getInstance().dislike(postId: id);
-      likes = updatedPost.likes;
-      userLiked = updatedPost.userLiked;
-      dislikes = updatedPost.dislikes;
-      userDisliked = updatedPost.userDisliked;
-    } catch (exception, stacktrace) {
-      print(exception);
-      print(stacktrace);
-    }
+  Future<void> dislike() async {
+    final updatedPost = await PostsService.getInstance().dislike(postId: id);
+    likes = updatedPost.likes;
+    userLiked = updatedPost.userLiked;
+    dislikes = updatedPost.dislikes;
+    userDisliked = updatedPost.userDisliked;
   }
 }
