@@ -66,5 +66,5 @@ Route::middleware('api_key:auth')->group(function () {
 
 // Api guest routes
 Route::middleware('api_key:guest')->group(function () {
-    Route::any('auth/login', [ApiAuthController::class, 'login'])->name('api.auth.login');
+    Route::post('auth/login', [ApiAuthController::class, 'login'])->name('api.auth.login');
 });
