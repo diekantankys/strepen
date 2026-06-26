@@ -12,6 +12,8 @@ class PostComment extends Model
 {
     use SoftDeletes;
 
+    public const MAX_REPLY_DEPTH = 3;
+
     protected $casts = [
         'parent_id' => 'integer',
     ];
@@ -41,7 +43,7 @@ class PostComment extends Model
     /** @return HasMany<PostComment, $this> */
     public function replies(): HasMany
     {
-        return $this->hasMany(PostComment::class, 'parent_id')->orderBy('created_at', 'DESC');
+        return $this->hasMany(PostComment::class, 'parent_id')->orderBy('updated_at', 'DESC');
     }
 
     /** @return BelongsToMany<User, $this> */
@@ -54,6 +56,41 @@ class PostComment extends Model
     public function dislikes(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_comment_dislikes', 'comment_id', 'user_id')->withTimestamps();
+    }
+
+    public function canReceiveReply(): bool
+    {
+        $depth = 0;
+        $comment = $this;
+
+        while ($comment->parent_id !== null) {
+            $depth++;
+            if ($depth >= self::MAX_REPLY_DEPTH) {
+                return false;
+            }
+            $comment = $comment->parent()->firstOrFail();
+        }
+
+        return true;
+    }
+
+    public function deleteWithReplies(): void
+    {
+        $this->replies()->get()->each(
+            fn (PostComment $reply) => $reply->deleteWithReplies(),
+        );
+        $this->delete();
+    }
+
+    public function touchThreadAndPost(): void
+    {
+        $comment = $this;
+        while ($comment !== null) {
+            $comment->touch();
+            $comment = $comment->parent()->first();
+        }
+
+        $this->post()->first()?->touch();
     }
 
     public function like($user): void

@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../models/notification.dart';
 import '../services/auth_service.dart';
 import '../services/settings_service.dart';
+import 'post_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -161,12 +162,26 @@ class _NotificationsButtonState extends State {
                         await AuthService.getInstance().readNotification(
                           notificationId: notification.id,
                         );
+                        if (!mounted) return;
                         setState(() => _forceReload = true);
-                        pageController.animateToPage(
-                          0,
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.ease,
-                        );
+                        final post = notification.post;
+                        if (post != null) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            if (!mounted) return;
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PostDetailScreen(post: post),
+                              ),
+                            );
+                          });
+                        } else {
+                          pageController.animateToPage(
+                            0,
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.ease,
+                          );
+                        }
                       },
                       child: Text(lang.home_new_post),
                     );

@@ -11,6 +11,7 @@ class PostComment {
   int dislikes;
   bool userDisliked;
   final DateTime createdAt;
+  final DateTime updatedAt;
   final List<PostComment> replies;
 
   PostComment({
@@ -23,6 +24,7 @@ class PostComment {
     required this.dislikes,
     required this.userDisliked,
     required this.createdAt,
+    required this.updatedAt,
     required this.replies,
   });
 
@@ -37,6 +39,7 @@ class PostComment {
       dislikes: _intValue(json['dislikes'], 'dislikes'),
       userDisliked: _boolValue(json['user_disliked']),
       createdAt: DateTime.parse(json['created_at']),
+      updatedAt: DateTime.parse(json['updated_at'] ?? json['created_at']),
       replies: _repliesFromJson(json['replies']),
     );
   }
@@ -71,12 +74,22 @@ class PostComment {
       throw const FormatException('Invalid comment replies.');
     }
 
-    return replies.map<PostComment>((reply) {
+    final parsedReplies = replies.map<PostComment>((reply) {
       if (reply is! Map<String, dynamic>) {
         throw const FormatException('Invalid comment reply.');
       }
       return PostComment.fromJson(reply);
     }).toList();
+
+    return sortByUpdatedAtDesc(parsedReplies);
+  }
+
+  static List<PostComment> sortByUpdatedAtDesc(List<PostComment> comments) {
+    for (final comment in comments) {
+      sortByUpdatedAtDesc(comment.replies);
+    }
+    comments.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
+    return comments;
   }
 
   Future<void> like(int postId) async {

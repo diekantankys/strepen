@@ -28,7 +28,7 @@ class Crud extends PaginationComponent
             ->with(['post', 'user', 'likes', 'dislikes'])
             ->when($this->query, fn ($q) => $q->where('body', 'LIKE', '%'.$this->query.'%'))
             ->when($this->sort_by == 'created_at', fn ($q) => $q->orderBy('created_at'))
-            ->when($this->sort_by == 'created_at_desc' || !$this->sort_by, fn ($q) => $q->orderBy('created_at', 'DESC'));
+            ->when($this->sort_by == 'created_at_desc' || ! $this->sort_by, fn ($q) => $q->orderBy('created_at', 'DESC'));
 
         return view('livewire.admin.post_comments.crud', [
             'comments' => $comments->paginate(Setting::get('pagination_rows') * 3)->withQueryString(),

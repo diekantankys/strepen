@@ -41,6 +41,13 @@ class ApiResourcesTest extends TestCase
             ->putJson(route($route, array_merge(['api_key' => $this->apiKey()], $params)));
     }
 
+    private function authDelete(User $user, string $route, array $params = [])
+    {
+        return $this->flushHeaders()
+            ->withHeader('Authorization', 'Bearer '.$this->tokenFor($user))
+            ->deleteJson(route($route, array_merge(['api_key' => $this->apiKey()], $params)));
+    }
+
     public function test_normal_users_only_see_active_users_and_public_fields()
     {
         $user = User::factory()->create();
@@ -194,6 +201,117 @@ class ApiResourcesTest extends TestCase
             'parent_id' => $otherComment->id,
         ])->assertUnprocessable()
             ->assertJsonValidationErrors(['parent_id']);
+    }
+
+    public function test_comments_cannot_be_replied_to_beyond_the_maximum_depth()
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->for(User::factory())->create();
+        $parentId = null;
+
+        for ($depth = 0; $depth <= PostComment::MAX_REPLY_DEPTH; $depth++) {
+            $comment = new PostComment;
+            $comment->post_id = $post->id;
+            $comment->user_id = User::factory()->create()->id;
+            $comment->parent_id = $parentId;
+            $comment->body = 'Comment at depth '.$depth;
+            $comment->save();
+            $parentId = $comment->id;
+        }
+
+        $this->authPost($user, 'api.post_comments.store', ['post' => $post], [
+            'body' => 'Too deep',
+            'parent_id' => $parentId,
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors(['parent_id']);
+    }
+
+    public function test_comment_replies_bump_thread_and_post_updated_at_for_sorting()
+    {
+        $user = User::factory()->create();
+        $author = User::factory()->create();
+        $post = Post::factory()->for($author)->create([
+            'updated_at' => '2024-01-01 08:00:00',
+        ]);
+        $activeRoot = new PostComment;
+        $activeRoot->post_id = $post->id;
+        $activeRoot->user_id = $author->id;
+        $activeRoot->body = 'Older thread with new reply';
+        $activeRoot->created_at = '2024-01-01 09:00:00';
+        $activeRoot->updated_at = '2024-01-01 09:00:00';
+        $activeRoot->save();
+        $staleRoot = new PostComment;
+        $staleRoot->post_id = $post->id;
+        $staleRoot->user_id = $author->id;
+        $staleRoot->body = 'Newer but stale thread';
+        $staleRoot->created_at = '2024-01-01 11:00:00';
+        $staleRoot->updated_at = '2024-01-01 11:00:00';
+        $staleRoot->save();
+
+        $this->travelTo('2024-01-01 12:00:00');
+        $this->authPost($user, 'api.post_comments.store', ['post' => $post], [
+            'body' => 'Bump the thread',
+            'parent_id' => $activeRoot->id,
+        ])->assertCreated()
+            ->assertJsonStructure(['updated_at']);
+
+        $this->assertSame('2024-01-01 12:00:00', $activeRoot->fresh()->updated_at->format('Y-m-d H:i:s'));
+        $this->assertSame('2024-01-01 12:00:00', $post->fresh()->updated_at->format('Y-m-d H:i:s'));
+
+        $comments = $this->authGet($user, 'api.post_comments.index', ['post' => $post])
+            ->assertOk()
+            ->json();
+
+        $this->assertSame($activeRoot->id, $comments[0]['id']);
+        $this->assertSame($staleRoot->id, $comments[1]['id']);
+        $this->assertArrayHasKey('updated_at', $comments[0]);
+    }
+
+    public function test_comment_owners_cannot_delete_comments_with_replies()
+    {
+        $owner = User::factory()->create();
+        $post = Post::factory()->for(User::factory())->create();
+        $parent = new PostComment;
+        $parent->post_id = $post->id;
+        $parent->user_id = $owner->id;
+        $parent->body = 'Parent comment';
+        $parent->save();
+        $reply = new PostComment;
+        $reply->post_id = $post->id;
+        $reply->user_id = User::factory()->create()->id;
+        $reply->parent_id = $parent->id;
+        $reply->body = 'Reply';
+        $reply->save();
+
+        $this->authDelete($owner, 'api.post_comments.destroy', [
+            'post' => $post,
+            'comment' => $parent,
+        ])->assertForbidden();
+    }
+
+    public function test_admins_can_delete_comments_with_replies()
+    {
+        $admin = User::factory()->admin()->create();
+        $this->assertTrue($admin->fresh()->admin);
+        $post = Post::factory()->for(User::factory())->create();
+        $parent = new PostComment;
+        $parent->post_id = $post->id;
+        $parent->user_id = User::factory()->create()->id;
+        $parent->body = 'Parent comment';
+        $parent->save();
+        $reply = new PostComment;
+        $reply->post_id = $post->id;
+        $reply->user_id = User::factory()->create()->id;
+        $reply->parent_id = $parent->id;
+        $reply->body = 'Reply';
+        $reply->save();
+
+        $this->authDelete($admin, 'api.post_comments.destroy', [
+            'post' => $post,
+            'comment' => $parent,
+        ])->assertOk();
+        $this->assertSoftDeleted('post_comments', ['id' => $parent->id]);
+        $this->assertSoftDeleted('post_comments', ['id' => $reply->id]);
     }
 
     public function test_transaction_store_creates_pivots_and_updates_amounts_and_balance()

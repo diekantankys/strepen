@@ -29,7 +29,7 @@ class Item extends Component
     public function deleteComment(): void
     {
         $this->isDeleting = false;
-        $this->comment->delete();
+        $this->comment->deleteWithReplies();
         $this->dispatch('refresh')->to(Crud::class);
     }
 
