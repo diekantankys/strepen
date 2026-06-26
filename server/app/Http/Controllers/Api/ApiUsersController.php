@@ -119,7 +119,7 @@ class ApiUsersController extends ApiController
             ],
             'theme' => [
                 'nullable',
-                Rule::in(['light', 'dark']),
+                Rule::in(['light', 'dark', 'system']),
             ],
             'receive_news' => [
                 'nullable',

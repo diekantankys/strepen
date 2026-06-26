@@ -16,7 +16,7 @@ class ApiAuthAndMiddlewareTest extends TestCase
 
     public function test_api_key_is_required()
     {
-        $this->getJson(route('api.auth.login'))->assertStatus(400)
+        $this->postJson(route('api.auth.login'))->assertStatus(400)
             ->assertJsonValidationErrors('api_key');
     }
 
@@ -26,7 +26,7 @@ class ApiAuthAndMiddlewareTest extends TestCase
         $apiKey->active = false;
         $apiKey->save();
 
-        $this->getJson(route('api.auth.login', ['api_key' => $apiKey->key]))
+        $this->postJson(route('api.auth.login', ['api_key' => $apiKey->key]))
             ->assertStatus(400)
             ->assertJsonPath('errors.api_key', 'This api key is not active');
     }
@@ -35,7 +35,7 @@ class ApiAuthAndMiddlewareTest extends TestCase
     {
         $apiKey = ApiKey::first();
 
-        $this->getJson(route('api.auth.login', ['api_key' => $apiKey->key]))
+        $this->postJson(route('api.auth.login', ['api_key' => $apiKey->key]))
             ->assertStatus(400);
 
         $this->assertSame(1, $apiKey->fresh()->requests);
