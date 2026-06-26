@@ -134,6 +134,7 @@
     "post_detail_comment_submit": "Plaatsen",
     "post_detail_comment_cancel": "Annuleren",
     "post_detail_comment_reply": "Beantwoorden",
+    "post_detail_comment_confirm_delete": "Weet u zeker dat u deze reactie wilt verwijderen?",
     "post_detail_comment_like": "Like",
     "post_detail_comment_dislike": "Dislike",
     "post_detail_replying_to": "Beantwoordt {user_name}",

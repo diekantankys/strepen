@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\PostComment;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ApiPostCommentsController extends ApiController
 {
@@ -39,12 +40,24 @@ class ApiPostCommentsController extends ApiController
             ],
         ]);
 
+        if ($request->filled('parent_id')) {
+            $parent = PostComment::query()
+                ->where('post_id', $post->id)
+                ->findOrFail($request->integer('parent_id'));
+            if (! $parent->canReceiveReply()) {
+                throw ValidationException::withMessages([
+                    'parent_id' => 'Replies can only be nested three levels deep.',
+                ]);
+            }
+        }
+
         $comment = new PostComment;
         $comment->post_id = $post->id;
         $comment->user_id = $request->user()->id;
         $comment->parent_id = $request->input('parent_id');
         $comment->body = $request->input('body');
         $comment->save();
+        $comment->touchThreadAndPost();
         $comment->load('user', 'likes', 'dislikes');
 
         return new PostCommentResource($comment);
@@ -74,10 +87,12 @@ class ApiPostCommentsController extends ApiController
     public function destroy(Request $request, Post $post, PostComment $comment)
     {
         $this->ensureCommentBelongsToPost($post, $comment);
-        if ($request->user()->id !== $comment->user_id && !$request->user()->manager) {
+        if (! $request->user()->admin && (
+            $request->user()->id !== $comment->user_id || $comment->replies()->exists()
+        )) {
             abort(403);
         }
-        $comment->delete();
+        $comment->deleteWithReplies();
 
         return response()->json(['message' => 'Comment deleted.']);
     }

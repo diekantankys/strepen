@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Http\Livewire\Posts\Show;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\User;
 use Livewire;
 use Tests\TestCase;
@@ -29,6 +30,35 @@ class PageRoutesTest extends TestCase
 
         Livewire::test(Show::class, ['post' => $post])
             ->assertSee($post->title);
+    }
+
+    public function test_post_comments_render_reactions_with_post_item_responsive_layout()
+    {
+        $post = Post::factory()->for(User::factory())->create();
+        $commentUser = User::factory()->create([
+            'firstname' => 'Comment',
+            'insertion' => null,
+            'lastname' => 'Author',
+        ]);
+        $comment = new PostComment;
+        $comment->post_id = $post->id;
+        $comment->user_id = $commentUser->id;
+        $comment->body = 'Comment body';
+        $comment->save();
+
+        $this->actingAs(User::factory()->create());
+
+        Livewire::test(Show::class, ['post' => $post])
+            ->assertSeeInOrder([
+                '<strong>Comment Author</strong>',
+                'buttons is-pulled-right is-hidden-touch',
+                'wire:click="likeComment('.$comment->id.')"',
+                'wire:click="dislikeComment('.$comment->id.')"',
+                'Comment body',
+                'buttons is-display-touch is-hidden-desktop is-justify-content-flex-end',
+                'wire:click="likeComment('.$comment->id.')"',
+                'wire:click="dislikeComment('.$comment->id.')"',
+            ], false);
     }
 
     public function test_guest_auth_pages_render()

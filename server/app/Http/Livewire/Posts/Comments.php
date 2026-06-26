@@ -14,6 +14,8 @@ class Comments extends Component
 
     public ?int $replyingToId = null;
 
+    public ?int $deletingCommentId = null;
+
     public string $replyBody = '';
 
     protected $rules = [
@@ -29,6 +31,7 @@ class Comments extends Component
         $comment->user_id = Auth::id();
         $comment->body = trim($this->body);
         $comment->save();
+        $comment->touchThreadAndPost();
 
         $this->body = '';
     }
@@ -50,6 +53,7 @@ class Comments extends Component
         $this->validate(['replyBody' => 'required|min:1|max:1000']);
         abort_if($this->replyingToId === null, 404);
         $parent = $this->commentForCurrentPost($this->replyingToId);
+        abort_unless($parent->canReceiveReply(), 422);
 
         $comment = new PostComment;
         $comment->post_id = $this->post->id;
@@ -57,6 +61,7 @@ class Comments extends Component
         $comment->parent_id = $parent->id;
         $comment->body = trim($this->replyBody);
         $comment->save();
+        $comment->touchThreadAndPost();
 
         $this->replyingToId = null;
         $this->replyBody = '';
@@ -74,13 +79,25 @@ class Comments extends Component
         $comment->dislike(Auth::user());
     }
 
-    public function deleteComment(int $commentId): void
+    public function requestDeleteComment(int $commentId): void
     {
         $comment = $this->commentForCurrentPost($commentId);
-        if (Auth::id() !== $comment->user_id && !Auth::user()->manager) {
-            abort(403);
-        }
-        $comment->delete();
+        $this->ensureCanDeleteComment($comment);
+        $this->deletingCommentId = $comment->id;
+    }
+
+    public function cancelDeleteComment(): void
+    {
+        $this->deletingCommentId = null;
+    }
+
+    public function confirmDeleteComment(): void
+    {
+        abort_if($this->deletingCommentId === null, 404);
+        $comment = $this->commentForCurrentPost($this->deletingCommentId);
+        $this->ensureCanDeleteComment($comment);
+        $comment->deleteWithReplies();
+        $this->deletingCommentId = null;
     }
 
     public function render()
@@ -106,5 +123,14 @@ class Comments extends Component
             ->where('post_id', $this->post->id)
             ->with($with)
             ->findOrFail($commentId);
+    }
+
+    private function ensureCanDeleteComment(PostComment $comment): void
+    {
+        if (! Auth::user()->admin && (
+            Auth::id() !== $comment->user_id || $comment->replies()->exists()
+        )) {
+            abort(403);
+        }
     }
 }

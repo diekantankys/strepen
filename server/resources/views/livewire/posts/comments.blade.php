@@ -2,10 +2,33 @@
     <h5 class="title is-5">@lang('posts.comments.title')</h5>
 
     @forelse ($post->comments as $comment)
-        @include('livewire.posts._comment', ['comment' => $comment, 'depth' => 0])
+        @include('livewire.posts.comment-item', ['comment' => $comment, 'depth' => 0])
     @empty
         <p><i>@lang('posts.comments.empty')</i></p>
     @endforelse
+
+    @if ($deletingCommentId)
+        <div class="modal is-active">
+            <div class="modal-background" wire:click="cancelDeleteComment"></div>
+            <div class="modal-card">
+                <div class="modal-card-head">
+                    <p class="modal-card-title">@lang('posts.comments.delete')</p>
+                    <button type="button" class="delete" wire:click="cancelDeleteComment"></button>
+                </div>
+                <div class="modal-card-body">
+                    <p>@lang('posts.comments.confirm_delete')</p>
+                </div>
+                <div class="modal-card-foot">
+                    <button class="button is-danger" wire:click="confirmDeleteComment" wire:loading.attr="disabled">
+                        @lang('posts.comments.delete')
+                    </button>
+                    <button class="button" wire:click="cancelDeleteComment" wire:loading.attr="disabled">
+                        @lang('posts.comments.cancel')
+                    </button>
+                </div>
+            </div>
+        </div>
+    @endif
 
     @auth
         @if (Auth::id() != 1)

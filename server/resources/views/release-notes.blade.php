@@ -10,11 +10,14 @@
                 <li>Add games page, score system and Flappy Flügel game</li>
                 <li>Add Kratje Hop game</li>
                 <li>Add Wantend game</li>
+                <li>Add posts comments system</li>
+                <li>Various bug fixes</li>
             </ul>
         </div>
 
         <div class="box content">
             <h2 class="title is-4">Version 1.5.0</h2>
+            <p><i>Released at 2026-06-25 with <a href="https://github.com/diekantankys/strepen/commit/87f4c916f0836c6717ec67dce0cd14b2c73e2866" target="_blank" rel="noreferrer">this commit</a></i></p>
             <p><i>In development</i></p>
             <ul>
                 <li>Add live stats to leaderboards page</li>

@@ -1,3 +1,5 @@
+import 'post.dart';
+
 enum NotificationType { newDeposit, newPost, lowBalance }
 
 NotificationType? notificationTypeFromString(String type) {
@@ -11,6 +13,7 @@ class NotificationData {
   final String id;
   final NotificationType type;
   final Map<String, dynamic> data;
+  final Post? post;
   final DateTime? readAt;
   final DateTime createdAt;
 
@@ -18,6 +21,7 @@ class NotificationData {
     required this.id,
     required this.type,
     required this.data,
+    required this.post,
     required this.readAt,
     required this.createdAt,
   });
@@ -27,6 +31,7 @@ class NotificationData {
       id: json['id'],
       type: notificationTypeFromString(json['type'])!,
       data: json['data'],
+      post: json['post'] != null ? Post.fromJson(json['post']) : null,
       readAt: json['read_at'] != null ? DateTime.parse(json['read_at']) : null,
       createdAt: DateTime.parse(json['created_at']),
     );

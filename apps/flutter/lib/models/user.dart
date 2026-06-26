@@ -31,6 +31,7 @@ class User {
   final String thanks;
   double? balance;
   final bool? minor;
+  final String? role;
 
   User({
     required this.id,
@@ -49,6 +50,7 @@ class User {
     required this.thanks,
     required this.balance,
     required this.minor,
+    required this.role,
   });
 
   String get name {
@@ -78,6 +80,7 @@ class User {
       thanks: json['thanks'],
       balance: json['balance']?.toDouble(),
       minor: json['minor'],
+      role: json['role'],
     );
   }
 }

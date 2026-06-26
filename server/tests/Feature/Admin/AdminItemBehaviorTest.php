@@ -3,12 +3,14 @@
 namespace Tests\Feature\Admin;
 
 use App\Http\Livewire\Admin\Inventories\Item as InventoryItem;
+use App\Http\Livewire\Admin\PostComments\Item as PostCommentItem;
 use App\Http\Livewire\Admin\Posts\Item as PostItem;
 use App\Http\Livewire\Admin\Products\Item as ProductItem;
 use App\Http\Livewire\Admin\Transactions\Item as TransactionItem;
 use App\Http\Livewire\Admin\Users\Item as UserItem;
 use App\Models\Inventory;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
@@ -178,5 +180,29 @@ class AdminItemBehaviorTest extends TestCase
         Livewire::test(PostItem::class, ['post' => $post->fresh()])
             ->call('deleteImage');
         $this->assertNull($post->fresh()->image);
+    }
+
+    public function test_post_comment_item_delete_removes_replies()
+    {
+        $manager = User::factory()->manager()->create();
+        $post = Post::factory()->for($manager)->create();
+        $parent = new PostComment;
+        $parent->post_id = $post->id;
+        $parent->user_id = User::factory()->create()->id;
+        $parent->body = 'Parent comment';
+        $parent->save();
+        $reply = new PostComment;
+        $reply->post_id = $post->id;
+        $reply->user_id = User::factory()->create()->id;
+        $reply->parent_id = $parent->id;
+        $reply->body = 'Reply comment';
+        $reply->save();
+        $this->actingAs($manager);
+
+        Livewire::test(PostCommentItem::class, ['comment' => $parent])
+            ->call('deleteComment');
+
+        $this->assertSoftDeleted('post_comments', ['id' => $parent->id]);
+        $this->assertSoftDeleted('post_comments', ['id' => $reply->id]);
     }
 }

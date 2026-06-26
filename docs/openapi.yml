@@ -192,12 +192,14 @@ components:
         user: { $ref: "#/components/schemas/User" }
     PostComment:
       type: object
-      required: [id, body, created_at, likes, user_liked, dislikes, user_disliked]
+      required:
+        [id, body, created_at, updated_at, likes, user_liked, dislikes, user_disliked]
       properties:
         id: { type: integer }
         parent_id: { type: integer, nullable: true }
         body: { type: string }
         created_at: { type: string, format: date-time }
+        updated_at: { type: string, format: date-time }
         likes: { type: integer }
         user_liked: { type: boolean }
         dislikes: { type: integer }
@@ -561,7 +563,7 @@ paths:
     post:
       tags: [Posts]
       operationId: createPostComment
-      summary: Create a comment or reply on a post.
+      summary: Create a comment or reply on a post (up to three nested reply levels).
       security: [{ ApiKey: [], TokenAuth: [] }]
       parameters: [{ $ref: "#/components/parameters/PostId" }]
       requestBody:
