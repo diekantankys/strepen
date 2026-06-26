@@ -17,6 +17,7 @@ class PostCommentResource extends JsonResource
             'parent_id' => $this->parent_id,
             'body' => $this->body,
             'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
             'likes' => $this->likes->count(),
             'user_liked' => $this->likes->contains($request->user()),
             'dislikes' => $this->dislikes->count(),

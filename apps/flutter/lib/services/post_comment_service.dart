@@ -57,12 +57,14 @@ class PostCommentsService {
       throw const FormatException('Invalid comments payload.');
     }
 
-    return data.map<PostComment>((commentJson) {
+    final comments = data.map<PostComment>((commentJson) {
       if (commentJson is! Map<String, dynamic>) {
         throw const FormatException('Invalid comment item.');
       }
       return PostComment.fromJson(commentJson);
     }).toList();
+
+    return PostComment.sortByUpdatedAtDesc(comments);
   }
 
   Future<PostComment> createComment({

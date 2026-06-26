@@ -88,7 +88,7 @@ class Post extends Model
     /** @return HasMany<PostComment, $this> */
     public function comments(): HasMany
     {
-        return $this->hasMany(PostComment::class)->whereNull('parent_id')->orderBy('created_at', 'DESC');
+        return $this->hasMany(PostComment::class)->whereNull('parent_id')->orderBy('updated_at', 'DESC');
     }
 
     // Search by a query

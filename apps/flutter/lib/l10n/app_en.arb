@@ -137,6 +137,7 @@
     "post_detail_comment_submit": "Post",
     "post_detail_comment_cancel": "Cancel",
     "post_detail_comment_reply": "Reply",
+    "post_detail_comment_confirm_delete": "Are you sure you want to delete this comment?",
     "post_detail_comment_like": "Like",
     "post_detail_comment_dislike": "Dislike",
     "post_detail_replying_to": "Replying to {user_name}",
