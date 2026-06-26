@@ -10,6 +10,7 @@
             @endif
             <a class="button" href="{{ route('admin.users.crud') }}" wire:navigate>@lang('admin/home.users')</a>
             <a class="button" href="{{ route('admin.posts.crud') }}" wire:navigate>@lang('admin/home.posts')</a>
+            <a class="button" href="{{ route('admin.post_comments.crud') }}" wire:navigate>@lang('admin/home.post_comments')</a>
             <a class="button" href="{{ route('admin.products.crud') }}" wire:navigate>@lang('admin/home.products')</a>
             <a class="button" href="{{ route('admin.inventories.crud') }}" wire:navigate>@lang('admin/home.inventories')</a>
             <a class="button" href="{{ route('admin.transactions.crud') }}" wire:navigate>@lang('admin/home.transactions')</a>

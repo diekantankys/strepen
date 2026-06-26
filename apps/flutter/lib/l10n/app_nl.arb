@@ -125,5 +125,17 @@
     "settings_password_password_confirmation": "Herhaal nieuw wachtwoord",
     "settings_password_success_header": "Gelukt!",
     "settings_password_success_description": "Uw wachtwoord is succesvol gewijzigd",
-    "settings_password_success_ok": "OKE"
+    "settings_password_success_ok": "OKE",
+
+    "post_detail_comments_title": "Reacties",
+    "post_detail_comments_empty": "Nog geen reacties. Wees de eerste!",
+    "post_detail_comments_error": "Er is een fout opgetreden bij het laden van de reacties!",
+    "post_detail_comment_placeholder": "Schrijf een reactie...",
+    "post_detail_comment_submit": "Plaatsen",
+    "post_detail_comment_cancel": "Annuleren",
+    "post_detail_comment_reply": "Beantwoorden",
+    "post_detail_comment_like": "Like",
+    "post_detail_comment_dislike": "Dislike",
+    "post_detail_replying_to": "Beantwoordt {user_name}",
+    "@post_detail_replying_to": { "placeholders": { "user_name": {} } }
 }

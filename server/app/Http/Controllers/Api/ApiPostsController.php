@@ -31,7 +31,7 @@ class ApiPostsController extends ApiController
     public function like(Request $request, Post $post)
     {
         $post->like($request->user());
-        unset($post->likes);
+        unset($post->likes, $post->dislikes);
 
         return new PostResource($post);
     }
@@ -40,7 +40,7 @@ class ApiPostsController extends ApiController
     public function dislike(Request $request, Post $post)
     {
         $post->dislike($request->user());
-        unset($post->dislikes);
+        unset($post->likes, $post->dislikes);
 
         return new PostResource($post);
     }

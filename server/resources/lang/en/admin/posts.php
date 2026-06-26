@@ -40,4 +40,6 @@ return [
     'item.cancel' => 'Cancel',
     'item.delete_post' => 'Delete post',
     'item.delete_description' => 'Are you sure you want to delete this post and all it\'s history?',
+    'item.comments' => 'Comments',
+    'item.comments_empty' => 'This post has no comments yet!',
 ];

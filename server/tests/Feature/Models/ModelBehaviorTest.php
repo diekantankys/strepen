@@ -5,6 +5,7 @@ namespace Tests\Feature\Models;
 use App\Models\ApiKey;
 use App\Models\Inventory;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
@@ -142,6 +143,38 @@ class ModelBehaviorTest extends TestCase
 
         $this->assertDatabaseMissing('post_likes', ['post_id' => $post->id, 'user_id' => $systemUser->id]);
         $this->assertDatabaseMissing('post_dislikes', ['post_id' => $post->id, 'user_id' => $systemUser->id]);
+    }
+
+    public function test_comment_like_and_dislike_toggle_and_replace_each_other()
+    {
+        $user = User::factory()->create();
+        $comment = new PostComment;
+        $comment->post_id = Post::factory()->for(User::factory())->create()->id;
+        $comment->user_id = User::factory()->create()->id;
+        $comment->body = 'A comment';
+        $comment->save();
+
+        $comment->like($user);
+        $this->assertDatabaseHas('post_comment_likes', [
+            'comment_id' => $comment->id,
+            'user_id' => $user->id,
+        ]);
+
+        $comment->refresh()->dislike($user);
+        $this->assertDatabaseMissing('post_comment_likes', [
+            'comment_id' => $comment->id,
+            'user_id' => $user->id,
+        ]);
+        $this->assertDatabaseHas('post_comment_dislikes', [
+            'comment_id' => $comment->id,
+            'user_id' => $user->id,
+        ]);
+
+        $comment->refresh()->dislike($user);
+        $this->assertDatabaseMissing('post_comment_dislikes', [
+            'comment_id' => $comment->id,
+            'user_id' => $user->id,
+        ]);
     }
 
     public function test_setting_get_set_and_missing_setting_exception()

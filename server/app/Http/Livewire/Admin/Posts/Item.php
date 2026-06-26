@@ -98,6 +98,13 @@ class Item extends Component
     {
         unset($this->post->user);
 
+        if ($this->isShowing) {
+            $this->post->load([
+                'comments.user', 'comments.likes', 'comments.dislikes',
+                'comments.replies.user', 'comments.replies.likes', 'comments.replies.dislikes',
+            ]);
+        }
+
         return view('livewire.admin.posts.item');
     }
 }

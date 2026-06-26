@@ -4,6 +4,7 @@ namespace Tests\Feature\Api;
 
 use App\Models\ApiKey;
 use App\Models\Post;
+use App\Models\PostComment;
 use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
@@ -32,6 +33,12 @@ class ApiResourcesTest extends TestCase
     {
         return $this->withHeader('Authorization', 'Bearer '.$this->tokenFor($user))
             ->postJson(route($route, array_merge(['api_key' => $this->apiKey()], $params)), $payload);
+    }
+
+    private function authPut(User $user, string $route, array $params = [])
+    {
+        return $this->withHeader('Authorization', 'Bearer '.$this->tokenFor($user))
+            ->putJson(route($route, array_merge(['api_key' => $this->apiKey()], $params)));
     }
 
     public function test_normal_users_only_see_active_users_and_public_fields()
@@ -137,6 +144,56 @@ class ApiResourcesTest extends TestCase
 
         $this->authGet($user, 'api.posts.dislike', ['post' => $post])->assertOk();
         $this->assertDatabaseMissing('post_dislikes', ['post_id' => $post->id, 'user_id' => $user->id]);
+    }
+
+    public function test_comment_dislike_replaces_a_like_in_the_response()
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->for(User::factory())->create();
+        $comment = new PostComment;
+        $comment->post_id = $post->id;
+        $comment->user_id = User::factory()->create()->id;
+        $comment->body = 'A comment';
+        $comment->save();
+
+        $this->authPut($user, 'api.post_comments.like', [
+            'post' => $post,
+            'comment' => $comment,
+        ])->assertOk()
+            ->assertJsonPath('user_liked', true)
+            ->assertJsonPath('user_disliked', false);
+
+        $this->authPut($user, 'api.post_comments.dislike', [
+            'post' => $post,
+            'comment' => $comment,
+        ])->assertOk()
+            ->assertJsonPath('likes', 0)
+            ->assertJsonPath('user_liked', false)
+            ->assertJsonPath('dislikes', 1)
+            ->assertJsonPath('user_disliked', true);
+    }
+
+    public function test_comment_actions_and_replies_are_scoped_to_the_post()
+    {
+        $user = User::factory()->create();
+        $post = Post::factory()->for(User::factory())->create();
+        $otherPost = Post::factory()->for(User::factory())->create();
+        $otherComment = new PostComment;
+        $otherComment->post_id = $otherPost->id;
+        $otherComment->user_id = User::factory()->create()->id;
+        $otherComment->body = 'Another post comment';
+        $otherComment->save();
+
+        $this->authPut($user, 'api.post_comments.like', [
+            'post' => $post,
+            'comment' => $otherComment,
+        ])->assertNotFound();
+
+        $this->authPost($user, 'api.post_comments.store', ['post' => $post], [
+            'body' => 'Invalid reply',
+            'parent_id' => $otherComment->id,
+        ])->assertUnprocessable()
+            ->assertJsonValidationErrors(['parent_id']);
     }
 
     public function test_transaction_store_creates_pivots_and_updates_amounts_and_balance()
