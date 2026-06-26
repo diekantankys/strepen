@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\ApiAuthController;
 use App\Http\Controllers\Api\ApiInventoriesController;
 use App\Http\Controllers\Api\ApiNotificationsController;
+use App\Http\Controllers\Api\ApiPostCommentsController;
 use App\Http\Controllers\Api\ApiPostsController;
 use App\Http\Controllers\Api\ApiProductsController;
 use App\Http\Controllers\Api\ApiSettingsController;
@@ -51,8 +52,17 @@ Route::middleware('api_key:auth')->group(function () {
 
     Route::get('posts', [ApiPostsController::class, 'index'])->name('api.posts.index');
     Route::get('posts/{post}', [ApiPostsController::class, 'show'])->name('api.posts.show');
-    Route::get('posts/{post}/like', [ApiPostsController::class, 'like'])->name('api.posts.like');
-    Route::get('posts/{post}/dislike', [ApiPostsController::class, 'dislike'])->name('api.posts.dislike');
+    Route::put('posts/{post}/like', [ApiPostsController::class, 'like'])->name('api.posts.like');
+    Route::put('posts/{post}/dislike', [ApiPostsController::class, 'dislike'])->name('api.posts.dislike');
+    Route::get('posts/{post}/like', [ApiPostsController::class, 'like']); // backwards compat
+    Route::get('posts/{post}/dislike', [ApiPostsController::class, 'dislike']); // backwards compat
+    Route::get('posts/{post}/comments', [ApiPostCommentsController::class, 'index'])->name('api.post_comments.index');
+    Route::post('posts/{post}/comments', [ApiPostCommentsController::class, 'store'])->name('api.post_comments.store');
+    Route::put('posts/{post}/comments/{comment}/like', [ApiPostCommentsController::class, 'like'])->name('api.post_comments.like');
+    Route::put('posts/{post}/comments/{comment}/dislike', [ApiPostCommentsController::class, 'dislike'])->name('api.post_comments.dislike');
+    Route::get('posts/{post}/comments/{comment}/like', [ApiPostCommentsController::class, 'like']); // backwards compat
+    Route::get('posts/{post}/comments/{comment}/dislike', [ApiPostCommentsController::class, 'dislike']); // backwards compat
+    Route::delete('posts/{post}/comments/{comment}', [ApiPostCommentsController::class, 'destroy'])->name('api.post_comments.destroy');
 
     Route::get('products', [ApiProductsController::class, 'index'])->name('api.products.index');
     Route::get('products/{product}', [ApiProductsController::class, 'show'])->name('api.products.show');

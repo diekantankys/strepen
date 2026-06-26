@@ -48,7 +48,10 @@ class NotificationsTest extends TestCase
         $notificationId = $user->unreadNotifications->first()->id;
         Livewire::test(Notifications::class)
             ->call('readNotification', $notificationId)
-            ->assertDontSee($notificationId);
+            ->assertDontSee($notificationId)
+            ->assertSee(__('components.notifications.empty'))
+            ->assertDontSee('M21 6.5C21')
+            ->assertSee('M21,19V20H3V19');
     }
 
     // Test notifications component read notification from other

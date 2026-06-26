@@ -74,6 +74,15 @@
                             @endforelse
                         </div>
                     </div>
+
+                    <hr>
+
+                    <h4>@lang('admin/posts.item.comments') (<x-amount-format :amount="$post->comments->count()" />)</h4>
+                    @forelse ($post->comments as $comment)
+                        @include('livewire.admin.posts._comment', ['comment' => $comment, 'depth' => 0])
+                    @empty
+                        <p><i>@lang('admin/posts.item.comments_empty')</i></p>
+                    @endforelse
                 </div>
             </div>
         </div>

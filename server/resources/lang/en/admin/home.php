@@ -8,6 +8,7 @@ return [
     'api_keys' => 'Api Keys',
     'users' => 'Users',
     'posts' => 'Posts',
+    'post_comments' => 'Comments',
     'products' => 'Products',
     'inventories' => 'Inventories',
     'transactions' => 'Transactions',

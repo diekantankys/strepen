@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Livewire\Admin\ApiKeys\Crud as ApiKeysCrud;
 use App\Http\Livewire\Admin\Games\Index as AdminGamesIndex;
 use App\Http\Livewire\Admin\Inventories\Crud as InventoriesCrud;
+use App\Http\Livewire\Admin\PostComments\Crud as PostCommentsCrud;
 use App\Http\Livewire\Admin\Posts\Crud as PostsCrud;
 use App\Http\Livewire\Admin\Products\Crud as ProductsCrud;
 use App\Http\Livewire\Admin\Transactions\Crud as TransactionsCrud;
@@ -68,6 +69,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/users', Crud::class)->name('admin.users.crud');
 
         Route::get('/admin/posts', PostsCrud::class)->name('admin.posts.crud');
+
+        Route::get('/admin/post-comments', PostCommentsCrud::class)->name('admin.post_comments.crud');
 
         Route::get('/admin/products', ProductsCrud::class)->name('admin.products.crud');
 
