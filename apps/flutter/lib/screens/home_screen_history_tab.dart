@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../l10n/app_localizations.dart';
@@ -140,14 +139,8 @@ class TransactionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile =
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
     return Center(
       child: Container(
-        constraints: BoxConstraints(
-          maxWidth: !isMobile ? 560 : double.infinity,
-        ),
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Card(
           child: Padding(

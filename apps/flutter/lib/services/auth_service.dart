@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart' as http_parser;
 import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:giphy_picker/giphy_picker.dart';
 import 'package:image/image.dart';
+import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 import '../models/user.dart';
@@ -22,6 +25,8 @@ class AuthService {
 
   List<NotificationData>? _unreadNotifications;
 
+  StreamSubscription<String>? _fcmTokenSubscription;
+
   Map<int, List<Transaction>> _transactions = {};
 
   static AuthService getInstance() {
@@ -33,6 +38,10 @@ class AuthService {
     _user = null;
     _unreadNotifications = null;
     _transactions = {};
+  }
+
+  void clearNotificationsCache() {
+    _unreadNotifications = null;
   }
 
   Future<bool> login({required String email, required String password}) async {
@@ -50,11 +59,34 @@ class AuthService {
     await storage.setToken(data['token']);
     _user = User.fromJson(data['user']);
     await storage.setUserId(_user!.id);
+    await registerFcmToken();
     return true;
   }
 
   Future logout() async {
     StorageService storage = await StorageService.getInstance();
+
+    await _fcmTokenSubscription?.cancel();
+    _fcmTokenSubscription = null;
+
+    // Deregister FCM token before invalidating the auth token
+    final fcmToken = Firebase.apps.isNotEmpty ? storage.fcmToken : null;
+    if (fcmToken != null && storage.userId != null) {
+      try {
+        await http.delete(
+          Uri.parse(
+            '${storage.organisation.apiUrl}/users/${storage.userId!}/fcm-token',
+          ),
+          headers: {
+            'X-Api-Key': storage.organisation.apiKey,
+            'Authorization': 'Bearer ${storage.token!}',
+          },
+          body: {'fcm_token': fcmToken},
+        );
+      } catch (_) {}
+      await storage.setFcmToken(null);
+    }
+
     await http.get(
       Uri.parse('${storage.organisation.apiUrl}/auth/logout'),
       headers: {
@@ -90,8 +122,55 @@ class AuthService {
         await storage.setUserId(null);
         return false;
       }
+      await registerFcmToken();
     }
     return true;
+  }
+
+  Future<void> registerFcmToken() async {
+    if (Firebase.apps.isEmpty) return;
+    try {
+      await FirebaseMessaging.instance.requestPermission();
+      final token = await FirebaseMessaging.instance.getToken();
+      if (token == null) return;
+      await _sendFcmToken(token);
+      await _fcmTokenSubscription?.cancel();
+      _fcmTokenSubscription = FirebaseMessaging.instance.onTokenRefresh.listen(_sendFcmToken);
+    } catch (_) {
+      // Best-effort; don't break login flow if FCM token registration fails
+    }
+  }
+
+  Future<void> _sendFcmToken(String token) async {
+    try {
+      final storage = await StorageService.getInstance();
+      if (storage.token == null || storage.userId == null) return;
+      final oldToken = storage.fcmToken;
+      await storage.setFcmToken(token);
+      await http.post(
+        Uri.parse(
+          '${storage.organisation.apiUrl}/users/${storage.userId!}/fcm-token',
+        ),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+        body: {'fcm_token': token},
+      );
+      // Remove old token when FCM rotates it so stale entries don't accumulate
+      if (oldToken != null && oldToken != token) {
+        await http.delete(
+          Uri.parse(
+            '${storage.organisation.apiUrl}/users/${storage.userId!}/fcm-token',
+          ),
+          headers: {
+            'X-Api-Key': storage.organisation.apiKey,
+            'Authorization': 'Bearer ${storage.token!}',
+          },
+          body: {'fcm_token': oldToken},
+        );
+      }
+    } catch (_) {}
   }
 
   Future<User?> user({bool forceReload = false}) async {

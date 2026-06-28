@@ -59,4 +59,16 @@ class StorageService {
       await _prefs.remove('user_id');
     }
   }
+
+  String? get fcmToken {
+    return _prefs.getString('fcm_token');
+  }
+
+  Future setFcmToken(String? fcmToken) async {
+    if (fcmToken != null) {
+      await _prefs.setString('fcm_token', fcmToken);
+    } else {
+      await _prefs.remove('fcm_token');
+    }
+  }
 }

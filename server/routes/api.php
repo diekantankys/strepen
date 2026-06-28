@@ -38,6 +38,8 @@ Route::middleware('api_key:self')->group(function () {
     Route::post('users/{user}/edit', [ApiUsersController::class, 'edit'])->name('api.users.edit');
 
     Route::get('notifications/{notification}/read', [ApiNotificationsController::class, 'read'])->name('api.notifications.read');
+    Route::post('users/{user}/fcm-token', [ApiUsersController::class, 'storeFcmToken'])->name('api.users.store_fcm_token');
+    Route::delete('users/{user}/fcm-token', [ApiUsersController::class, 'destroyFcmToken'])->name('api.users.destroy_fcm_token');
 
     Route::get('transactions/{transaction}', [ApiTransactionsController::class, 'show'])->name('api.transactions.show');
 

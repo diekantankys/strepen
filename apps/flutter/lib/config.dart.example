@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'models/organisation.dart';
 
 const String giphyApiKey = ''; // Optional: insert Giphy api key here
@@ -10,3 +11,7 @@ const List<Organisation> organisations = [
     apiKey: '', // Insert api key here
   ),
 ];
+
+// Optional: set to FirebaseOptions(...) to enable push notifications
+const FirebaseOptions? firebaseAndroidOptions = null;
+const FirebaseOptions? firebaseIosOptions = null;
