@@ -67,6 +67,20 @@ class PostsService {
     return _posts[page]!;
   }
 
+  Future<Post> getPost({required int postId}) async {
+    StorageService storage = await StorageService.getInstance();
+    final uri = Uri.parse('${storage.organisation.apiUrl}/posts/$postId');
+    final response = await http.get(
+      uri,
+      headers: {
+        'X-Api-Key': storage.organisation.apiKey,
+        'Authorization': 'Bearer ${storage.token!}',
+      },
+    );
+    _ensureSuccess(response, uri);
+    return _postFromResponse(response);
+  }
+
   Future<Post> like({required int postId}) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.put(

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -145,14 +144,8 @@ class _PostItemState extends State<PostItem> {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile =
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
     return Center(
       child: Container(
-        constraints: BoxConstraints(
-          maxWidth: !isMobile ? 560 : double.infinity,
-        ),
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: InkWell(
           onTap: widget.isDetail
@@ -205,7 +198,7 @@ class _PostItemState extends State<PostItem> {
                         width: double.infinity,
                         child: Text(
                           lang.home_posts_written_by(
-                            widget.post.user!.name,
+                            widget.post.user?.name ?? '',
                             DateFormat(
                               'yyyy-MM-dd kk:mm',
                             ).format(widget.post.createdAt),

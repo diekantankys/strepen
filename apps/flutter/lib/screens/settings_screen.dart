@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import 'settings_screen_avatar_tab.dart';
@@ -12,9 +11,6 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile =
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
     return DefaultTabController(
       length: 4,
       child: Scaffold(
@@ -35,9 +31,6 @@ class SettingsScreen extends StatelessWidget {
             Center(
               child: SingleChildScrollView(
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: !isMobile ? 560 : double.infinity,
-                  ),
                   padding: const EdgeInsets.all(16),
                   child: const SettingsChangeDetailsTab(),
                 ),
@@ -46,9 +39,6 @@ class SettingsScreen extends StatelessWidget {
             Center(
               child: SingleChildScrollView(
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: !isMobile ? 560 : double.infinity,
-                  ),
                   padding: const EdgeInsets.all(16),
                   child: const SettingsChangeAvatarTab(),
                 ),
@@ -57,9 +47,6 @@ class SettingsScreen extends StatelessWidget {
             Center(
               child: SingleChildScrollView(
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: !isMobile ? 560 : double.infinity,
-                  ),
                   padding: const EdgeInsets.all(16),
                   child: const SettingsChangeThanksTab(),
                 ),
@@ -68,9 +55,6 @@ class SettingsScreen extends StatelessWidget {
             Center(
               child: SingleChildScrollView(
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: !isMobile ? 560 : double.infinity,
-                  ),
                   padding: const EdgeInsets.all(16),
                   child: const SettingsChangePasswordTab(),
                 ),

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../l10n/app_localizations.dart';
@@ -35,9 +34,6 @@ class _HomeScreenProfileTabState extends State {
         } else if (snapshot.hasData) {
           User user = snapshot.data![0]!;
           Map<String, dynamic> settings = snapshot.data![1]!;
-          final isMobile =
-              defaultTargetPlatform == TargetPlatform.iOS ||
-              defaultTargetPlatform == TargetPlatform.android;
           return RefreshIndicator(
             onRefresh: () async {
               setState(() => _forceReload = true);
@@ -46,9 +42,6 @@ class _HomeScreenProfileTabState extends State {
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: !isMobile ? 560 : double.infinity,
-                  ),
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

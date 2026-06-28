@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\FcmChannel;
 use App\Models\Setting;
 use App\Models\Transaction;
 use Illuminate\Bus\Queueable;
@@ -14,50 +15,47 @@ class NewDeposit extends Notification
 
     public $transaction;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(Transaction $transaction)
     {
         $this->transaction = $transaction;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['database', 'mail', FcmChannel::class];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return MailMessage
-     */
+    public function toFcm($notifiable): array
+    {
+        $isEn = app()->getLocale() === 'en';
+        $amount = number_format($this->transaction->price, 2, $isEn ? '.' : ',', $isEn ? ',' : '.');
+
+        return [
+            __('notifications.new_deposit_fcm_title'),
+            __('notifications.new_deposit_fcm_body', [
+                'currency' => Setting::get('currency_symbol'),
+                'amount' => $amount,
+            ]),
+            ['type' => 'new_deposit', 'notification_id' => $this->id],
+        ];
+    }
+
     public function toMail($notifiable)
     {
+        $isEn = app()->getLocale() === 'en';
+        $amount = number_format($this->transaction->price, 2, $isEn ? '.' : ',', $isEn ? ',' : '.');
+        $balance = number_format($this->transaction->user->balance, 2, $isEn ? '.' : ',', $isEn ? ',' : '.');
+        $currency = Setting::get('currency_symbol');
+
         return (new MailMessage)
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject('Nieuwe storting op het Strepen Systeem')
-            ->greeting('Beste '.$this->transaction->user->name.',')
-            ->line('Er is een storting van '.Setting::get('currency_symbol').' '.number_format($this->transaction->price, 2, ',', '.').' op uw account gezet!')
-            ->line('Uw balans is op dit moment nu '.Setting::get('currency_symbol').' '.number_format($this->transaction->user->balance, 2, ',', '.').'.')
-            ->salutation('Groetjes, het stambestuur');
+            ->subject(__('notifications.new_deposit_mail_subject'))
+            ->greeting(__('notifications.greeting', ['name' => $this->transaction->user->name]))
+            ->line(__('notifications.new_deposit_mail_line1', ['currency' => $currency, 'amount' => $amount]))
+            ->line(__('notifications.new_deposit_mail_line2', ['currency' => $currency, 'balance' => $balance]))
+            ->salutation(__('notifications.salutation'));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [

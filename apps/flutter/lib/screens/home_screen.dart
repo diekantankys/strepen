@@ -6,6 +6,7 @@ import 'home_screen_profile_tab.dart';
 import '../l10n/app_localizations.dart';
 import '../models/notification.dart';
 import '../services/auth_service.dart';
+import '../services/notification_service.dart';
 import '../services/settings_service.dart';
 import 'post_detail_screen.dart';
 
@@ -22,6 +23,18 @@ class _HomeScreenState extends State {
   final _pageController = PageController(initialPage: 1);
 
   int _currentPageIndex = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    final pending = NotificationService.getInstance().pendingData;
+    if (pending != null) {
+      NotificationService.getInstance().pendingData = null;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        NotificationService.getInstance().handleData(pending);
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -103,6 +116,22 @@ class NotificationsButton extends StatefulWidget {
 
 class _NotificationsButtonState extends State<NotificationsButton> {
   bool _forceReload = false;
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationService.getInstance().unreadChanged.addListener(_onUnreadChanged);
+  }
+
+  @override
+  void dispose() {
+    NotificationService.getInstance().unreadChanged.removeListener(_onUnreadChanged);
+    super.dispose();
+  }
+
+  void _onUnreadChanged() {
+    if (mounted) setState(() => _forceReload = true);
+  }
 
   @override
   Widget build(BuildContext context) {
