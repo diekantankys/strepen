@@ -132,10 +132,10 @@ class TransactionItem extends StatelessWidget {
   final Map<String, dynamic> settings;
 
   const TransactionItem({
-    Key? key,
+    super.key,
     required this.transaction,
     required this.settings,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +197,7 @@ class TransactionItem extends StatelessWidget {
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Text(
                       lang.home_history_amount(
@@ -219,7 +219,7 @@ class TransactionItem extends StatelessWidget {
                       style: const TextStyle(color: Colors.grey),
                     ),
                   ),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     child: Text(
                       lang.home_history_amount(

@@ -66,45 +66,29 @@ class ProductsList extends StatefulWidget {
   final List<Product> products;
 
   const ProductsList({
-    Key? key,
-    required this.user,
-    required this.settings,
-    required this.products,
-  }) : super(key: key);
-
-  @override
-  State createState() {
-    return _ProductsListState(
-      user: user,
-      settings: settings,
-      products: products,
-    );
-  }
-}
-
-class _ProductsListState extends State {
-  final ScrollController _scrollController = ScrollController();
-
-  final User user;
-
-  final Map<String, dynamic> settings;
-
-  final List<Product> products;
-
-  final List<int> _amounts = [];
-
-  bool _isLoading = false;
-
-  _ProductsListState({
+    super.key,
     required this.user,
     required this.settings,
     required this.products,
   });
 
   @override
+  State createState() {
+    return _ProductsListState();
+  }
+}
+
+class _ProductsListState extends State<ProductsList> {
+  final ScrollController _scrollController = ScrollController();
+
+  final List<int> _amounts = [];
+
+  bool _isLoading = false;
+
+  @override
   void initState() {
     super.initState();
-    for (int i = 0; i < products.length; i++) {
+    for (int i = 0; i < widget.products.length; i++) {
       _amounts.add(0);
     }
   }
@@ -115,12 +99,12 @@ class _ProductsListState extends State {
     super.dispose();
   }
 
-  createTransaction() async {
+  Future<void> createTransaction() async {
     final lang = AppLocalizations.of(context)!;
 
     final Map<Product, int> productAmounts = {};
     int index = 0;
-    for (Product product in products) {
+    for (Product product in widget.products) {
       if (_amounts[index] > 0) {
         productAmounts[product] = _amounts[index];
       }
@@ -133,8 +117,9 @@ class _ProductsListState extends State {
       if (await AuthService.getInstance().createTransaction(
         productAmounts: productAmounts,
       )) {
+        if (!mounted) return;
         setState(() {
-          for (int i = 0; i < products.length; i++) {
+          for (int i = 0; i < widget.products.length; i++) {
             _amounts[i] = 0;
           }
         });
@@ -143,13 +128,14 @@ class _ProductsListState extends State {
           context: context,
           builder: (BuildContext context) {
             return TransactionCreatedDialog(
-              user: user,
-              settings: settings,
+              user: widget.user,
+              settings: widget.settings,
               productAmounts: productAmounts,
             );
           },
         );
       } else {
+        if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(lang.home_stripe_create_error),
@@ -161,6 +147,7 @@ class _ProductsListState extends State {
         );
       }
 
+      if (!mounted) return;
       _scrollController.animateTo(
         0,
         duration: const Duration(milliseconds: 300),
@@ -193,9 +180,9 @@ class _ProductsListState extends State {
                 child: ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: products.length,
+                  itemCount: widget.products.length,
                   itemBuilder: (context, index) {
-                    Product product = products[index];
+                    Product product = widget.products[index];
                     int amount = _amounts[index];
                     return Container(
                       margin: const EdgeInsets.symmetric(
@@ -248,7 +235,7 @@ class _ProductsListState extends State {
                                 SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    '${settings['currency_symbol']} ${product.price.toStringAsFixed(2)}',
+                                    '${widget.settings['currency_symbol']} ${product.price.toStringAsFixed(2)}',
                                     style: const TextStyle(color: Colors.grey),
                                   ),
                                 ),
@@ -289,7 +276,7 @@ class _ProductsListState extends State {
                                 onPressed: () {
                                   setState(() {
                                     if (_amounts[index] <
-                                        settings['max_stripe_amount']) {
+                                        widget.settings['max_stripe_amount']) {
                                       _amounts[index]++;
                                     }
                                   });
@@ -305,7 +292,7 @@ class _ProductsListState extends State {
                   },
                 ),
               ),
-              if (user.minor!) ...[
+              if (widget.user.minor!) ...[
                 Container(
                   margin: const EdgeInsets.only(bottom: 16),
                   child: Text(
@@ -358,11 +345,11 @@ class TransactionCreatedDialog extends StatelessWidget {
   final Map<Product, int> productAmounts;
 
   const TransactionCreatedDialog({
-    Key? key,
+    super.key,
     required this.user,
     required this.settings,
     required this.productAmounts,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -372,7 +359,7 @@ class TransactionCreatedDialog extends StatelessWidget {
         defaultTargetPlatform == TargetPlatform.android;
     return AlertDialog(
       title: Text(lang.home_stripe_created),
-      content: Container(
+      content: SizedBox(
         width: !isMobile
             ? min(320, MediaQuery.of(context).size.width * 0.9)
             : MediaQuery.of(context).size.width * 0.9,
@@ -470,11 +457,11 @@ class TransactionProductsAmounts extends StatelessWidget {
   final Map<String, dynamic> settings;
 
   const TransactionProductsAmounts({
-    Key? key,
+    super.key,
     required this.products,
     required this.totalPrice,
     required this.settings,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

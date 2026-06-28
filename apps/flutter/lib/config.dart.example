@@ -1,12 +1,12 @@
 import 'models/organisation.dart';
 
-const String? giphyApiKey = ''; // Optional: insert Giphy api key here
+const String giphyApiKey = ''; // Optional: insert Giphy api key here
 
 const List<Organisation> organisations = [
   Organisation(
     id: 1,
     name: 'Die Kantanky\'s', // Insert your organisation name
     url: 'https://stam.diekantankys.nl', // Insert website url here
-    apiKey: '' // Insert api key here
-  )
+    apiKey: '', // Insert api key here
+  ),
 ];

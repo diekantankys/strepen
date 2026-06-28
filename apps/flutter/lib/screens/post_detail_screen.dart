@@ -12,19 +12,15 @@ import 'home_screen_posts_tab.dart';
 class PostDetailScreen extends StatefulWidget {
   final Post post;
 
-  const PostDetailScreen({Key? key, required this.post}) : super(key: key);
+  const PostDetailScreen({super.key, required this.post});
 
   @override
   State createState() {
-    return _PostDetailScreenState(post: post);
+    return _PostDetailScreenState();
   }
 }
 
-class _PostDetailScreenState extends State {
-  final Post post;
-
-  _PostDetailScreenState({required this.post});
-
+class _PostDetailScreenState extends State<PostDetailScreen> {
   List<PostComment> _comments = [];
   bool _isLoading = true;
   bool _hasError = false;
@@ -64,7 +60,7 @@ class _PostDetailScreenState extends State {
   Future<void> _loadComments() async {
     try {
       final comments = await PostCommentsService.getInstance().comments(
-        postId: post.id,
+        postId: widget.post.id,
       );
       if (mounted) {
         setState(() {
@@ -91,7 +87,7 @@ class _PostDetailScreenState extends State {
     setState(() => _isSubmitting = true);
     try {
       await PostCommentsService.getInstance().createComment(
-        postId: post.id,
+        postId: widget.post.id,
         body: body,
       );
       _commentController.clear();
@@ -111,7 +107,7 @@ class _PostDetailScreenState extends State {
     setState(() => _isSubmitting = true);
     try {
       await PostCommentsService.getInstance().createComment(
-        postId: post.id,
+        postId: widget.post.id,
         body: body,
         parentId: _replyingToId,
       );
@@ -136,7 +132,7 @@ class _PostDetailScreenState extends State {
     setState(() => _isSubmitting = true);
     try {
       await PostCommentsService.getInstance().deleteComment(
-        postId: post.id,
+        postId: widget.post.id,
         commentId: commentId,
       );
       if (_replyingToId == commentId && mounted) {
@@ -180,13 +176,13 @@ class _PostDetailScreenState extends State {
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(title: Text(post.title)),
+      appBar: AppBar(title: Text(widget.post.title)),
       body: RefreshIndicator(
         onRefresh: _loadComments,
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            PostItem(post: post, isDetail: true),
+            PostItem(post: widget.post, isDetail: true),
             const SizedBox(height: 16),
             Text(
               lang.post_detail_comments_title,
@@ -207,7 +203,7 @@ class _PostDetailScreenState extends State {
                 (c) => CommentItem(
                   key: ValueKey(c.id),
                   comment: c,
-                  postId: post.id,
+                  postId: widget.post.id,
                   depth: 0,
                   replyingToId: _replyingToId,
                   replyingToName: _replyingToName,
@@ -273,7 +269,7 @@ class CommentItem extends StatefulWidget {
   final VoidCallback onChanged;
 
   const CommentItem({
-    Key? key,
+    super.key,
     required this.comment,
     required this.postId,
     required this.depth,
@@ -288,7 +284,7 @@ class CommentItem extends StatefulWidget {
     required this.onCancelReply,
     required this.onDelete,
     required this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<CommentItem> createState() {

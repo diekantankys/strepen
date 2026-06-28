@@ -29,7 +29,7 @@ class _SettingsChangePasswordTabState extends State {
     super.dispose();
   }
 
-  changePassword() async {
+  Future<void> changePassword() async {
     final lang = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
@@ -68,6 +68,7 @@ class _SettingsChangePasswordTabState extends State {
       _isLoading = false;
     });
 
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (BuildContext context) {

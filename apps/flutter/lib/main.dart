@@ -6,7 +6,7 @@ import 'screens/login_screen.dart';
 import 'screens/settings_screen.dart';
 
 class StrepenApp extends StatelessWidget {
-  const StrepenApp({Key? key}) : super(key: key);
+  const StrepenApp({super.key});
 
   @override
   Widget build(BuildContext context) {

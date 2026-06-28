@@ -7,7 +7,7 @@ import 'settings_screen_password_tab.dart';
 import 'settings_screen_thanks_tab.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -96,14 +96,14 @@ class InputField extends StatelessWidget {
   const InputField({
     required this.controller,
     required this.label,
-    this.error = null,
+    this.error,
     this.autocorrect = true,
     this.obscureText = false,
     this.enabled = true,
-    this.onTap = null,
+    this.onTap,
     this.margin = const EdgeInsets.only(bottom: 16),
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

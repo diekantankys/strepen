@@ -18,13 +18,13 @@ class SettingsChangeThanksTab extends StatefulWidget {
 class _SettingsChangeThanksTabState extends State {
   bool _isLoading = false;
 
-  searchThanks() async {
+  Future<void> searchThanks() async {
     final lang = AppLocalizations.of(context)!;
 
     // Show giphy picker
     GiphyGif? thanksGif = await GiphyPicker.pickGif(
       context: context,
-      apiKey: giphyApiKey!,
+      apiKey: giphyApiKey,
       appBarBuilder: (context, {actions, title}) =>
           AppBar(title: title, actions: actions),
     );
@@ -40,6 +40,7 @@ class _SettingsChangeThanksTabState extends State {
     if (await AuthService.getInstance().changeThanks(thanks: thanksGif)) {
       // Show success dialog
       setState(() => _isLoading = false);
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -58,6 +59,7 @@ class _SettingsChangeThanksTabState extends State {
     } else {
       // Show error dialog
       setState(() => _isLoading = false);
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -76,13 +78,14 @@ class _SettingsChangeThanksTabState extends State {
     }
   }
 
-  deleteThanks() async {
+  Future<void> deleteThanks() async {
     final lang = AppLocalizations.of(context)!;
 
     setState(() => _isLoading = true);
     if (await AuthService.getInstance().changeThanks(thanks: null)) {
       // Show success dialog
       setState(() => _isLoading = false);
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -165,7 +168,7 @@ class _SettingsChangeThanksTabState extends State {
                   ),
 
                   // Search thanks button
-                  if (giphyApiKey != null) ...[
+                  if (giphyApiKey.isNotEmpty) ...[
                     Container(
                       margin: const EdgeInsets.only(bottom: 16),
                       child: SizedBox(

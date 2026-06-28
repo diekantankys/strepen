@@ -25,8 +25,9 @@ class _LoadingScreenState extends State {
             return Center(child: Text(lang.loading_error));
           } else if (snapshot.hasData) {
             Future(() {
+              if (!mounted) return;
               Navigator.pushNamedAndRemoveUntil(
-                context,
+                this.context,
                 snapshot.data! ? '/home' : '/login',
                 (route) => false,
               );
