@@ -1,0 +1,17 @@
+[package]
+name = "strepen"
+version = "2.0.0"
+edition = "2024"
+
+[package.metadata.bundle]
+name = "Strepen"
+identifier = "nl.diekantankys.Strepen"
+copyright = "Copyright © 2021-2026 Bastiaan van der Plaat"
+icon = "meta/macos/icon.icon"
+entitlements = "meta/macos/Entitlements.plist"
+
+[dependencies]
+bwebview = { git = "https://github.com/bplaat/crates.git" }
+
+[build-dependencies]
+winresource = { git = "https://github.com/bplaat/crates.git" }
