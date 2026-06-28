@@ -17,7 +17,7 @@ class SettingsChangeAvatarTab extends StatefulWidget {
 class _SettingsChangeAvatarTabState extends State {
   bool _isLoading = false;
 
-  uploadAvatar() async {
+  Future<void> uploadAvatar() async {
     final lang = AppLocalizations.of(context)!;
 
     // Show image picker
@@ -33,6 +33,7 @@ class _SettingsChangeAvatarTabState extends State {
     if (await AuthService.getInstance().changeAvatar(avatar: avatar)) {
       // Show success dialog
       setState(() => _isLoading = false);
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -51,6 +52,7 @@ class _SettingsChangeAvatarTabState extends State {
     } else {
       // Show error dialog
       setState(() => _isLoading = false);
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -69,13 +71,14 @@ class _SettingsChangeAvatarTabState extends State {
     }
   }
 
-  deleteAvatar() async {
+  Future<void> deleteAvatar() async {
     final lang = AppLocalizations.of(context)!;
 
     setState(() => _isLoading = true);
     if (await AuthService.getInstance().changeAvatar(avatar: null)) {
       // Show success dialog
       setState(() => _isLoading = false);
+      if (!mounted) return;
       showDialog(
         context: context,
         builder: (BuildContext context) {

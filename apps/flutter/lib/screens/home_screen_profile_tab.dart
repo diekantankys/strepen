@@ -148,8 +148,9 @@ class _HomeScreenProfileTabState extends State {
                                         setState(() => _isLoading = true);
                                         await AuthService.getInstance()
                                             .logout();
+                                        if (!mounted) return;
                                         Navigator.pushNamedAndRemoveUntil(
-                                          context,
+                                          this.context,
                                           '/login',
                                           (route) => false,
                                         );

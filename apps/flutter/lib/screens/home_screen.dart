@@ -93,21 +93,16 @@ class _HomeScreenState extends State {
 class NotificationsButton extends StatefulWidget {
   final PageController pageController;
 
-  const NotificationsButton({Key? key, required this.pageController})
-    : super(key: key);
+  const NotificationsButton({super.key, required this.pageController});
 
   @override
   State createState() {
-    return _NotificationsButtonState(pageController: pageController);
+    return _NotificationsButtonState();
   }
 }
 
-class _NotificationsButtonState extends State {
-  final PageController pageController;
-
+class _NotificationsButtonState extends State<NotificationsButton> {
   bool _forceReload = false;
-
-  _NotificationsButtonState({required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +137,7 @@ class _NotificationsButtonState extends State {
                           notificationId: notification.id,
                         );
                         setState(() => _forceReload = true);
-                        pageController.animateToPage(
+                        widget.pageController.animateToPage(
                           3,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,
@@ -176,7 +171,7 @@ class _NotificationsButtonState extends State {
                             );
                           });
                         } else {
-                          pageController.animateToPage(
+                          widget.pageController.animateToPage(
                             0,
                             duration: const Duration(milliseconds: 300),
                             curve: Curves.ease,
@@ -194,7 +189,7 @@ class _NotificationsButtonState extends State {
                           notificationId: notification.id,
                         );
                         setState(() => _forceReload = true);
-                        pageController.animateToPage(
+                        widget.pageController.animateToPage(
                           3,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.ease,

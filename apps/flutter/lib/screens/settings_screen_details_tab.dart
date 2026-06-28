@@ -60,7 +60,7 @@ class _SettingsChangeDetailsTabState extends State {
     super.dispose();
   }
 
-  setGender({Gender? gender, bool updateState = true}) {
+  void setGender({Gender? gender, bool updateState = true}) {
     final lang = AppLocalizations.of(context)!;
     _gender = gender;
     if (_gender == null) {
@@ -78,7 +78,7 @@ class _SettingsChangeDetailsTabState extends State {
     if (updateState) setState(() {});
   }
 
-  changeDetails() async {
+  Future<void> changeDetails() async {
     final lang = AppLocalizations.of(context)!;
     setState(() => _isLoading = true);
 
@@ -141,6 +141,7 @@ class _SettingsChangeDetailsTabState extends State {
       _isLoading = false;
     });
 
+    if (!mounted) return;
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -263,7 +264,7 @@ class _SettingsChangeDetailsTabState extends State {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text(lang.settings_details_gender),
-                            content: Container(
+                            content: SizedBox(
                               width: 320,
                               child: ListView(
                                 shrinkWrap: true,
@@ -448,7 +449,7 @@ class _SettingsChangeDetailsTabState extends State {
                         ),
                         const Spacer(),
                         Switch(
-                          activeColor: Colors.pink,
+                          activeThumbColor: Colors.pink,
                           value: _receiveNews,
                           onChanged: (bool value) {
                             setState(() => _receiveNews = value);
