@@ -18,4 +18,10 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+      - name: Install Flutter SDK
+        uses: flutter-actions/setup-flutter@v2
+        with:
+          version: "3.44.4"
+          channel: "stable"
+          cache: true
       - run: ./meta.sh check
