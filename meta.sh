@@ -20,8 +20,21 @@ check_server() {
     php artisan test
 }
 
+check_client() {
+    echo "Checking client formatting..."
+    if [ ! -d .dart_tool ]; then
+        flutter pub get
+    fi
+    dart format . --set-exit-if-changed -o none
+    if [ ! -f lib/config.dart ]; then
+        cp lib/config.dart.example lib/config.dart
+    fi
+    flutter analyze
+}
+
 check() {
     (cd server; check_server)
+    (cd apps/flutter; check_client)
 }
 
 case "${1:-check}" in
