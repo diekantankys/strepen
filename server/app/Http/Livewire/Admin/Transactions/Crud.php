@@ -11,6 +11,7 @@ use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\NewDeposit;
+use App\Notifications\NewTransaction;
 
 class Crud extends PaginationComponent
 {
@@ -43,6 +44,8 @@ class Crud extends PaginationComponent
     public $isCreatingPayment = false;
 
     public $creatingPaymentTab = 'single';
+
+    public $sendNotification = true;
 
     public $rules = [
         'transaction.user_id' => 'required|integer|exists:users,id',
@@ -86,6 +89,7 @@ class Crud extends PaginationComponent
         }
 
         $this->transaction = new Transaction;
+        $this->sendNotification = true;
 
         $this->users = User::where('active', true)
             ->orderByRaw('active DESC, LOWER(firstname)')
@@ -181,6 +185,9 @@ class Crud extends PaginationComponent
             $user = User::find($this->transaction->user_id);
             $user->balance -= $this->transaction->price;
             $user->save();
+            if ($this->sendNotification) {
+                $user->notify(new NewTransaction($this->transaction));
+            }
         }
 
         // Refresh page
@@ -217,7 +224,9 @@ class Crud extends PaginationComponent
             $user->save();
 
             // Send user new deposit notification
-            $user->notify(new NewDeposit($this->transaction));
+            if ($this->sendNotification) {
+                $user->notify(new NewDeposit($this->transaction));
+            }
         }
 
         // Create multiple deposits
@@ -242,7 +251,9 @@ class Crud extends PaginationComponent
                     $user->save();
 
                     // Send user new deposit notification
-                    $user->notify(new NewDeposit($transaction));
+                    if ($this->sendNotification) {
+                        $user->notify(new NewDeposit($transaction));
+                    }
                 }
             }
         }
@@ -277,9 +288,12 @@ class Crud extends PaginationComponent
             $user = User::find($this->transaction->user_id);
             $user->balance -= $this->transaction->price;
             $user->save();
+            if ($this->sendNotification) {
+                $user->notify(new NewTransaction($this->transaction));
+            }
         }
 
-        // Create multiple deposits
+        // Create multiple payments
         if ($this->creatingPaymentTab == 'multiple') {
             $this->validateOnly('transaction.name');
             $this->validateOnly('userAmounts.*');
@@ -299,6 +313,9 @@ class Crud extends PaginationComponent
                     // Recalculate balance of user
                     $user->balance -= $transaction->price;
                     $user->save();
+                    if ($this->sendNotification) {
+                        $user->notify(new NewTransaction($transaction));
+                    }
                 }
             }
         }

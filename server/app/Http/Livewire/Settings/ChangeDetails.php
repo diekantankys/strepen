@@ -37,7 +37,6 @@ class ChangeDetails extends Component
             'user.city' => 'nullable|min:2|max:255',
             'user.language' => 'required|integer|digits_between:'.User::LANGUAGE_ENGLISH.','.User::LANGUAGE_DUTCH,
             'user.theme' => 'required|integer|digits_between:'.User::THEME_LIGHT.','.User::THEME_SYSTEM,
-            'user.receive_news' => 'nullable|boolean',
         ];
     }
 

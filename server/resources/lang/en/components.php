@@ -19,6 +19,10 @@ return [
     'notifications.low_balance_start' => 'Your balance of',
     'notifications.low_balance_end' => 'is to low deposit some money to clear your debt',
 
+    'notifications.new_transaction_header' => 'New transaction',
+    'notifications.new_transaction_start' => 'A transaction of',
+    'notifications.new_transaction_end' => 'was made on',
+
     // User Chooser livewire component
     'user_chooser.user' => 'User',
     'user_chooser.search_user' => 'Search an user...',

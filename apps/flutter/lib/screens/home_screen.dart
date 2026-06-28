@@ -232,6 +232,27 @@ class _NotificationsButtonState extends State<NotificationsButton> {
                     );
                   }
 
+                  if (notification.type == NotificationType.newTransaction) {
+                    return PopupMenuItem(
+                      onTap: () async {
+                        await AuthService.getInstance().readNotification(
+                          notificationId: notification.id,
+                        );
+                        setState(() => _forceReload = true);
+                        widget.pageController.animateToPage(
+                          3,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.ease,
+                        );
+                      },
+                      child: Text(
+                        lang.home_new_transaction(
+                          '${settings['currency_symbol']} ${notification.data['amount'].toStringAsFixed(2)}',
+                        ),
+                      ),
+                    );
+                  }
+
                   return PopupMenuItem(
                     onTap: () async {
                       await AuthService.getInstance().readNotification(

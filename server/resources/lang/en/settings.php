@@ -27,10 +27,18 @@ return [
     'change_details.theme_light' => 'Light',
     'change_details.theme_dark' => 'Dark',
     'change_details.theme_system' => 'Use system default',
-    'change_details.receive_news' => 'Receive news',
-    'change_details.receive_news_user' => 'Receive news notifications when a new news posts are placed',
     'change_details.button' => 'Change details',
     'change_details.success_message' => 'Your details have changed, if you changed the the language of theme you need to refresh the page to make it effective',
+
+    // Change notifications form
+    'change_notifications.header' => 'Notification preferences',
+    'change_notifications.notify_new_posts' => 'Receive notifications for new news posts',
+    'change_notifications.notify_low_balance' => 'Receive notifications for low balance',
+    'change_notifications.notify_new_deposits' => 'Receive notifications for deposits',
+    'change_notifications.notify_new_transactions' => 'Receive notifications for made transactions',
+    'change_notifications.notify_by_email' => 'Send notifications by email',
+    'change_notifications.button' => 'Save preferences',
+    'change_notifications.success_message' => 'Your notification preferences have been saved',
 
     // Change avatar form
     'change_avatar.header' => 'Change avatar',

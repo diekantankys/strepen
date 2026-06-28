@@ -435,9 +435,7 @@
                                 @error('user.language') <p class="help is-danger">{{ $message }}</p> @enderror
                             </div>
                         </div>
-                    </div>
 
-                    <div class="columns">
                         <div class="column">
                             <div class="field">
                                 <label class="label" for="theme">@lang('admin/users.crud.theme')</label>
@@ -451,16 +449,6 @@
                                     </div>
                                 </div>
                                 @error('user.theme') <p class="help is-danger">{{ $message }}</p> @enderror
-                            </div>
-                        </div>
-
-                        <div class="column">
-                            <div class="field">
-                                <label class="label" for="receive_news">@lang('admin/users.item.receive_news')</label>
-                                <label class="checkbox" for="receive_news">
-                                    <input type="checkbox" id="receive_news" wire:model="user.receive_news">
-                                    @lang('admin/users.item.receive_news_user')
-                                </label>
                             </div>
                         </div>
                     </div>

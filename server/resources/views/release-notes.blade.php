@@ -8,9 +8,10 @@
             <p><i>In development</i></p>
             <ul>
                 <li>Add games page, score system and Flappy Flügel game</li>
-                <li>Add Kratje Hop game</li>
-                <li>Add Wantend game</li>
+                <li>Add Kratje Hop and Wantend games</li>
                 <li>Add posts comments system</li>
+                <li>Add fine grade notification settings</li>
+                <li>Add mobile push notification support</li>
                 <li>Various bug fixes</li>
             </ul>
         </div>

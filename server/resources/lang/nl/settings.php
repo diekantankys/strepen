@@ -16,7 +16,7 @@ return [
     'change_details.gender_female' => 'Vrouw',
     'change_details.gender_other' => 'Anders',
     'change_details.birthday' => 'Geboorte datum',
-    'change_details.birthday_minor' => '(uitgeschakeld want u bent minderjarig)',
+    'change_details.birthday_minor' => '(uitgeschakeld want je bent minderjarig)',
     'change_details.email' => 'Email adres',
     'change_details.phone' => 'Telefoonnummer',
     'change_details.address' => 'Adres (straatnaam met huisnummer)',
@@ -27,10 +27,18 @@ return [
     'change_details.theme_light' => 'Licht',
     'change_details.theme_dark' => 'Donker',
     'change_details.theme_system' => 'Gebruik systeem standaard',
-    'change_details.receive_news' => 'Ontvang nieuws',
-    'change_details.receive_news_user' => 'Ontvang meldingen wanneer een nieuwe nieuwsberichten zijn geplaatst',
     'change_details.button' => 'Verander gegevens',
     'change_details.success_message' => 'Uw gegevens zijn gewijzigd, als u de taal of thema hebt gewijzigd moet u de pagina verversen om dit effectief te maken',
+
+    // Change notifications form
+    'change_notifications.header' => 'Notificatie instellingen',
+    'change_notifications.notify_new_posts' => 'Ontvang meldingen voor nieuwe nieuws berichten',
+    'change_notifications.notify_low_balance' => 'Ontvang meldingen voor te lage balans',
+    'change_notifications.notify_new_deposits' => 'Ontvang meldingen voor stortingen',
+    'change_notifications.notify_new_transactions' => 'Ontvang meldingen voor gemaakte transacties',
+    'change_notifications.notify_by_email' => 'Verstuur meldingen per email',
+    'change_notifications.button' => 'Instellingen opslaan',
+    'change_notifications.success_message' => 'Uw notificatie instellingen zijn opgeslagen',
 
     // Change avatar form
     'change_avatar.header' => 'Verander avatar',
