@@ -41,8 +41,6 @@ class _SettingsChangeDetailsTabState extends State {
   String? _postcodeError;
   String? _cityError;
 
-  bool _receiveNews = false;
-
   @override
   void dispose() {
     _firstnameController.dispose();
@@ -94,7 +92,6 @@ class _SettingsChangeDetailsTabState extends State {
           address: _addressController.text,
           postcode: _postcodeController.text,
           city: _cityController.text,
-          receiveNews: _receiveNews,
         );
 
     // When there are errors
@@ -202,7 +199,6 @@ class _SettingsChangeDetailsTabState extends State {
               _cityController.text = user.city!;
             }
 
-            _receiveNews = user.receiveNews!;
           }
 
           return Card(
@@ -257,7 +253,7 @@ class _SettingsChangeDetailsTabState extends State {
                   InputField(
                     controller: _genderController,
                     label: lang.settings_details_gender,
-                    enabled: false,
+                    readOnly: true,
                     onTap: () async {
                       showDialog(
                         context: context,
@@ -330,7 +326,8 @@ class _SettingsChangeDetailsTabState extends State {
                   InputField(
                     controller: _birthdayController,
                     label: lang.settings_details_birthday,
-                    enabled: false,
+                    enabled: !user.minor!,
+                    readOnly: true,
                     margin: const EdgeInsets.only(bottom: 8),
                     onTap: !user.minor!
                         ? () async {
@@ -423,40 +420,6 @@ class _SettingsChangeDetailsTabState extends State {
                     controller: _cityController,
                     label: lang.settings_details_city,
                     error: _cityError,
-                  ),
-
-                  // Email notifications
-                  Container(
-                    width: double.infinity,
-                    margin: const EdgeInsets.only(top: 8, bottom: 16),
-                    child: Text(
-                      lang.settings_details_email_notifications,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ),
-
-                  Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    child: Row(
-                      children: [
-                        Text(
-                          lang.settings_details_receive_news,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        const Spacer(),
-                        Switch(
-                          activeThumbColor: Colors.pink,
-                          value: _receiveNews,
-                          onChanged: (bool value) {
-                            setState(() => _receiveNews = value);
-                          },
-                        ),
-                      ],
-                    ),
                   ),
 
                   // Change details button

@@ -38,4 +38,14 @@ return [
     'low_balance_mail_line3' => 'If you have any questions or think something is wrong, please reply to this email.',
     'low_balance_fcm_title' => 'Balance too low',
     'low_balance_fcm_body' => 'Your balance is :currency :balance',
+
+    'new_transaction_header' => 'New transaction',
+    'new_transaction_start' => 'A transaction of',
+    'new_transaction_end' => 'was made on',
+
+    'new_transaction_mail_subject' => 'New transaction on the Strepen System',
+    'new_transaction_mail_line1' => 'A transaction of :currency :amount has been deducted from your account.',
+    'new_transaction_mail_line2' => 'Your balance is now :currency :balance.',
+    'new_transaction_fcm_title' => 'New transaction',
+    'new_transaction_fcm_body' => ':currency :amount deducted',
 ];

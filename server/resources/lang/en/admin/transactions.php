@@ -24,6 +24,7 @@ return [
     'crud.single' => 'Single',
     'crud.multiple' => 'Multiple',
     'crud.amount' => 'Amount',
+    'crud.send_notification' => 'Send (email) notification to user',
     'crud.cancel' => 'Cancel',
 
     // Admin transactions item livewire component

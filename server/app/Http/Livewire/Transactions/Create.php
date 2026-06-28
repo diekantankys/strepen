@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Setting;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\NewTransaction;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -142,6 +143,11 @@ class Create extends Component
         // Recalculate balance of user
         $user->balance -= $this->transaction->price;
         $user->save();
+
+        // Notify user based on their preference (kiosk stripe)
+        if ($this->transaction->user_id != 1) {
+            $user->notify(new NewTransaction($this->transaction));
+        }
 
         $this->isCreated = true;
         $this->dispatch('scroll-top');

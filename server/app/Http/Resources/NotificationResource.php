@@ -24,6 +24,9 @@ class NotificationResource extends JsonResource
         if ($this->type == 'App\Notifications\LowBalance') {
             $type = 'low_balance';
         }
+        if ($this->type == 'App\Notifications\NewTransaction') {
+            $type = 'new_transaction';
+        }
 
         $data = [
             'id' => $this->id,

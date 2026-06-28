@@ -88,7 +88,7 @@ class Crud extends PaginationComponent
 
         if ($this->sendNotification) {
             // Send all users the receive news new post notification
-            $users = User::where('active', true)->where('receive_news', true)->get();
+            $users = User::where('active', true)->where('notify_new_posts', true)->get();
             foreach ($users as $user) {
                 $user->notify(new NewPost($user, $this->post));
             }

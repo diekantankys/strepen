@@ -26,7 +26,11 @@ class User {
   final String? address;
   final String? postcode;
   final String? city;
-  final bool? receiveNews;
+  final bool? notifyNewPosts;
+  final bool? notifyLowBalance;
+  final bool? notifyNewDeposits;
+  final bool? notifyNewTransactions;
+  final bool? notifyByEmail;
   final String avatar;
   final String thanks;
   double? balance;
@@ -45,7 +49,11 @@ class User {
     required this.address,
     required this.postcode,
     required this.city,
-    required this.receiveNews,
+    required this.notifyNewPosts,
+    required this.notifyLowBalance,
+    required this.notifyNewDeposits,
+    required this.notifyNewTransactions,
+    required this.notifyByEmail,
     required this.avatar,
     required this.thanks,
     required this.balance,
@@ -75,7 +83,11 @@ class User {
       address: json['address'],
       postcode: json['postcode'],
       city: json['city'],
-      receiveNews: json['receive_news'],
+      notifyNewPosts: json['notify_new_posts'],
+      notifyLowBalance: json['notify_low_balance'],
+      notifyNewDeposits: json['notify_new_deposits'],
+      notifyNewTransactions: json['notify_new_transactions'],
+      notifyByEmail: json['notify_by_email'],
       avatar: json['avatar'],
       thanks: json['thanks'],
       balance: json['balance']?.toDouble(),

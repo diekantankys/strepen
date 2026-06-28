@@ -61,7 +61,11 @@ class User extends Authenticatable implements HasLocalePreference
 
     protected $casts = [
         'birthday' => 'datetime:Y-m-d',
-        'receive_news' => 'boolean',
+        'notify_new_posts' => 'boolean',
+        'notify_low_balance' => 'boolean',
+        'notify_new_deposits' => 'boolean',
+        'notify_new_transactions' => 'boolean',
+        'notify_by_email' => 'boolean',
         'balance' => 'double',
         'active' => 'boolean',
     ];
@@ -70,7 +74,11 @@ class User extends Authenticatable implements HasLocalePreference
         'role' => User::ROLE_NORMAL,
         'language' => User::LANGUAGE_DUTCH,
         'theme' => User::THEME_SYSTEM,
-        'receive_news' => true,
+        'notify_new_posts' => true,
+        'notify_low_balance' => true,
+        'notify_new_deposits' => true,
+        'notify_new_transactions' => false,
+        'notify_by_email' => true,
         'balance' => 0,
         'active' => true,
     ];

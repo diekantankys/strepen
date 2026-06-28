@@ -148,7 +148,11 @@ components:
           enum: [en, nl, unknown]
           description: Deliberately spelled `lanuage` to match the server response.
         theme: { type: string, enum: [light, dark, system, unknown] }
-        receive_news: { type: boolean }
+        notify_new_posts: { type: boolean }
+        notify_low_balance: { type: boolean }
+        notify_new_deposits: { type: boolean }
+        notify_new_transactions: { type: boolean }
+        notify_by_email: { type: boolean }
         balance: { type: number, format: double }
         minor: { type: boolean }
         active: { type: boolean }
@@ -325,7 +329,11 @@ components:
         city: { type: string, minLength: 2, maxLength: 255, nullable: true }
         language: { type: string, enum: [en, nl] }
         theme: { type: string, enum: [light, dark, system] }
-        receive_news: { type: string, enum: ["true", "false"] }
+        notify_new_posts: { type: string, enum: ["true", "false"] }
+        notify_low_balance: { type: string, enum: ["true", "false"] }
+        notify_new_deposits: { type: string, enum: ["true", "false"] }
+        notify_new_transactions: { type: string, enum: ["true", "false"] }
+        notify_by_email: { type: string, enum: ["true", "false"] }
         avatar:
           type: string
           format: binary

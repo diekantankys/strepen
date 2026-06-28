@@ -122,7 +122,23 @@ class ApiUsersController extends ApiController
                 'nullable',
                 Rule::in(['light', 'dark', 'system']),
             ],
-            'receive_news' => [
+            'notify_new_posts' => [
+                'nullable',
+                Rule::in(['true', 'false']),
+            ],
+            'notify_low_balance' => [
+                'nullable',
+                Rule::in(['true', 'false']),
+            ],
+            'notify_new_deposits' => [
+                'nullable',
+                Rule::in(['true', 'false']),
+            ],
+            'notify_new_transactions' => [
+                'nullable',
+                Rule::in(['true', 'false']),
+            ],
+            'notify_by_email' => [
                 'nullable',
                 Rule::in(['true', 'false']),
             ],
@@ -230,8 +246,24 @@ class ApiUsersController extends ApiController
             }
         }
 
-        if ($request->has('receive_news')) {
-            $user->receive_news = $request->input('receive_news') == 'true';
+        if ($request->has('notify_new_posts')) {
+            $user->notify_new_posts = $request->input('notify_new_posts') == 'true';
+        }
+
+        if ($request->has('notify_low_balance')) {
+            $user->notify_low_balance = $request->input('notify_low_balance') == 'true';
+        }
+
+        if ($request->has('notify_new_deposits')) {
+            $user->notify_new_deposits = $request->input('notify_new_deposits') == 'true';
+        }
+
+        if ($request->has('notify_new_transactions')) {
+            $user->notify_new_transactions = $request->input('notify_new_transactions') == 'true';
+        }
+
+        if ($request->has('notify_by_email')) {
+            $user->notify_by_email = $request->input('notify_by_email') == 'true';
         }
 
         // Update avatar

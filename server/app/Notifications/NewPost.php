@@ -25,9 +25,18 @@ class NewPost extends Notification
         $this->post = $post;
     }
 
-    public function via($notifiable)
+    public function via($notifiable): array
     {
-        return ['database', 'mail', FcmChannel::class];
+        if (! $notifiable->notify_new_posts) {
+            return ['database'];
+        }
+
+        $channels = ['database', FcmChannel::class];
+        if ($notifiable->notify_by_email) {
+            $channels[] = 'mail';
+        }
+
+        return $channels;
     }
 
     public function toFcm($notifiable): array

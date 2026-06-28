@@ -51,6 +51,28 @@
                             <p>@lang('notifications.new_post_text', ['post.title' => $post->title, 'post.created_at' => $post->created_at->format('Y-m-d H:i')])</p>
                         @endif
 
+                        @if ($notification->type == 'App\Notifications\NewTransaction')
+                            @php
+                                $transaction = App\Models\Transaction::withTrashed()->find($notification->data['transaction_id']);
+                            @endphp
+                            <h1 class="title is-5">
+                                <a href="{{ route('transactions.history') }}" style="color: inherit;" wire:navigate>@lang('notifications.new_transaction_header')</a>
+                                @if ($notification->read_at == null)
+                                    <span class="is-pulled-right" style="display: flex; align-items: center;">
+                                        <span class="tag is-warning is-hidden-touch">{{ Str::upper(__('notifications.unread')) }}</span>
+                                        <button type="button" class="delete ml-3" wire:click.prevent="readNotification('{{ $notification->id }}')"></button>
+                                    </span>
+                                @endif
+                            </h1>
+                            @if ($notification->read_at == null)
+                                <p class="is-display-touch is-hidden-desktop">
+                                    <span class="tag is-warning">{{ Str::upper(__('notifications.unread')) }}</span>
+                                </p>
+                            @endif
+                            <p>@lang('notifications.new_transaction_start') <x-money-format :money="$transaction->price" />
+                                @lang('notifications.new_transaction_end') {{ $transaction->created_at->format('Y-m-d H:i') }}</p>
+                        @endif
+
                         @if ($notification->type == 'App\Notifications\LowBalance')
                             <h1 class="title is-5">
                                 <a href="{{ route('balance') }}" style="color: inherit;" wire:navigate>@lang('notifications.low_balance_header')</a>

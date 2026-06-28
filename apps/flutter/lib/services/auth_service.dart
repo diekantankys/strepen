@@ -63,29 +63,32 @@ class AuthService {
     return true;
   }
 
+  Future<void> deregisterFcmToken() async {
+    await _fcmTokenSubscription?.cancel();
+    _fcmTokenSubscription = null;
+    if (Firebase.apps.isEmpty) return;
+    final storage = await StorageService.getInstance();
+    final fcmToken = storage.fcmToken;
+    if (fcmToken == null || storage.userId == null) return;
+    try {
+      await http.delete(
+        Uri.parse(
+          '${storage.organisation.apiUrl}/users/${storage.userId!}/fcm-token',
+        ),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+        body: {'fcm_token': fcmToken},
+      );
+    } catch (_) {}
+    await storage.setFcmToken(null);
+  }
+
   Future logout() async {
     StorageService storage = await StorageService.getInstance();
 
-    await _fcmTokenSubscription?.cancel();
-    _fcmTokenSubscription = null;
-
-    // Deregister FCM token before invalidating the auth token
-    final fcmToken = Firebase.apps.isNotEmpty ? storage.fcmToken : null;
-    if (fcmToken != null && storage.userId != null) {
-      try {
-        await http.delete(
-          Uri.parse(
-            '${storage.organisation.apiUrl}/users/${storage.userId!}/fcm-token',
-          ),
-          headers: {
-            'X-Api-Key': storage.organisation.apiKey,
-            'Authorization': 'Bearer ${storage.token!}',
-          },
-          body: {'fcm_token': fcmToken},
-        );
-      } catch (_) {}
-      await storage.setFcmToken(null);
-    }
+    await deregisterFcmToken();
 
     await http.get(
       Uri.parse('${storage.organisation.apiUrl}/auth/logout'),
@@ -301,7 +304,6 @@ class AuthService {
     required String address,
     required String postcode,
     required String city,
-    required bool receiveNews,
   }) async {
     StorageService storage = await StorageService.getInstance();
     final response = await http.post(
@@ -323,7 +325,6 @@ class AuthService {
         'address': address,
         'postcode': postcode,
         'city': city,
-        'receive_news': receiveNews.toString(),
       },
     );
 
@@ -333,6 +334,37 @@ class AuthService {
       return null;
     }
     return Map<String, List<dynamic>>.from(data['errors']);
+  }
+
+  Future<void> changeNotificationSettings({
+    required bool notifyNewPosts,
+    required bool notifyLowBalance,
+    required bool notifyNewDeposits,
+    required bool notifyNewTransactions,
+    required bool notifyByEmail,
+  }) async {
+    try {
+      final storage = await StorageService.getInstance();
+      if (storage.token == null || storage.userId == null) return;
+      final response = await http.post(
+        Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
+        headers: {
+          'X-Api-Key': storage.organisation.apiKey,
+          'Authorization': 'Bearer ${storage.token!}',
+        },
+        body: {
+          'notify_new_posts': notifyNewPosts.toString(),
+          'notify_low_balance': notifyLowBalance.toString(),
+          'notify_new_deposits': notifyNewDeposits.toString(),
+          'notify_new_transactions': notifyNewTransactions.toString(),
+          'notify_by_email': notifyByEmail.toString(),
+        },
+      );
+      final data = json.decode(response.body);
+      if (data.containsKey('user')) {
+        _user = User.fromJson(data['user']);
+      }
+    } catch (_) {}
   }
 
   Future<bool> changeAvatar({required XFile? avatar}) async {

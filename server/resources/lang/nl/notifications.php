@@ -38,4 +38,14 @@ return [
     'low_balance_mail_line3' => 'Mocht u nog vragen hebben of denk u dat er iets niet klopt beantwoord dan dit mailtje.',
     'low_balance_fcm_title' => 'Te laag krediet',
     'low_balance_fcm_body' => 'Uw balans is :currency :balance',
+
+    'new_transaction_header' => 'Nieuwe transactie',
+    'new_transaction_start' => 'Er is een transactie gedaan van',
+    'new_transaction_end' => 'op',
+
+    'new_transaction_mail_subject' => 'Nieuwe transactie op het Strepen Systeem',
+    'new_transaction_mail_line1' => 'Er is een transactie van :currency :amount van uw account afgeschreven.',
+    'new_transaction_mail_line2' => 'Uw balans is op dit moment nu :currency :balance.',
+    'new_transaction_fcm_title' => 'Nieuwe transactie',
+    'new_transaction_fcm_body' => ':currency :amount afgeschreven',
 ];

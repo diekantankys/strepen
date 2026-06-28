@@ -162,15 +162,6 @@
                 </div>
             </div>
 
-            <div class="column">
-                <div class="field">
-                    <label class="label" for="receive_news">@lang('settings.change_details.receive_news')</label>
-                    <label class="checkbox" for="receive_news">
-                        <input type="checkbox" id="receive_news" wire:model="user.receive_news">
-                        @lang('settings.change_details.receive_news_user')
-                    </label>
-                </div>
-            </div>
         </div>
 
         <div class="field">

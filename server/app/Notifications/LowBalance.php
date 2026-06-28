@@ -20,9 +20,18 @@ class LowBalance extends Notification
         $this->user = $user;
     }
 
-    public function via($notifiable)
+    public function via($notifiable): array
     {
-        return ['database', 'mail', FcmChannel::class];
+        if (! $notifiable->notify_low_balance) {
+            return ['database'];
+        }
+
+        $channels = ['database', FcmChannel::class];
+        if ($notifiable->notify_by_email) {
+            $channels[] = 'mail';
+        }
+
+        return $channels;
     }
 
     public function toFcm($notifiable): array

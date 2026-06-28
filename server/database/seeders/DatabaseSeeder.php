@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         $user->email = 'system@'.strtolower(config('app.name'));
         $user->password = Hash::make(Str::random(32));
         $user->active = false;
-        $user->receive_news = false;
+        $user->notify_new_posts = false;
         $user->save();
 
         // Create admin account

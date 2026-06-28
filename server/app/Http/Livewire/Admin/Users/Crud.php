@@ -54,7 +54,6 @@ class Crud extends PaginationComponent
             'thanks' => 'nullable|image|mimes:gif|max:2048',
             'user.language' => 'required|integer|digits_between:'.User::LANGUAGE_ENGLISH.','.User::LANGUAGE_DUTCH,
             'user.theme' => 'required|integer|digits_between:'.User::THEME_LIGHT.','.User::THEME_SYSTEM,
-            'user.receive_news' => 'nullable|boolean',
         ];
         if (Auth::user()->role == User::ROLE_MANAGER) {
             $rules['user.role'] = 'required|integer|digits_between:'.User::ROLE_NORMAL.','.User::ROLE_MANAGER;
