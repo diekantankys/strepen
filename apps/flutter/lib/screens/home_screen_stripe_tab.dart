@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'dart:math';
 import '../l10n/app_localizations.dart';
 import '../models/product.dart';
 import '../models/user.dart';
@@ -160,17 +158,10 @@ class _ProductsListState extends State<ProductsList> {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile =
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
     return Center(
       child: SingleChildScrollView(
         controller: _scrollController,
-        child: Container(
-          constraints: BoxConstraints(
-            maxWidth: !isMobile ? 560 : double.infinity,
-          ),
-          child: Column(
+        child: Column(
             children: [
               Container(
                 padding: const EdgeInsets.symmetric(
@@ -331,7 +322,6 @@ class _ProductsListState extends State<ProductsList> {
               ),
             ],
           ),
-        ),
       ),
     );
   }
@@ -354,15 +344,10 @@ class TransactionCreatedDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile =
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
     return AlertDialog(
       title: Text(lang.home_stripe_created),
       content: SizedBox(
-        width: !isMobile
-            ? min(320, MediaQuery.of(context).size.width * 0.9)
-            : MediaQuery.of(context).size.width * 0.9,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.9,
         child: Center(
           child: SingleChildScrollView(

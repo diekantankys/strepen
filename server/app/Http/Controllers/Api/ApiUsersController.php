@@ -7,6 +7,7 @@ use App\Http\Resources\NotificationResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\TransactionResource;
 use App\Http\Resources\UserResource;
+use App\Models\FcmToken;
 use App\Models\Inventory;
 use App\Models\Post;
 use App\Models\Transaction;
@@ -293,5 +294,38 @@ class ApiUsersController extends ApiController
             'message' => 'All user changes are saved!',
             'user' => new UserResource($user),
         ];
+    }
+
+    // Api users store fcm token route
+    public function storeFcmToken(Request $request, User $user)
+    {
+        $validation = Validator::make($request->all(), [
+            'fcm_token' => 'required|string|max:255',
+        ]);
+        if ($validation->fails()) {
+            return response(['errors' => $validation->errors()], 400);
+        }
+
+        FcmToken::updateOrCreate(
+            ['token' => $request->input('fcm_token')],
+            ['user_id' => $user->id],
+        );
+
+        return ['message' => 'FCM token registered'];
+    }
+
+    // Api users destroy fcm token route
+    public function destroyFcmToken(Request $request, User $user)
+    {
+        $validation = Validator::make($request->all(), [
+            'fcm_token' => 'required|string|max:255',
+        ]);
+        if ($validation->fails()) {
+            return response(['errors' => $validation->errors()], 400);
+        }
+
+        $user->fcmTokens()->where('token', $request->input('fcm_token'))->delete();
+
+        return ['message' => 'FCM token removed'];
     }
 }

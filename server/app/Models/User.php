@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\LowBalance;
 use DateTime;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasLocalePreference
 {
     use HasApiTokens;
     use HasFactory;
@@ -39,6 +40,11 @@ class User extends Authenticatable
     public const LANGUAGE_ENGLISH = 0;
 
     public const LANGUAGE_DUTCH = 1;
+
+    public function preferredLocale(): string
+    {
+        return $this->language === self::LANGUAGE_ENGLISH ? 'en' : 'nl';
+    }
 
     // A user can select a light and a dark theme
     public const THEME_LIGHT = 0;
@@ -157,6 +163,13 @@ class User extends Authenticatable
     public function getAdminAttribute()
     {
         return $this->role == User::ROLE_ADMIN;
+    }
+
+    // A user has many FCM device tokens
+    /** @return HasMany<FcmToken, $this> */
+    public function fcmTokens(): HasMany
+    {
+        return $this->hasMany(FcmToken::class);
     }
 
     // A user has many posts

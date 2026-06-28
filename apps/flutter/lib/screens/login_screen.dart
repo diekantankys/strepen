@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../models/organisation.dart';
@@ -51,9 +50,6 @@ class _LoginScreenState extends State {
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
-    final isMobile =
-        defaultTargetPlatform == TargetPlatform.iOS ||
-        defaultTargetPlatform == TargetPlatform.android;
     return Scaffold(
       body: FutureBuilder<StorageService>(
         future: StorageService.getInstance(),
@@ -71,9 +67,6 @@ class _LoginScreenState extends State {
             return Center(
               child: SingleChildScrollView(
                 child: Container(
-                  constraints: BoxConstraints(
-                    maxWidth: !isMobile ? 560 : double.infinity,
-                  ),
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [

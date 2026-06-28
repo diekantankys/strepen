@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Channels\FcmChannel;
 use App\Helpers\BetterParsedown;
 use App\Models\Post;
 use App\Models\User;
@@ -18,51 +19,37 @@ class NewPost extends Notification
 
     public $post;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(User $user, Post $post)
     {
         $this->user = $user;
         $this->post = $post;
     }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['database', 'mail', FcmChannel::class];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return MailMessage
-     */
+    public function toFcm($notifiable): array
+    {
+        return [
+            __('notifications.new_post_fcm_title'),
+            $this->post->title,
+            ['type' => 'new_post', 'notification_id' => $this->id, 'post_id' => (string) $this->post->id],
+        ];
+    }
+
     public function toMail($notifiable)
     {
         return (new MailMessage)
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject($this->post->title.' - Een nieuw nieuws bericht op het Strepen Systeem')
-            ->greeting('Beste '.$this->user->name.',')
-            ->line('Er is een nieuw nieuws bericht op het Strepen Systeem geplaatst:')
+            ->subject(__('notifications.new_post_mail_subject', ['title' => $this->post->title]))
+            ->greeting(__('notifications.greeting', ['name' => $this->user->name]))
+            ->line(__('notifications.new_post_mail_line1'))
             ->line(new HtmlString(BetterParsedown::instance()->text($this->post->body)))
-            ->salutation('Groetjes, het stambestuur');
+            ->salutation(__('notifications.salutation'));
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
     public function toArray($notifiable)
     {
         return [
