@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'password' => Hash::make($this->faker->password),
             'language' => $this->faker->randomElement([User::LANGUAGE_ENGLISH, User::LANGUAGE_DUTCH]),
             'theme' => $this->faker->randomElement([User::THEME_LIGHT, User::THEME_SYSTEM]),
-            'receive_news' => $this->faker->boolean,
+            'notify_new_posts' => $this->faker->boolean,
         ];
     }
 

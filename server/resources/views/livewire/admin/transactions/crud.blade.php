@@ -63,6 +63,13 @@
                     </div>
 
                     <livewire:components.products-chooser name="products" noMax="true" includeInactive="true" :invalid="$this->isInputInvalid('products')" wire:key="admin-transactions-create-transaction-products-chooser" />
+
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" wire:model="sendNotification">
+                            @lang('admin/transactions.crud.send_notification')
+                        </label>
+                    </div>
                 </div>
 
                 <div class="modal-card-foot">
@@ -145,6 +152,13 @@
                             </tbody>
                         </table>
                     @endif
+
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" wire:model="sendNotification">
+                            @lang('admin/transactions.crud.send_notification')
+                        </label>
+                    </div>
                 </div>
 
                 <div class="modal-card-foot">
@@ -227,6 +241,13 @@
                             </tbody>
                         </table>
                     @endif
+
+                    <div class="field">
+                        <label class="checkbox">
+                            <input type="checkbox" wire:model="sendNotification">
+                            @lang('admin/transactions.crud.send_notification')
+                        </label>
+                    </div>
                 </div>
 
                 <div class="modal-card-foot">

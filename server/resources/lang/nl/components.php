@@ -19,6 +19,10 @@ return [
     'notifications.low_balance_start' => 'Jouw balans van',
     'notifications.low_balance_end' => 'is te laag stort wat geld om uw schuld te vereffen',
 
+    'notifications.new_transaction_header' => 'Nieuwe transactie',
+    'notifications.new_transaction_start' => 'Er is een transactie gedaan van',
+    'notifications.new_transaction_end' => 'op',
+
     // User Chooser livewire component
     'user_chooser.user' => 'Gebruiker',
     'user_chooser.search_user' => 'Zoek een gebruiker...',

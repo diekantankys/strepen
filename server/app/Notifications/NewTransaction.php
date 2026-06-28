@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class NewDeposit extends Notification
+class NewTransaction extends Notification
 {
     use Queueable;
 
@@ -22,7 +22,7 @@ class NewDeposit extends Notification
 
     public function via($notifiable): array
     {
-        if (! $notifiable->notify_new_deposits) {
+        if (! $notifiable->notify_new_transactions) {
             return ['database'];
         }
 
@@ -40,12 +40,12 @@ class NewDeposit extends Notification
         $amount = number_format($this->transaction->price, 2, $isEn ? '.' : ',', $isEn ? ',' : '.');
 
         return [
-            __('notifications.new_deposit_fcm_title'),
-            __('notifications.new_deposit_fcm_body', [
+            __('notifications.new_transaction_fcm_title'),
+            __('notifications.new_transaction_fcm_body', [
                 'currency' => Setting::get('currency_symbol'),
                 'amount' => $amount,
             ]),
-            ['type' => 'new_deposit', 'notification_id' => $this->id],
+            ['type' => 'new_transaction', 'notification_id' => $this->id],
         ];
     }
 
@@ -58,10 +58,10 @@ class NewDeposit extends Notification
 
         return (new MailMessage)
             ->from(config('mail.from.address'), config('mail.from.name'))
-            ->subject(__('notifications.new_deposit_mail_subject'))
+            ->subject(__('notifications.new_transaction_mail_subject'))
             ->greeting(__('notifications.greeting', ['name' => $this->transaction->user->name]))
-            ->line(__('notifications.new_deposit_mail_line1', ['currency' => $currency, 'amount' => $amount]))
-            ->line(__('notifications.new_deposit_mail_line2', ['currency' => $currency, 'balance' => $balance]))
+            ->line(__('notifications.new_transaction_mail_line1', ['currency' => $currency, 'amount' => $amount]))
+            ->line(__('notifications.new_transaction_mail_line2', ['currency' => $currency, 'balance' => $balance]))
             ->salutation(__('notifications.salutation'));
     }
 

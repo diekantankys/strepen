@@ -117,7 +117,7 @@ class ImportData extends Command
                         $user->lastname = $lastname;
                         $user->email = $userJson->email;
                         $user->password = Hash::make(Str::random(32));
-                        $user->receive_news = $userJson->receive_news;
+                        $user->notify_new_posts = $userJson->receive_news;
                         $user->active = $userJson->active;
                         $user->checkGravatarAvatar();
                         $user->save();

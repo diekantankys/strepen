@@ -36,6 +36,21 @@
                 </a>
             @endif
 
+            @if ($notification->type == 'App\Notifications\NewTransaction')
+                <a class="navbar-item is-notification has-text-centered" href="{{ route('transactions.history') }}" wire:navigate wire:key="{{ $notification->id }}"
+                    style="flex-direction: column; padding: .75rem 1rem;">
+                    @php
+                        $transaction = App\Models\Transaction::withTrashed()->find($notification->data['transaction_id']);
+                    @endphp
+                    <h1 class="title is-6 mb-1" style="width: 100%; line-height: .75rem;">
+                        @lang('components.notifications.new_transaction_header')
+                        <button type="button" class="delete is-small is-pulled-right" wire:click.stop.prevent="readNotification('{{ $notification->id }}')"></button>
+                    </h1>
+                    <p style="white-space: normal;">@lang('components.notifications.new_transaction_start') <x-money-format :money="$transaction->price" />
+                        @lang('components.notifications.new_transaction_end') {{ $transaction->created_at->format('Y-m-d H:i') }}</p>
+                </a>
+            @endif
+
             @if ($notification->type == 'App\Notifications\LowBalance')
                 <a class="navbar-item is-notification has-text-centered" href="{{ route('balance') }}" wire:navigate wire:key="{{ $notification->id }}"
                     style="flex-direction: column; padding: .75rem 1rem;">

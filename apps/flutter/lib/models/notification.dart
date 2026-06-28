@@ -1,11 +1,12 @@
 import 'post.dart';
 
-enum NotificationType { newDeposit, newPost, lowBalance }
+enum NotificationType { newDeposit, newPost, lowBalance, newTransaction }
 
 NotificationType? notificationTypeFromString(String type) {
   if (type == 'new_deposit') return NotificationType.newDeposit;
   if (type == 'new_post') return NotificationType.newPost;
   if (type == 'low_balance') return NotificationType.lowBalance;
+  if (type == 'new_transaction') return NotificationType.newTransaction;
   return null;
 }
 

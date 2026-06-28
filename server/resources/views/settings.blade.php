@@ -7,6 +7,16 @@
 
         <div class="columns">
             <div class="column is-half">
+                <livewire:settings.change-notifications />
+            </div>
+
+            <div class="column is-half">
+                <livewire:settings.change-password />
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column is-half">
                 <livewire:settings.change-avatar />
             </div>
 
@@ -14,7 +24,5 @@
                 <livewire:settings.change-thanks />
             </div>
         </div>
-
-        <livewire:settings.change-password />
     </div>
 @endcomponent

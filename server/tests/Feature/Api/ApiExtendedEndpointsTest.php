@@ -51,7 +51,7 @@ class ApiExtendedEndpointsTest extends TestCase
             'birthday' => '2001-02-03',
             'language' => 'en',
             'theme' => 'dark',
-            'receive_news' => 'false',
+            'notify_new_posts' => 'false',
             'current_password' => 'old-secret',
             'password' => 'new-secret',
             'password_confirmation' => 'new-secret',
@@ -60,7 +60,7 @@ class ApiExtendedEndpointsTest extends TestCase
         ])->assertOk()
             ->assertJsonPath('user.firstname', 'Edited')
             ->assertJsonPath('user.email', 'edited@example.com')
-            ->assertJsonPath('user.receive_news', false);
+            ->assertJsonPath('user.notify_new_posts', false);
 
         $user = $user->fresh();
         $this->assertTrue(Hash::check('new-secret', $user->password));
@@ -118,6 +118,47 @@ class ApiExtendedEndpointsTest extends TestCase
             ->assertJsonPath('message', 'The notification is successfully read');
 
         $this->assertNotNull($notification->fresh()->read_at);
+    }
+
+    public function test_all_notification_preference_fields_appear_and_can_be_updated()
+    {
+        $user = User::factory()->create([
+            'notify_new_posts' => true,
+            'notify_low_balance' => true,
+            'notify_new_deposits' => true,
+            'notify_new_transactions' => false,
+            'notify_by_email' => true,
+        ]);
+
+        // All 5 fields appear in the user response
+        $this->authGet($user, 'api.users.show', ['user' => $user])
+            ->assertOk()
+            ->assertJsonPath('notify_new_posts', true)
+            ->assertJsonPath('notify_low_balance', true)
+            ->assertJsonPath('notify_new_deposits', true)
+            ->assertJsonPath('notify_new_transactions', false)
+            ->assertJsonPath('notify_by_email', true);
+
+        // All 5 fields can be updated via the edit endpoint
+        $this->authPost($user, 'api.users.edit', ['user' => $user], [
+            'notify_new_posts' => 'false',
+            'notify_low_balance' => 'false',
+            'notify_new_deposits' => 'false',
+            'notify_new_transactions' => 'true',
+            'notify_by_email' => 'false',
+        ])->assertOk()
+            ->assertJsonPath('user.notify_new_posts', false)
+            ->assertJsonPath('user.notify_low_balance', false)
+            ->assertJsonPath('user.notify_new_deposits', false)
+            ->assertJsonPath('user.notify_new_transactions', true)
+            ->assertJsonPath('user.notify_by_email', false);
+
+        $user = $user->fresh();
+        $this->assertFalse($user->notify_new_posts);
+        $this->assertFalse($user->notify_low_balance);
+        $this->assertFalse($user->notify_new_deposits);
+        $this->assertTrue($user->notify_new_transactions);
+        $this->assertFalse($user->notify_by_email);
     }
 
     public function test_user_posts_and_transaction_show_endpoints_return_related_resources()
