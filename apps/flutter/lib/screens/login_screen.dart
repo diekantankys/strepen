@@ -32,12 +32,13 @@ class _LoginScreenState extends State {
     super.dispose();
   }
 
-  login() async {
+  Future<void> login() async {
     setState(() => _isLoading = true);
     if (await AuthService.getInstance().login(
       email: _emailController.text,
       password: _passwordController.text,
     )) {
+      if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
     } else {
       setState(() {
@@ -125,7 +126,7 @@ class _LoginScreenState extends State {
                               builder: (BuildContext context) {
                                 return AlertDialog(
                                   title: Text(lang.login_organisation),
-                                  content: Container(
+                                  content: SizedBox(
                                     width: 320,
                                     child: ListView.builder(
                                       shrinkWrap: true,
@@ -144,6 +145,7 @@ class _LoginScreenState extends State {
                                             );
                                             _organisationController.text =
                                                 storage.organisation.name;
+                                            if (!context.mounted) return;
                                             Navigator.of(context).pop();
                                           },
                                         );

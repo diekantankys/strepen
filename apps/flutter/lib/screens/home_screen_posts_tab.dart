@@ -133,20 +133,15 @@ class PostItem extends StatefulWidget {
   final Post post;
   final bool isDetail;
 
-  const PostItem({Key? key, required this.post, this.isDetail = false})
-    : super(key: key);
+  const PostItem({super.key, required this.post, this.isDetail = false});
 
   @override
   State createState() {
-    return _PostItemState(post: post);
+    return _PostItemState();
   }
 }
 
 class _PostItemState extends State<PostItem> {
-  final Post post;
-
-  _PostItemState({required this.post});
-
   @override
   Widget build(BuildContext context) {
     final lang = AppLocalizations.of(context)!;
@@ -165,21 +160,21 @@ class _PostItemState extends State<PostItem> {
               : () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => PostDetailScreen(post: post),
+                    builder: (_) => PostDetailScreen(post: widget.post),
                   ),
                 ),
           child: Card(
             clipBehavior: Clip.antiAliasWithSaveLayer,
             child: Column(
               children: [
-                if (post.image != null) ...[
+                if (widget.post.image != null) ...[
                   AspectRatio(
                     aspectRatio: 16 / 9,
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: CachedNetworkImageProvider(post.image!),
+                          image: CachedNetworkImageProvider(widget.post.image!),
                         ),
                       ),
                     ),
@@ -191,7 +186,7 @@ class _PostItemState extends State<PostItem> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        post.title,
+                        widget.post.title,
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w500,
@@ -201,25 +196,25 @@ class _PostItemState extends State<PostItem> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: _PostVoteButtons(
-                          post: post,
+                          post: widget.post,
                           onChanged: () => setState(() {}),
                         ),
                       ),
                       const SizedBox(height: 8),
-                      Container(
+                      SizedBox(
                         width: double.infinity,
                         child: Text(
                           lang.home_posts_written_by(
-                            post.user!.name,
+                            widget.post.user!.name,
                             DateFormat(
                               'yyyy-MM-dd kk:mm',
-                            ).format(post.createdAt),
+                            ).format(widget.post.createdAt),
                           ),
                           style: const TextStyle(color: Colors.grey),
                         ),
                       ),
                       Html(
-                        data: post.body,
+                        data: widget.post.body,
                         style: {
                           'body': Style(
                             margin: Margins.zero,
@@ -246,10 +241,10 @@ class _PostItemState extends State<PostItem> {
                             alignment: WrapAlignment.end,
                             children: [
                               // Like button
-                              post.userLiked
+                              widget.post.userLiked
                                   ? ElevatedButton.icon(
                                       onPressed: () async {
-                                        await post.like();
+                                        await widget.post.like();
                                         setState(() {});
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -269,8 +264,8 @@ class _PostItemState extends State<PostItem> {
                                         color: Colors.white,
                                       ),
                                       label: Text(
-                                        post.likes > 0
-                                            ? post.likes.toString()
+                                        widget.post.likes > 0
+                                            ? widget.post.likes.toString()
                                             : lang.home_posts_like,
                                         style: const TextStyle(
                                           color: Colors.white,
@@ -279,7 +274,7 @@ class _PostItemState extends State<PostItem> {
                                     )
                                   : OutlinedButton.icon(
                                       onPressed: () async {
-                                        await post.like();
+                                        await widget.post.like();
                                         setState(() {});
                                       },
                                       style: OutlinedButton.styleFrom(
@@ -297,17 +292,17 @@ class _PostItemState extends State<PostItem> {
                                         Icons.thumb_up_alt_outlined,
                                       ),
                                       label: Text(
-                                        post.likes > 0
-                                            ? post.likes.toString()
+                                        widget.post.likes > 0
+                                            ? widget.post.likes.toString()
                                             : lang.home_posts_like,
                                       ),
                                     ),
 
                               // Dislike button
-                              post.userDisliked
+                              widget.post.userDisliked
                                   ? ElevatedButton.icon(
                                       onPressed: () async {
-                                        await post.dislike();
+                                        await widget.post.dislike();
                                         setState(() {});
                                       },
                                       style: ElevatedButton.styleFrom(
@@ -327,8 +322,8 @@ class _PostItemState extends State<PostItem> {
                                         color: Colors.white,
                                       ),
                                       label: Text(
-                                        post.dislikes > 0
-                                            ? post.dislikes.toString()
+                                        widget.post.dislikes > 0
+                                            ? widget.post.dislikes.toString()
                                             : lang.home_posts_dislike,
                                         style: const TextStyle(
                                           color: Colors.white,
@@ -337,7 +332,7 @@ class _PostItemState extends State<PostItem> {
                                     )
                                   : OutlinedButton.icon(
                                       onPressed: () async {
-                                        await post.dislike();
+                                        await widget.post.dislike();
                                         setState(() {});
                                       },
                                       style: OutlinedButton.styleFrom(
@@ -355,8 +350,8 @@ class _PostItemState extends State<PostItem> {
                                         Icons.thumb_down_alt_outlined,
                                       ),
                                       label: Text(
-                                        post.dislikes > 0
-                                            ? post.dislikes.toString()
+                                        widget.post.dislikes > 0
+                                            ? widget.post.dislikes.toString()
                                             : lang.home_posts_dislike,
                                       ),
                                     ),
