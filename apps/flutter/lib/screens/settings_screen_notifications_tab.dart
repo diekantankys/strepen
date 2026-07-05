@@ -39,7 +39,8 @@ class _SettingsNotificationsTabState extends State {
     final settings = await FirebaseMessaging.instance.getNotificationSettings();
     setState(() {
       _pushEnabled = storage.fcmToken != null;
-      _pushPermissionDenied = settings.authorizationStatus == AuthorizationStatus.denied;
+      _pushPermissionDenied =
+          settings.authorizationStatus == AuthorizationStatus.denied;
     });
   }
 

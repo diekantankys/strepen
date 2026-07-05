@@ -162,166 +162,163 @@ class _ProductsListState extends State<ProductsList> {
       child: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 12,
-                ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: widget.products.length,
-                  itemBuilder: (context, index) {
-                    Product product = widget.products[index];
-                    int amount = _amounts[index];
-                    return Container(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(right: 16),
-                            child: SizedBox(
-                              width: 56,
-                              height: 56,
-                              child: Card(
-                                clipBehavior: Clip.antiAliasWithSaveLayer,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                elevation: 2,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: CachedNetworkImageProvider(
-                                        product.image,
-                                      ),
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: widget.products.length,
+                itemBuilder: (context, index) {
+                  Product product = widget.products[index];
+                  int amount = _amounts[index];
+                  return Container(
+                    margin: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(right: 16),
+                          child: SizedBox(
+                            width: 56,
+                            height: 56,
+                            child: Card(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                              elevation: 2,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: CachedNetworkImageProvider(
+                                      product.image,
                                     ),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Expanded(
-                            flex: 1,
-                            child: Column(
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 4),
-                                  child: SizedBox(
-                                    width: double.infinity,
-                                    child: Text(
-                                      product.name,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(bottom: 4),
+                                child: SizedBox(
                                   width: double.infinity,
                                   child: Text(
-                                    '${widget.settings['currency_symbol']} ${product.price.toStringAsFixed(2)}',
-                                    style: const TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (_amounts[index] > 0) {
-                                      _amounts[index]--;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(Icons.remove),
-                                tooltip: lang.home_stripe_decrement,
-                              ),
-                              Container(
-                                margin: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                ),
-                                child: SizedBox(
-                                  width: 16,
-                                  child: Text(
-                                    amount.toString(),
+                                    product.name,
                                     style: const TextStyle(
-                                      fontSize: 20,
+                                      fontSize: 16,
                                       fontWeight: FontWeight.w500,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
                                 ),
                               ),
-                              IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    if (_amounts[index] <
-                                        widget.settings['max_stripe_amount']) {
-                                      _amounts[index]++;
-                                    }
-                                  });
-                                },
-                                icon: const Icon(Icons.add),
-                                tooltip: lang.home_stripe_increment,
+                              SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  '${widget.settings['currency_symbol']} ${product.price.toStringAsFixed(2)}',
+                                  style: const TextStyle(color: Colors.grey),
+                                ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_amounts[index] > 0) {
+                                    _amounts[index]--;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.remove),
+                              tooltip: lang.home_stripe_decrement,
+                            ),
+                            Container(
+                              margin: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                              ),
+                              child: SizedBox(
+                                width: 16,
+                                child: Text(
+                                  amount.toString(),
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  if (_amounts[index] <
+                                      widget.settings['max_stripe_amount']) {
+                                    _amounts[index]++;
+                                  }
+                                });
+                              },
+                              icon: const Icon(Icons.add),
+                              tooltip: lang.home_stripe_increment,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-              if (widget.user.minor!) ...[
-                Container(
-                  margin: const EdgeInsets.only(bottom: 16),
-                  child: Text(
-                    lang.home_stripe_minor,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.grey,
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+            ),
+            if (widget.user.minor!) ...[
               Container(
-                margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : createTransaction,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.pink,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(48),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 16,
-                      ),
-                    ),
-                    child: Text(
-                      lang.home_stripe_stripe,
-                      style: const TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                margin: const EdgeInsets.only(bottom: 16),
+                child: Text(
+                  lang.home_stripe_minor,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: Colors.grey,
+                    fontStyle: FontStyle.italic,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
-          ),
+            Container(
+              margin: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : createTransaction,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.pink,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(48),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 24,
+                      vertical: 16,
+                    ),
+                  ),
+                  child: Text(
+                    lang.home_stripe_stripe,
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

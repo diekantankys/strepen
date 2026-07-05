@@ -115,9 +115,7 @@ class InputField extends StatelessWidget {
         onTap: onTap,
         style: const TextStyle(fontSize: 16),
         decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 24,
             vertical: 16,

@@ -39,9 +39,7 @@ class NotificationService {
       final postId = postIdStr != null ? int.tryParse(postIdStr) : null;
       if (postId != null) {
         try {
-          final post = await PostsService.getInstance().getPost(
-            postId: postId,
-          );
+          final post = await PostsService.getInstance().getPost(postId: postId);
           navigatorKey.currentState?.push(
             MaterialPageRoute(builder: (_) => PostDetailScreen(post: post)),
           );
