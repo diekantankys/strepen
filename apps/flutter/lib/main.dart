@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'config.dart';
@@ -93,7 +94,9 @@ void main() async {
       debugPrint('Firebase push notifications disabled: $e');
     }
   } else {
-    debugPrint('Firebase push notifications disabled: no configuration provided');
+    debugPrint(
+      'Firebase push notifications disabled: no configuration provided',
+    );
   }
 
   if (Firebase.apps.isNotEmpty) {
@@ -106,7 +109,9 @@ void main() async {
 
     await localNotifications.initialize(
       InitializationSettings(
-        android: const AndroidInitializationSettings('@drawable/ic_notification'),
+        android: const AndroidInitializationSettings(
+          '@drawable/ic_notification',
+        ),
         iOS: const DarwinInitializationSettings(),
       ),
       // Foreground: user tapped the local notification shown while app was open

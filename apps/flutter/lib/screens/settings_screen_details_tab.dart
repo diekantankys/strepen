@@ -198,7 +198,6 @@ class _SettingsChangeDetailsTabState extends State {
             if (user.city != null) {
               _cityController.text = user.city!;
             }
-
           }
 
           return Card(

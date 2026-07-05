@@ -138,7 +138,9 @@ class AuthService {
       if (token == null) return;
       await _sendFcmToken(token);
       await _fcmTokenSubscription?.cancel();
-      _fcmTokenSubscription = FirebaseMessaging.instance.onTokenRefresh.listen(_sendFcmToken);
+      _fcmTokenSubscription = FirebaseMessaging.instance.onTokenRefresh.listen(
+        _sendFcmToken,
+      );
     } catch (_) {
       // Best-effort; don't break login flow if FCM token registration fails
     }
@@ -347,7 +349,9 @@ class AuthService {
       final storage = await StorageService.getInstance();
       if (storage.token == null || storage.userId == null) return;
       final response = await http.post(
-        Uri.parse('${storage.organisation.apiUrl}/users/${storage.userId!}/edit'),
+        Uri.parse(
+          '${storage.organisation.apiUrl}/users/${storage.userId!}/edit',
+        ),
         headers: {
           'X-Api-Key': storage.organisation.apiKey,
           'Authorization': 'Bearer ${storage.token!}',
