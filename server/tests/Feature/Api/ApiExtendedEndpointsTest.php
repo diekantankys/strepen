@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\ApiKey;
+use App\Models\FcmToken;
 use App\Models\Inventory;
 use App\Models\Post;
 use App\Models\Product;
@@ -28,14 +29,28 @@ class ApiExtendedEndpointsTest extends TestCase
 
     private function authGet(User $user, string $route, array $params = [])
     {
-        return $this->withHeader('Authorization', 'Bearer '.$this->tokenFor($user))
-            ->getJson(route($route, array_merge(['api_key' => $this->apiKey()], $params)));
+        return $this->getJson(
+            route($route, array_merge(['api_key' => $this->apiKey()], $params)),
+            ['Authorization' => 'Bearer '.$this->tokenFor($user)],
+        );
     }
 
     private function authPost(User $user, string $route, array $params = [], array $payload = [])
     {
-        return $this->withHeader('Authorization', 'Bearer '.$this->tokenFor($user))
-            ->postJson(route($route, array_merge(['api_key' => $this->apiKey()], $params)), $payload);
+        return $this->postJson(
+            route($route, array_merge(['api_key' => $this->apiKey()], $params)),
+            $payload,
+            ['Authorization' => 'Bearer '.$this->tokenFor($user)],
+        );
+    }
+
+    private function authDelete(User $user, string $route, array $params = [], array $payload = [])
+    {
+        return $this->deleteJson(
+            route($route, array_merge(['api_key' => $this->apiKey()], $params)),
+            $payload,
+            ['Authorization' => 'Bearer '.$this->tokenFor($user)],
+        );
     }
 
     public function test_user_edit_updates_profile_password_and_uploaded_assets()
@@ -159,6 +174,63 @@ class ApiExtendedEndpointsTest extends TestCase
         $this->assertFalse($user->notify_new_deposits);
         $this->assertTrue($user->notify_new_transactions);
         $this->assertFalse($user->notify_by_email);
+    }
+
+    public function test_fcm_token_can_be_registered_reassigned_and_removed()
+    {
+        $user = User::factory()->create();
+        $otherUser = User::factory()->create();
+        FcmToken::create([
+            'user_id' => $otherUser->id,
+            'token' => 'device-token',
+        ]);
+
+        $this->authPost($user, 'api.users.store_fcm_token', ['user' => $user], [
+            'fcm_token' => 'device-token',
+        ])->assertOk()
+            ->assertJsonPath('message', 'FCM token registered');
+
+        $this->assertSame(1, FcmToken::where('token', 'device-token')->count());
+        $this->assertDatabaseHas('fcm_tokens', [
+            'user_id' => $user->id,
+            'token' => 'device-token',
+        ]);
+
+        FcmToken::create([
+            'user_id' => $otherUser->id,
+            'token' => 'other-device-token',
+        ]);
+
+        $this->authDelete($user, 'api.users.destroy_fcm_token', ['user' => $user], [
+            'fcm_token' => 'other-device-token',
+        ])->assertOk()
+            ->assertJsonPath('message', 'FCM token removed');
+
+        $this->assertDatabaseHas('fcm_tokens', [
+            'user_id' => $otherUser->id,
+            'token' => 'other-device-token',
+        ]);
+
+        $this->authDelete($user, 'api.users.destroy_fcm_token', ['user' => $user], [
+            'fcm_token' => 'device-token',
+        ])->assertOk();
+
+        $this->assertDatabaseMissing('fcm_tokens', [
+            'token' => 'device-token',
+        ]);
+    }
+
+    public function test_fcm_token_endpoints_validate_required_token()
+    {
+        $user = User::factory()->create();
+
+        $this->authPost($user, 'api.users.store_fcm_token', ['user' => $user])
+            ->assertStatus(400)
+            ->assertJsonValidationErrors('fcm_token');
+
+        $this->authDelete($user, 'api.users.destroy_fcm_token', ['user' => $user])
+            ->assertStatus(400)
+            ->assertJsonValidationErrors('fcm_token');
     }
 
     public function test_user_posts_and_transaction_show_endpoints_return_related_resources()
