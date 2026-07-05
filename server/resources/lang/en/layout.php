@@ -10,6 +10,7 @@ return [
     'navbar.admin_api_keys' => 'Api Keys',
     'navbar.admin_users' => 'Users',
     'navbar.admin_posts' => 'Posts',
+    'navbar.admin_post_comments' => 'Post Reactions',
     'navbar.admin_products' => 'Products',
     'navbar.admin_inventories' => 'Inventories',
     'navbar.admin_transactions' => 'Transactions',

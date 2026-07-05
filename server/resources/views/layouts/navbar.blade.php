@@ -55,6 +55,7 @@
                                     @endif
                                     <a @class(['navbar-item', 'is-active' => Route::is('admin.users.crud')]) href="{{ route('admin.users.crud') }}" wire:navigate>@lang('layout.navbar.admin_users')</a>
                                     <a @class(['navbar-item', 'is-active' => Route::is('admin.posts.crud')]) href="{{ route('admin.posts.crud') }}" wire:navigate>@lang('layout.navbar.admin_posts')</a>
+                                    <a @class(['navbar-item', 'is-active' => Route::is('admin.post_comments.crud')]) href="{{ route('admin.post_comments.crud') }}" wire:navigate>@lang('layout.navbar.admin_post_comments')</a>
                                     <a @class(['navbar-item', 'is-active' => Route::is('admin.products.crud')]) href="{{ route('admin.products.crud') }}" wire:navigate>@lang('layout.navbar.admin_products')</a>
                                     <a @class(['navbar-item', 'is-active' => Route::is('admin.inventories.crud')]) href="{{ route('admin.inventories.crud') }}" wire:navigate>@lang('layout.navbar.admin_inventories')</a>
                                     <a @class(['navbar-item', 'is-active' => Route::is('admin.transactions.crud')]) href="{{ route('admin.transactions.crud') }}" wire:navigate>@lang('layout.navbar.admin_transactions')</a>

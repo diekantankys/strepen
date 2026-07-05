@@ -2,12 +2,12 @@
 
 return [
     // Admin post comments crud livewire component
-    'crud.title' => 'Reacties - Admin',
-    'crud.header' => 'Reacties',
+    'crud.title' => 'Berichtreacties - Admin',
+    'crud.header' => 'Berichtreacties',
     'crud.created_at_desc' => 'Aangemaakt op (nieuw - oud)',
     'crud.created_at_asc' => 'Aangemaakt op (oud - nieuw)',
-    'crud.comments' => 'reacties',
-    'crud.empty' => 'Geen reacties gevonden!',
+    'crud.comments' => 'berichtreacties',
+    'crud.empty' => 'Geen berichtreacties gevonden!',
 
     // Admin post comments item livewire component
     'item.written_by' => 'Geschreven door :user.name op :comment.created_at',
