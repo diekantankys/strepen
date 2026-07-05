@@ -2,12 +2,12 @@
 
 return [
     // Admin post comments crud livewire component
-    'crud.title' => 'Comments - Admin',
-    'crud.header' => 'Comments',
+    'crud.title' => 'Post Reactions - Admin',
+    'crud.header' => 'Post Reactions',
     'crud.created_at_desc' => 'Created at (new - old)',
     'crud.created_at_asc' => 'Created at (old - new)',
-    'crud.comments' => 'comments',
-    'crud.empty' => 'No comments found!',
+    'crud.comments' => 'post reactions',
+    'crud.empty' => 'No post reactions found!',
 
     // Admin post comments item livewire component
     'item.written_by' => 'Written by :user.name on :comment.created_at',

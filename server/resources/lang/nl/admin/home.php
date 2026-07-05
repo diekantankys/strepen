@@ -8,7 +8,7 @@ return [
     'api_keys' => 'Api Sleutels',
     'users' => 'Gebruikers',
     'posts' => 'Berichten',
-    'post_comments' => 'Reacties',
+    'post_comments' => 'Berichtreacties',
     'products' => 'Producten',
     'inventories' => 'Voorraden',
     'transactions' => 'Transacties',

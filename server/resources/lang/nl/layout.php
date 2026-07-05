@@ -10,6 +10,7 @@ return [
     'navbar.admin_api_keys' => 'Api Sleutels',
     'navbar.admin_users' => 'Gebruikers',
     'navbar.admin_posts' => 'Berichten',
+    'navbar.admin_post_comments' => 'Berichtreacties',
     'navbar.admin_products' => 'Producten',
     'navbar.admin_inventories' => 'Voorraden',
     'navbar.admin_transactions' => 'Transacties',
