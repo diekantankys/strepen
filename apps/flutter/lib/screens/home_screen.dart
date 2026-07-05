@@ -120,12 +120,16 @@ class _NotificationsButtonState extends State<NotificationsButton> {
   @override
   void initState() {
     super.initState();
-    NotificationService.getInstance().unreadChanged.addListener(_onUnreadChanged);
+    NotificationService.getInstance().unreadChanged.addListener(
+      _onUnreadChanged,
+    );
   }
 
   @override
   void dispose() {
-    NotificationService.getInstance().unreadChanged.removeListener(_onUnreadChanged);
+    NotificationService.getInstance().unreadChanged.removeListener(
+      _onUnreadChanged,
+    );
     super.dispose();
   }
 
