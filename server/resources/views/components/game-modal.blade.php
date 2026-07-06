@@ -85,7 +85,7 @@
             </div>
         </section>
         <footer class="modal-card-foot" style="justify-content: flex-end;">
-            <button class="button is-success" wire:click="playAgain" wire:loading.attr="disabled">
+            <button class="button is-success" wire:click="playAgain" wire:loading.attr="disabled" data-modal-enter-action>
                 <span wire:loading.remove wire:target="playAgain">{{ $playAgain }}</span>
                 <span wire:loading wire:target="playAgain">{{ $saving }}</span>
             </button>
