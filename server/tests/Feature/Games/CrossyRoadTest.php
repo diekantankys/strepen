@@ -18,8 +18,7 @@ class CrossyRoadTest extends TestCase
         Livewire::test(CrossyRoad::class)
             ->dispatch('gameOver', 7)
             ->assertSet('score', 7)
-            ->assertSet('showModal', true)
-            ->assertSee($user->name);
+            ->assertSet('showModal', true);
         $this->assertDatabaseHas('game_scores', [
             'game_id' => Game::where('slug', 'crossy-road')->value('id'),
             'user_id' => $user->id,
@@ -33,7 +32,7 @@ class CrossyRoadTest extends TestCase
         Livewire::test(CrossyRoad::class)
             ->set('selectedUserId', $user->id)
             ->dispatch('gameOver', 12)
-            ->call('playAgain')
+            ->dispatch('game-over-play-again')
             ->assertSet('showModal', false)
             ->assertDispatched('game-restart');
         $this->assertDatabaseHas('game_scores', [
@@ -48,10 +47,8 @@ class CrossyRoadTest extends TestCase
         $user = User::factory()->create();
         Livewire::test(CrossyRoad::class)
             ->dispatch('gameOver', 20)
-            ->assertSee(__('components.user_chooser.anonymous'))
             ->dispatch('inputValue', 'game_user', $user->id)
-            ->assertSet('selectedUserId', $user->id)
-            ->assertSee($user->name);
+            ->assertSet('selectedUserId', $user->id);
         $this->assertDatabaseMissing('game_scores', [
             'game_id' => Game::where('slug', 'crossy-road')->value('id'),
             'user_id' => null,

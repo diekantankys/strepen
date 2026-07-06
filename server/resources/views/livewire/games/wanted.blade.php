@@ -13,20 +13,13 @@
         </canvas>
     </div>
 
-    <x-game-modal
+    <livewire:games.game-over-modal
         :showModal="$showModal"
         :score="$score"
         :isKiosk="$isKiosk"
         :selectedUserId="$selectedUserId"
         :leaderboard="$leaderboard"
-        :title="__('games.wanted_game_over')"
-        :yourScore="__('games.wanted_your_score')"
-        :monthlyLeaderboard="__('games.wanted_monthly_leaderboard')"
-        :player="__('games.wanted_player')"
-        :scoreLabel="__('games.wanted_score_column')"
-        :noScoresYet="__('games.wanted_no_scores_yet')"
-        :playAgain="__('games.wanted_play_again')"
-        :saving="__('games.wanted_saving')"
+        translationPrefix="wanted"
     />
 
     @once

@@ -1,31 +1,15 @@
-@props([
-    'showModal' => false,
-    'score' => 0,
-    'isKiosk' => false,
-    'selectedUserId' => null,
-    'leaderboard' => collect(),
-    'title' => '',
-    'yourScore' => '',
-    'monthlyLeaderboard' => '',
-    'player' => '',
-    'scoreLabel' => '',
-    'noScoresYet' => '',
-    'playAgain' => '',
-    'saving' => '',
-])
-
 <div class="modal @if($showModal) is-active @endif">
     <div class="modal-background" wire:click="playAgain"></div>
     <div class="modal-card" style="width: min(92vw, 800px);">
         <header class="modal-card-head">
-            <p class="modal-card-title">{{ $title }}</p>
-            <button class="delete" wire:click="playAgain"></button>
+            <p class="modal-card-title">@lang("games.{$translationPrefix}_game_over")</p>
+            <button type="button" class="delete" wire:click="playAgain"></button>
         </header>
         <section class="modal-card-body">
             <div class="columns">
                 <div class="column is-5">
                     <div class="has-text-centered" style="padding: 1rem 0 1.5rem;">
-                        <p class="heading" style="font-size: 0.9rem; letter-spacing: 0.1em;">{{ $yourScore }}</p>
+                        <p class="heading" style="font-size: 0.9rem; letter-spacing: 0.1em;">@lang("games.{$translationPrefix}_your_score")</p>
                         <p style="font-size: 5.5rem; font-weight: 800; line-height: 1; color: #f8d030; text-shadow: 0 2px 12px rgba(0,0,0,0.25);">{{ $score }}</p>
                     </div>
 
@@ -39,19 +23,19 @@
                 </div>
 
                 <div class="column is-6">
-                    <h3 class="title is-6 mb-3 has-text-centered">{{ $monthlyLeaderboard }}</h3>
+                    <h3 class="title is-6 mb-3 has-text-centered">@lang("games.{$translationPrefix}_monthly_leaderboard")</h3>
 
                     @if ($leaderboard->isEmpty())
                         <p class="has-text-grey has-text-centered" style="padding: 2rem 0;">
-                            <i>{{ $noScoresYet }}</i>
+                            <i>@lang("games.{$translationPrefix}_no_scores_yet")</i>
                         </p>
                     @else
                         <table class="table is-fullwidth is-striped is-narrow">
                             <thead>
                                 <tr>
                                     <th class="medal-column">#</th>
-                                    <th>{{ $player }}</th>
-                                    <th class="has-text-right">{{ $scoreLabel }}</th>
+                                    <th>@lang("games.{$translationPrefix}_player")</th>
+                                    <th class="has-text-right">@lang($translationPrefix === 'wanted' ? 'games.wanted_score_column' : "games.{$translationPrefix}_score_label")</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,9 +69,9 @@
             </div>
         </section>
         <footer class="modal-card-foot" style="justify-content: flex-end;">
-            <button class="button is-success" wire:click="playAgain" wire:loading.attr="disabled" data-modal-enter-action>
-                <span wire:loading.remove wire:target="playAgain">{{ $playAgain }}</span>
-                <span wire:loading wire:target="playAgain">{{ $saving }}</span>
+            <button type="button" class="button is-success" wire:click="playAgain" wire:loading.attr="disabled" data-modal-enter-action>
+                <span wire:loading.remove wire:target="playAgain">@lang("games.{$translationPrefix}_play_again")</span>
+                <span wire:loading wire:target="playAgain">@lang("games.{$translationPrefix}_saving")</span>
             </button>
         </footer>
     </div>

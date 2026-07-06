@@ -8,20 +8,13 @@
         </canvas>
     </div>
 
-    <x-game-modal
+    <livewire:games.game-over-modal
         :showModal="$showModal"
         :score="$score"
         :isKiosk="$isKiosk"
         :selectedUserId="$selectedUserId"
         :leaderboard="$leaderboard"
-        :title="__('games.flappy_bird_game_over')"
-        :yourScore="__('games.flappy_bird_your_score')"
-        :monthlyLeaderboard="__('games.flappy_bird_monthly_leaderboard')"
-        :player="__('games.flappy_bird_player')"
-        :scoreLabel="__('games.flappy_bird_score_label')"
-        :noScoresYet="__('games.flappy_bird_no_scores_yet')"
-        :playAgain="__('games.flappy_bird_play_again')"
-        :saving="__('games.flappy_bird_saving')"
+        translationPrefix="flappy_bird"
     />
 
     @once
