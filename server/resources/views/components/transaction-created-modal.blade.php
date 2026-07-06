@@ -21,21 +21,7 @@
         </div>
 
         <div class="modal-card-foot">
-            <button type="button" class="button is-link is-fullwidth p-4" wire:click="closeCreated" wire:loading.attr="disabled">@lang('components.transaction_created_modal_close')</button>
+            <button type="button" class="button is-link is-fullwidth p-4" wire:click="closeCreated" wire:loading.attr="disabled" data-modal-enter-action data-modal-cancel-action>@lang('components.transaction_created_modal_close')</button>
         </div>
     </div>
-
-    <script>
-        function keydownListener(event) {
-            if (event.key == 'Enter') {
-                event.preventDefault();
-                @this.closeCreated();
-                window.removeEventListener('keydown', keydownListener);
-            }
-        }
-        window.addEventListener('keydown', keydownListener);
-        document.addEventListener('livewire:navigating', () => {
-            window.removeEventListener('keydown', keydownListener);
-        }, { once: true });
-    </script>
 </div>

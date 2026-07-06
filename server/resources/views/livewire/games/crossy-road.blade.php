@@ -111,7 +111,7 @@
                 </div>
             </section>
             <footer class="modal-card-foot" style="justify-content: flex-end;">
-                <button class="button is-success" wire:click="playAgain" wire:loading.attr="disabled">
+                <button class="button is-success" wire:click="playAgain" wire:loading.attr="disabled" data-modal-enter-action>
                     <span wire:loading.remove wire:target="playAgain">@lang('games.crossy_road_play_again')</span>
                     <span wire:loading wire:target="playAgain">@lang('games.crossy_road_saving')</span>
                 </button>

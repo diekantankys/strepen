@@ -42,7 +42,7 @@
             form.dataset.initialized = 'true';
 
             const keydownListener = event => {
-                if (event.key == 'Enter' && !@this.isCreated) {
+                if (event.key == 'Enter' && document.querySelector('.modal.is-active') == null) {
                     event.preventDefault();
                     @this.createTransaction();
                 }

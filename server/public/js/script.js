@@ -143,3 +143,34 @@ if (window.strepenChooserListenersAdded !== true) {
         }, 100);
     });
 }
+
+if (window.strepenModalKeyboardListenerAdded !== true) {
+    window.strepenModalKeyboardListenerAdded = true;
+
+    document.addEventListener('keydown', event => {
+        if ((event.key !== 'Enter' && event.key !== 'Escape') || event.defaultPrevented) {
+            return;
+        }
+
+        const modal = document.querySelector('.modal.is-active');
+
+        if (modal == null) {
+            return;
+        }
+
+        let action = null;
+
+        if (event.key === 'Enter') {
+            action = modal.querySelector('[data-modal-enter-action]');
+        } else {
+            action = modal.querySelector('[data-modal-cancel-action], .modal-card-foot .button:not(.is-link):not(.is-success):not(.is-danger):not([type="submit"]), .modal-card-head .delete');
+        }
+
+        if (action == null || action.disabled) {
+            return;
+        }
+
+        event.preventDefault();
+        action.click();
+    });
+}
