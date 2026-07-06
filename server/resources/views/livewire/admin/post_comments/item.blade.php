@@ -2,7 +2,11 @@
     <div class="card">
         <div class="card-content content">
             <h4>
-                <a href="{{ route('posts.show', $comment->post) }}" wire:navigate>{{ $comment->post?->title }}</a>
+                @if ($comment->post)
+                    <a href="{{ route('posts.show', $comment->post) }}" wire:navigate>{{ $comment->post->title }}</a>
+                @else
+                    @lang('admin/post_comments.item.missing_post')
+                @endif
             </h4>
             <p><i>@lang('admin/post_comments.item.written_by', ['user.name' => $comment->user?->name ?? '?', 'comment.created_at' => $comment->created_at->format('Y-m-d H:i')])</i></p>
             <p>{{ Str::limit($comment->body, 200) }}</p>
@@ -29,7 +33,11 @@
                     <div class="columns">
                         <div class="column is-half">
                             <p><b>@lang('admin/post_comments.item.post'):</b>
-                                <a href="{{ route('posts.show', $comment->post) }}" wire:navigate>{{ $comment->post?->title }}</a>
+                                @if ($comment->post)
+                                    <a href="{{ route('posts.show', $comment->post) }}" wire:navigate>{{ $comment->post->title }}</a>
+                                @else
+                                    @lang('admin/post_comments.item.missing_post')
+                                @endif
                             </p>
                             <p><i>@lang('admin/post_comments.item.written_by', ['user.name' => $comment->user?->name ?? '?', 'comment.created_at' => $comment->created_at->format('Y-m-d H:i')])</i></p>
                             @if ($comment->parent_id)

@@ -205,4 +205,22 @@ class AdminItemBehaviorTest extends TestCase
         $this->assertSoftDeleted('post_comments', ['id' => $parent->id]);
         $this->assertSoftDeleted('post_comments', ['id' => $reply->id]);
     }
+
+    public function test_post_comment_item_renders_when_post_is_deleted()
+    {
+        $manager = User::factory()->manager()->create();
+        $post = Post::factory()->for($manager)->create();
+        $comment = new PostComment;
+        $comment->post_id = $post->id;
+        $comment->user_id = User::factory()->create()->id;
+        $comment->body = 'Comment on deleted post';
+        $comment->save();
+        $post->delete();
+        $this->actingAs($manager);
+
+        Livewire::test(PostCommentItem::class, ['comment' => $comment->fresh()])
+            ->assertSee(__('admin/post_comments.item.missing_post'))
+            ->set('isShowing', true)
+            ->assertSee(__('admin/post_comments.item.missing_post'));
+    }
 }

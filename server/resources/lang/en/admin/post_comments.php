@@ -16,6 +16,7 @@ return [
     'item.delete' => 'Delete',
     'item.show_comment' => 'Show comment',
     'item.post' => 'Post',
+    'item.missing_post' => 'Deleted post',
     'item.reply_to' => 'Reply to comment #:id',
     'item.likes' => 'Likes',
     'item.likes_empty' => 'This comment has no likes yet!',

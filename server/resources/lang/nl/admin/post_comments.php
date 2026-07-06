@@ -16,6 +16,7 @@ return [
     'item.delete' => 'Verwijderen',
     'item.show_comment' => 'Reactie bekijken',
     'item.post' => 'Bericht',
+    'item.missing_post' => 'Verwijderd bericht',
     'item.reply_to' => 'Antwoord op reactie #:id',
     'item.likes' => 'Likes',
     'item.likes_empty' => 'Deze reactie heeft nog geen likes!',
