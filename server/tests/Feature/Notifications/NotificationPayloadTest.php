@@ -38,7 +38,7 @@ class NotificationPayloadTest extends TestCase
         $this->assertSame($allChannels, $newPost->via($user));
         $this->assertSame($allChannels, $newTransaction->via($user));
 
-        // Per-type preference off: database only
+        // Other per-type preferences off: database only
         $user->notify_low_balance = false;
         $this->assertSame(['database'], $lowBalance->via($user));
         $user->notify_low_balance = true;
@@ -51,8 +51,9 @@ class NotificationPayloadTest extends TestCase
         $this->assertSame(['database'], $newPost->via($user));
         $user->notify_new_posts = true;
 
+        // Transaction preference off: no notification channels
         $user->notify_new_transactions = false;
-        $this->assertSame(['database'], $newTransaction->via($user));
+        $this->assertSame([], $newTransaction->via($user));
         $user->notify_new_transactions = true;
 
         // Email off: database + FCM but no mail

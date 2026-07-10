@@ -23,7 +23,7 @@ class NewTransaction extends Notification
     public function via($notifiable): array
     {
         if (! $notifiable->notify_new_transactions) {
-            return ['database'];
+            return [];
         }
 
         $channels = ['database', FcmChannel::class];

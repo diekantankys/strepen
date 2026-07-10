@@ -31,7 +31,7 @@ class NotificationDispatchTest extends TestCase
     public function test_web_stripe_dispatches_new_transaction_notification()
     {
         Notification::fake();
-        $user = User::factory()->create(['balance' => 20]);
+        $user = User::factory()->create(['balance' => 20, 'notify_new_transactions' => true]);
         $product = Product::factory()->create(['price' => 2.5, 'amount' => 10]);
         $this->actingAs($user);
 
@@ -45,11 +45,28 @@ class NotificationDispatchTest extends TestCase
         Notification::assertSentTo($user, NewTransaction::class);
     }
 
+    public function test_web_stripe_does_not_dispatch_new_transaction_when_user_has_disabled_it()
+    {
+        Notification::fake();
+        $user = User::factory()->create(['balance' => 20, 'notify_new_transactions' => false]);
+        $product = Product::factory()->create(['price' => 2.5, 'amount' => 10]);
+        $this->actingAs($user);
+
+        Livewire::test(Create::class)
+            ->dispatch('inputValue', 'products', [
+                ['product_id' => $product->id, 'amount' => 1],
+            ])
+            ->call('createTransaction')
+            ->assertHasNoErrors();
+
+        Notification::assertNotSentTo($user, NewTransaction::class);
+    }
+
     // API stripe does NOT dispatch NewTransaction (user is on their own phone)
     public function test_api_stripe_does_not_dispatch_new_transaction_notification()
     {
         Notification::fake();
-        $user = User::factory()->create(['balance' => 20]);
+        $user = User::factory()->create(['balance' => 20, 'notify_new_transactions' => true]);
         $product = Product::factory()->create(['price' => 2.5, 'amount' => 10]);
 
         $this->withHeader('Authorization', 'Bearer '.$this->tokenFor($user))
@@ -66,7 +83,7 @@ class NotificationDispatchTest extends TestCase
     {
         Notification::fake();
         $admin = User::factory()->admin()->create();
-        $user = User::factory()->create(['balance' => 20]);
+        $user = User::factory()->create(['balance' => 20, 'notify_new_transactions' => true]);
         $product = Product::factory()->create(['price' => 3.0, 'amount' => 5]);
         $this->actingAs($admin);
 
@@ -81,6 +98,27 @@ class NotificationDispatchTest extends TestCase
             ->assertHasNoErrors();
 
         Notification::assertSentTo($user, NewTransaction::class);
+    }
+
+    public function test_admin_transaction_does_not_dispatch_notification_when_user_has_disabled_it()
+    {
+        Notification::fake();
+        $admin = User::factory()->admin()->create();
+        $user = User::factory()->create(['balance' => 20, 'notify_new_transactions' => false]);
+        $product = Product::factory()->create(['price' => 3.0, 'amount' => 5]);
+        $this->actingAs($admin);
+
+        Livewire::test(TransactionsCrud::class)
+            ->set('transaction.user_id', $user->id)
+            ->set('transaction.name', 'Admin silent stripe')
+            ->set('sendNotification', true)
+            ->dispatch('inputValue', 'products', [
+                ['product_id' => $product->id, 'price' => 3.0, 'amount' => 1],
+            ])
+            ->call('createTransaction')
+            ->assertHasNoErrors();
+
+        Notification::assertNotSentTo($user, NewTransaction::class);
     }
 
     // Admin transaction with sendNotification=false suppresses notification
@@ -177,7 +215,7 @@ class NotificationDispatchTest extends TestCase
     {
         Notification::fake();
         $admin = User::factory()->admin()->create();
-        $user = User::factory()->create(['balance' => 50]);
+        $user = User::factory()->create(['balance' => 50, 'notify_new_transactions' => true]);
         $this->actingAs($admin);
 
         Livewire::test(TransactionsCrud::class)
@@ -197,8 +235,8 @@ class NotificationDispatchTest extends TestCase
     {
         Notification::fake();
         $admin = User::factory()->admin()->create();
-        $user1 = User::factory()->create(['firstname' => 'Aalice', 'balance' => 50]);
-        $user2 = User::factory()->create(['firstname' => 'Zbob', 'balance' => 50]);
+        $user1 = User::factory()->create(['firstname' => 'Aalice', 'balance' => 50, 'notify_new_transactions' => true]);
+        $user2 = User::factory()->create(['firstname' => 'Zbob', 'balance' => 50, 'notify_new_transactions' => true]);
         $this->actingAs($admin);
 
         $users = User::where('active', true)->orderByRaw('active DESC, LOWER(firstname)')->get();
